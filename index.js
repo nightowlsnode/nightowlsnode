@@ -9,7 +9,13 @@ module.exports = app;
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
-
+app.post('/items', function(req, res) {
+	console.log(typeof req.body)
+	console.log('request is : '+ JSON.stringify(req.body));
+	// console.log('reqeust body is: ' + req.body);
+	// res.json({"stuph": "some text"});
+	res.send(req.body)
+})
 
 // all middleware must be above this line
 const routes = require('./server/routes.js')
