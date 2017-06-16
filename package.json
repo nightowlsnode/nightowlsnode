@@ -7,8 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon": "nodemon index.js",
     "webpack-w": "webpack -w",
+    "webpack": "webpack",
     "dev": "npm run webpack-w | npm run nodemon",
-    "lint": "eslint ./"
+    "start": "webpack && node index.js"
   },
   "repository": {
     "type": "git",
