@@ -6,7 +6,7 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
-var Search = require('./Search');
+var Search = require('./Search')
 
 
 
@@ -34,7 +34,7 @@ class App extends React.Component {
         </div>
         <Switch>
           <Route path="/" component={Search}/>
-        </Switch>
+        </Switch> 
         </div>
       </Router>
       </div>
