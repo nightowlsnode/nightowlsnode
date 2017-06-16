@@ -9,7 +9,7 @@
     "webpack-w": "webpack -w",
     "webpack": "webpack",
     "dev": "npm run webpack-w | npm run nodemon",
-    "start": "npm run webpack | npm run nodemon"
+    "start": "webpack && node index.js"
   },
   "repository": {
     "type": "git",
