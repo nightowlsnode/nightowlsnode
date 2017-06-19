@@ -1,22 +1,33 @@
 const express = require('express');
-// const authenticationMiddleware = require('./server/authentication.js');
 const path = require('path');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const db = require('./db/models/db');
 
+const port = process.env.PORT || 3000;
 const app = express();
 module.exports = app;
 
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json());
+require('./server/passport')(passport);
 
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(session({ secret: 'mrButton' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(express.static(path.join(__dirname, '/public')));
+app.get('/login', express.static(path.join(__dirname, '/public')));
+app.get('/signup', express.static(path.join(__dirname, '/public')));
 app.post('/items', (req, res) => {
   res.send(req.body);
 });
+require('./server/routes.js')(app, passport);
 
-// all middleware must be above this line
-const routes = require('./server/routes.js');
+app.listen(port);
 
-
-app.listen(process.env.PORT || 3000);
-
-console.log('Neighborly running on :3000');
+console.log(`Neighborly running on: ${port}`);
