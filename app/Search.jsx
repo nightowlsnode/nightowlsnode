@@ -1,6 +1,6 @@
 // Search Bar Component for Searching for items from the database
 const React = require('react');
-
+const Results = require('./results.jsx');
 
 class Search extends React.Component {
   constructor(props) {
@@ -8,12 +8,15 @@ class Search extends React.Component {
 
     this.state = {
       searchBar: '',
+      searchResults: [],
     };
+    this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
   handleSearchChange(event) {
     this.setState({
       searchBar: event.target.value,
+      searchResults: [],
     });
   }
 
@@ -21,15 +24,24 @@ class Search extends React.Component {
     const searchString = this.state.searchBar;
     const queryStringUrl = `/search?item=${searchString}`;
     fetch(queryStringUrl)
-      .then(res => res.json()).then((json) => {
-        console.log(`response is ${JSON.stringify(json)}`);
+      .then(res => res.json())
+      .then(({ items }) => {
+        this.setState({ searchResults: items });
       });
   }
   render() {
+    const { searchResults } = this.state;
     return (
       <div>
-        <input id="searchBar" placeholder="Search" onChange={this.handleSearchChange.bind(this)} />
-        <button id="searchButton" onClick={this.searchItems.bind(this)}>Mr. Button</button>
+        <div>
+          <input
+            id="searchBar"
+            placeholder="Search"
+            onChange={this.handleSearchChange}
+          />
+          <button id="searchButton" onClick={this.searchItems.bind(this)}>Mr. Button</button>
+        </div>
+        <Results items={searchResults} />
       </div>
     );
   }
