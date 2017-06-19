@@ -37,7 +37,7 @@ module.exports = (app, passport) => {
   // app.post('/login', do all our passport stuff here);
   app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.redirect('/profile'));
 
-// var uri = req.body.url;
+// let uri = req.body.url;
 
 // if (!util.isValidUrl(uri)) {
 //   console.log('Not a valid url: ', uri);
@@ -67,3 +67,44 @@ module.exports = (app, passport) => {
 //   });
 // });
 };
+
+
+const app = require('../index.js');
+// const http = require('http');
+const Mailgun = require('mailgun-js');
+// eventually move this to private
+// let api_key =  'pubkey-5076220e7b981c32e14338a01a97dda9'  //'MAILGUN-API-KEY';
+const apiKey = 'key-ec6e393db6a801f3905c7c9ff8318c39';
+const domain = 'sandbox3e58bab15a48474c8df12896c4b8a88d.mailgun.org'; // 'YOUR-DOMAIN.com';
+const fromWho = 'Ochmaowicz@gmail.com';// 'your@email.com';
+
+app.post('/borrow',
+  (req, res) => {
+    const itemID = JSON.stringify(req.body.itemID);
+    const borrower = JSON.stringify(req.body.borrowerID);
+
+
+    res.status(201).send(`${itemID} , ${borrower}`);
+  });
+
+app.get('/submit', (req, res) => {
+  // //We pass the api_key and domain to the wrapper, or it won't be able to identify + send emails
+  const mailgun = new Mailgun({ apiKey, domain });
+
+  const data = {
+    from: fromWho,
+    to: fromWho, // req.params.mail,
+    subject: 'Hello from Mailgun',
+    text: 'gsdgdssdljsd',
+  };
+
+  mailgun.messages().send(data, (err, body) => {
+    if (err) {
+      console.log('got an error: ', err);
+    } else {
+      console.log('body is ', body);
+    }
+  });
+  res.send('bye');
+});
+
