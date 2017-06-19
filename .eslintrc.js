@@ -4,5 +4,10 @@ module.exports = {
         "react",
         "jsx-a11y",
         "import"
-    ]
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+        "jsx": true,
+        },
+    }
 };

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
+const Item = require('./items');
 const bcrypt = require('bcrypt-nodejs');
 
 const User = db.define('User', {
@@ -50,6 +51,10 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
+User.hasMany(Item, { foreignKey: 'borrower_id' });
+User.hasMany(Item, { foreignKey: 'owner_id' });
+Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
+Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
 
 
 module.exports = User;

@@ -19,14 +19,8 @@ class Search extends React.Component {
 
   searchItems() {
     const searchString = this.state.searchBar;
-    fetch('/items', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ string: searchString }),
-
-    })
+    const queryStringUrl = `/search?item=${searchString}`;
+    fetch(queryStringUrl)
       .then(res => res.json()).then((json) => {
         console.log(`response is ${JSON.stringify(json)}`);
       });
