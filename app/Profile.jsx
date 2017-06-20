@@ -1,16 +1,38 @@
+/*  global fetch:false  */
+/* eslint react/prop-types: 0 */
+//  layout
+//  fields to be able to add stuff
+
 const React = require('react');
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchBar: '',
+      id: null,
+      fbId: null,
+      fbToken: null,
+      image: null,
+      name: null,
+      email: null,
+      password: null,
+      street: null,
+      city: null,
+      state: null,
+      zip: null,
+      bio: null,
+      rating: null,
+      ratingCount: null,
+      createdAt: null,
+      updatedAt: null,
     };
     this.chooseLogin = () => {
     };
   }
   componentWillMount() {
-    console.log(this.props);
+    fetch(`http://localhost:3000/api/profile/${this.props.match.params.id}`)
+      .then(profile => profile.json())
+      .then(json => this.setState(json));
   }
   render() {
     return (
@@ -23,6 +45,14 @@ class Profile extends React.Component {
               <input type="text" className="form-control" name="email" />
             </div>
             <div className="form-group">
+              <h1>THIS IS THE PROFILE PAGE</h1>
+              <h2>Name: {this.state.name}</h2>
+              <h2>Email: {this.state.email}</h2>
+              {this.state.bio}
+              {this.state.rating}
+              {this.state.state}
+              {this.state.city}
+              {this.state.image}
               <label htmlFor="password">Password</label>
               <input type="password" className="form-control" name="password" />
             </div>
@@ -37,5 +67,6 @@ class Profile extends React.Component {
     );
   }
 }
+
 
 module.exports = Profile;
