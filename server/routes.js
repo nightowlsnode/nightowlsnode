@@ -1,3 +1,7 @@
+const express = require('express');
+const path = require('path');
+const controller = require('./controller.js');
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -24,18 +28,16 @@ module.exports = (app, passport) => {
       const itemID = req.body.itemID;
       res.status(201).send(JSON.stringify(itemID));
     });
+  app.get('/api/profile/:id', controller.getProfile);
+  app.use('/profile/:id', express.static(path.join(__dirname, '../public')));
+  app.use('/profile/', express.static(path.join(__dirname, '../public')));
 
-  app.get('/profile', isLoggedIn, (req, res) => {
-    res.render('profile.ejs', {
-      user: req.user, // get the user out of session and pass to template
-    });
-  });
   app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
   // app.post('/login', do all our passport stuff here);
-  app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.redirect('/profile'));
+  app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.send(req.body.name));
 
 // var uri = req.body.url;
 

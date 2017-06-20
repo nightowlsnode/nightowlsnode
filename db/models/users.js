@@ -12,7 +12,13 @@ const User = db.define('User', {
   image: {
     type: Sequelize.STRING,
   },
-  name: {
+  firstName: {
+    type: Sequelize.STRING, allowNull: false,
+  },
+  lastName: {
+    type: Sequelize.STRING, allowNull: false,
+  },
+  fullName: {
     type: Sequelize.STRING, allowNull: false,
   },
   email: {

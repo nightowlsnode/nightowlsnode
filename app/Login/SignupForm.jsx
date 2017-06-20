@@ -7,7 +7,8 @@ class Login extends React.Component {
     this.state = {
       searchBar: '',
     };
-    this.chooseLogin = () => {
+    this.signupUser = (e) => {
+      console.log('this.signupUser is running', e)
     };
   }
   render() {
@@ -15,7 +16,7 @@ class Login extends React.Component {
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
           <h1><span className="fa fa-sign-in" /> Signup</h1>
-          <form action="/signup" method="post">
+          <form action="/profile" >
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input type="text" className="form-control" name="name" />
