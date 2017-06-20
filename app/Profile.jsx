@@ -37,31 +37,38 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="col-sm-6 col-sm-offset-3">
-          <h1><span className="fa fa-sign-in" /> Profile</h1>
-          <form action="/Profile" method="post">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input type="text" className="form-control" name="email" />
-            </div>
-            <div className="form-group">
-              <h1>THIS IS THE PROFILE PAGE</h1>
-              <h2>Name: {this.state.name}</h2>
-              <h2>Email: {this.state.email}</h2>
-              {this.state.bio}
-              {this.state.rating}
-              {this.state.state}
-              {this.state.city}
-              {this.state.image}
-              <label htmlFor="password">Password</label>
-              <input type="password" className="form-control" name="password" />
-            </div>
-            <button type="submit" className="btn btn-warning btn-lg">Profile</button>
-          </form>
-          <hr />
-          <p>Need an account? <a href="/signup">Signup</a></p>
-          <p>Or go <a href="/">home</a>.</p>
+        <div className="col-lg-2 col-lg-offset-1">
+          <img src={this.state.image} />
+          {this.state.fullName}
+          {this.state.email}
+          {this.state.bio}
+          {this.state.rating}
+          {this.state.state}
+          {this.state.city}
         </div>
+        <div className="col-lg-3">
+          <h2>Add Stuff</h2>
+          <h2>Bank</h2>
+        </div>
+        <div className="col-lg-5">
+          <h2>My Stuff</h2>
+          <h2>Borrowed</h2>
+        </div>
+        <h1><span className="fa fa-sign-in" /> Profile</h1>
+        <form action="/Profile" method="post">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input type="text" className="form-control" name="email" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" className="form-control" name="password" />
+          </div>
+          <button type="submit" className="btn btn-warning btn-lg">Profile</button>
+        </form>
+        <hr />
+        <p>Need an account? <a href="/signup">Signup</a></p>
+        <p>Or go <a href="/">home</a>.</p>
       </div>
 
     );
