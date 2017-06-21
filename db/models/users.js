@@ -40,6 +40,9 @@ const User = db.define('User', {
   zip: {
     type: Sequelize.INTEGER,
   },
+  location: {
+    type: Sequelize.ARRAY(Sequelize.FLOAT),
+  },
   bio: {
     type: Sequelize.TEXT,
   },
@@ -57,9 +60,10 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
-// User.hasMany(Item, { foreignKey: 'borrower_id' });
-// User.hasMany(Item, { foreignKey: 'owner_id' });
-// Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
-// Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
+User.hasMany(Item, { foreignKey: 'borrower_id' });
+User.hasMany(Item, { foreignKey: 'owner_id' });
+Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
+Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
+
 
 module.exports = User;

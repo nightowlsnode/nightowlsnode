@@ -1,6 +1,6 @@
 const React = require('react');
 
-const SearchBar = ({ handleSearchBarChange, handleSearchItems }) => (
+const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
 
   <div className="row">
     <div className="input-group col-md-5">
@@ -8,7 +8,7 @@ const SearchBar = ({ handleSearchBarChange, handleSearchItems }) => (
         type="text"
         className="form-control"
         placeholder="Search for item..."
-        onChange={handleSearchBarChange}
+        onChange={handleSearchInputChange}
       />
     </div>
     <div className="input-group col-md-2">
@@ -22,7 +22,7 @@ const SearchBar = ({ handleSearchBarChange, handleSearchItems }) => (
       <button
         className="btn btn-danger"
         type="button"
-        onClick={handleSearchItems}
+        onClick={handleSearch}
       >Mr.Button
       </button>
     </span>
