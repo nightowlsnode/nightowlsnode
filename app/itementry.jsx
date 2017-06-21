@@ -1,24 +1,14 @@
 const React = require('react');
 
 const ItemEntry = ({ item }) => (
-  <tr>
-    <td>
-      <div className="media">
-        <a href="#" className="pull-left">
-          <img src={item.image} alt={item.title} className="media-photo img-thumbnail" height="50" width="50" />
-        </a>
-        <div className="media-body">
-          <h4 className="title">{item.title}</h4>
-          <p className="summary">{item.itemDescription}</p>
-        </div>
-      </div>
-    </td>
-    <td>
-      <a className="star">
-        <i className="glyphicon glyphicon-star pull-right" />
-      </a>
-    </td>
-  </tr>
+  <div className="card col-md-4 col-md-offset-2" style={{ float: 'none'}}>
+    <img className="card-img-top img-thumbnail" src={item.image} alt={item.title}/>
+    <div className="card-block">
+      <h4 className="card-title">{item.title}</h4>
+      <p className="card-text">{item.itemDescription}</p>
+      <a href="#" className="btn btn-primary">Borrow</a>
+    </div>
+  </div>
 );
 
 module.exports = ItemEntry;

@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch,
   Link,
@@ -20,25 +20,26 @@ class App extends React.Component {
     super(props);
     this.state = { loggedIn: false, profile: null };
     this.methods = {
-      updateUser: (profile) => {
-        this.setState({ profile, loggedIn: true });
-      },
-      goTo: (path) => {
-        history.push(path);
+      updateUser: (profile, loggedIn) => this.setState({ profile, loggedIn }),
+      goTo: path => history.push(path),
+      logout: (e) => {
+        e.preventDefault();
+        fetch('/logout').then(this.methods.updateUser(null, false));
       },
     };
   }
-  componentWillUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (nextState.loggedIn === true && this.state.loggedIn === false) {
       this.methods.goTo(`/profile/${nextState.profile.id}`);
     }
+    return true;
   }
   render() {
     const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
     return (
       <div style={{ height: 'inner-height' }}>
-        <Router>
+        <Router history={history}>
           <div>
             <div>
               <div className="main-container row">
@@ -52,7 +53,10 @@ class App extends React.Component {
                   <Link to={profileLink} className="col-sm-offset-7 btn btn-default btn-sm">
                     PROFILE
                   </Link>
-                  <button href="/logout" className="btn btn-default btn-sm">Logout</button>
+                  <button
+                    onClick={this.methods.logout}
+                    className="btn btn-default btn-sm"
+                  >Logout</button>
                 </nav>
               </div>
               {LoginPage}
