@@ -51,7 +51,7 @@ exports.getBorrowedItems = (req, res) => {
 exports.search = (req, res) => {
   const query = req.query.item;
   Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating'] }] })
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'zip'] }] })
     .then((items) => {
       const itemPayload = { items };
       res.json(itemPayload);

@@ -1,6 +1,8 @@
 // Search Bar Component for Searching for items from the database
 const React = require('react');
 const Results = require('./Results.jsx');
+const SearchBar = require('./SearchBar.jsx');
+const Map = require('./map.jsx')
 
 class Search extends React.Component {
   constructor(props) {
@@ -10,17 +12,17 @@ class Search extends React.Component {
       searchBar: '',
       searchResults: [],
     };
-    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
-  handleSearchChange(event) {
+  handleSearchInputChange(event) {
     this.setState({
       searchBar: event.target.value,
-      searchResults: [],
     });
   }
 
-  searchItems() {
+  handleSearch() {
     const searchString = this.state.searchBar;
     const queryStringUrl = `/search?item=${searchString}`;
     fetch(queryStringUrl)
@@ -32,17 +34,22 @@ class Search extends React.Component {
   render() {
     const { searchResults } = this.state;
     return (
-      <div>
-        <div>
-          <input
-            id="searchBar"
-            placeholder="Search"
-            onChange={this.handleSearchChange}
-          />
-          <button id="searchButton" onClick={this.searchItems.bind(this)}>Mr. Button</button>
+      <container>
+        <div className="col-md-8">
+          <div className="row">
+            <SearchBar
+              handleSearchInputChange={this.handleSearchInputChange}
+              handleSearch={this.handleSearch}
+            />
+          </div>
+          <div className="row">
+            <Results searchResults={searchResults} />
+          </div>
         </div>
-        <Results items={searchResults} />
-      </div>
+        <div className="col-md-4">
+          <Map searchResults={searchResults} />
+        </div>
+      </container>
     );
   }
 }
