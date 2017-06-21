@@ -1,6 +1,6 @@
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
-
+const passport = require('passport');
 
 exports.getProfile = (req, res) => {
   User.findById(req.params.id)
@@ -13,7 +13,6 @@ exports.getProfile = (req, res) => {
       return 'getProfile promise resolved';
     });
 };
-
 
 exports.getUserItems = (req, res) => {
   Item.findAll({
@@ -59,3 +58,41 @@ exports.search = (req, res) => {
     .catch(err => res.status(500).send('Error seaching our database', err));
 };
 
+=======
+exports.handleLogin = (req, res, next) => {
+  passport.authenticate('local-login', (err, user) => {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (!user) {
+      console.log('log controller !user');
+      return res.status(400).send({ success: false, message: 'authentication failed' });
+    }
+    return req.login(user, (loginErr) => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.send({ success: true, message: 'authentication succeeded', profile: user });
+    });
+  })(req, res, next);
+};
+exports.handleSignup = (req, res, next) => {
+  passport.authenticate('local-signup', (err, user) => {
+    if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (!user) {
+      console.log('sign controller !user');
+      return res.send({ success: false, message: 'authentication failed' });
+    }
+    return req.login(user, (loginErr) => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.send({ success: true, message: 'authentication succeeded', profile: user });
+    });
+  })(req, res, next);
+};
+>>>>>>> local login works, adds profile info to app.jsx state

@@ -37,7 +37,9 @@ module.exports = (app, passport) => {
     res.redirect('/');
   });
   // app.post('/login', do all our passport stuff here);
-  app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.send(req.body.name));
+  // app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.status(201).send(req.body.userId));
+  app.post('/login', controller.handleLogin);
+  app.post('/signup', controller.handleSignup);
 
   app.get('/api/userItems/:userId', controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);

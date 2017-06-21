@@ -1,14 +1,38 @@
+/*  global fetch:false  */
+/* eslint react/prop-types: 0 */
 // Popup form for signing up with email
 const React = require('react');
 
-class Login extends React.Component {
+class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchBar: '',
     };
-    this.signupUser = (e) => {
-      console.log('this.signupUser is running', e)
+    this.clearField = () => {
+      this.firstName.value = '';
+      this.lastName.value = '';
+      this.email.value = '';
+      this.password.value = '';
+    };
+    this.fieldSubmit = (e) => {
+      e.preventDefault();
+      const info = {
+        firstName: this.firstName.value,
+        lastName: this.lastName.value,
+        email: this.email.value,
+        password: this.password.value,
+      };
+      fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      })
+        .then(res => res.json())
+        .then((json) => this.props.update(json.profile));
+      this.clearField();
     };
   }
   render() {
@@ -16,28 +40,53 @@ class Login extends React.Component {
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
           <h1><span className="fa fa-sign-in" /> Signup</h1>
-          <form action="/profile" >
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input type="text" className="form-control" name="name" />
+          <form onSubmit={e => this.fieldSubmit(e)} >
+            <div className="row">
+              <div className="form-group col-sm-6">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  className="form-control"
+                  ref={(input) => { this.firstName = input; }}
+                />
+              </div>
+              <div className="form-group col-sm-6">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  className="form-control"
+                  ref={(input) => { this.lastName = input; }}
+                />
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="text" className="form-control" name="email" />
+              <input
+                type="text"
+                name="email"
+                className="form-control"
+                ref={(input) => { this.email = input; }}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input type="password" className="form-control" name="password" />
+              <input
+                type="text"
+                name="password"
+                className="form-control"
+                ref={(input) => { this.password = input; }}
+              />
             </div>
             <button type="submit" className="btn btn-warning btn-lg">Signup</button>
           </form>
           <hr />
           <p>Already have an account? <a href="/login">Login</a></p>
-          <p>Or go <a href="/">home</a>.</p>
         </div>
       </div>
     );
   }
 }
 
-module.exports = Login;
+module.exports = SignupForm;

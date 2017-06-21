@@ -1,39 +1,83 @@
-// Popup form for logging in with email
+/*  global fetch:false  */
+/* eslint react/prop-types: 0 */
+// Popup form for signing up with email
 const React = require('react');
 
-class Login extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchBar: '',
+      message: null,
     };
-    this.chooseLogin = () => {
+    this.clearField = () => {
+      this.email.value = '';
+      this.password.value = '';
+    };
+    this.fieldSubmit = (e) => {
+      e.preventDefault();
+      const info = {
+        email: this.email.value,
+        password: this.password.value,
+      };
+      console.log('this.fieldSubmit is running');
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      })
+        .then((res) => {
+          console.log('first thing', res);
+          return res.json();
+        })
+        .then((json) => {
+          if (!json.success) {
+            this.setState({ message: json.message });
+          } else {
+            this.props.update(json.profile);
+          }
+        });
+      this.clearField();
     };
   }
   render() {
+    let message = null;
+    if (this.state.message) {
+      message = <div className="alert alert-danger">{this.state.message}</div>;
+    }
     return (
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
           <h1><span className="fa fa-sign-in" /> Login</h1>
-          <form action="/login" method="post">
+          {message}
+          <form onSubmit={e => this.fieldSubmit(e)} >
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input type="text" className="form-control" name="email" />
+              <input
+                type="text"
+                name="email"
+                className="form-control"
+                ref={(input) => { this.email = input; }}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input type="password" className="form-control" name="password" />
+              <input
+                type="text"
+                name="password"
+                className="form-control"
+                ref={(input) => { this.password = input; }}
+              />
             </div>
             <button type="submit" className="btn btn-warning btn-lg">Login</button>
           </form>
           <hr />
-          <p>Need an account? <a href="/signup">Signup</a></p>
-          <p>Or go <a href="/">home</a>.</p>
+          <p>Need an account? <a href="/login">Login</a></p>
         </div>
       </div>
-
     );
   }
 }
 
-module.exports = Login;
+module.exports = LoginForm;

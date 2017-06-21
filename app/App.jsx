@@ -15,10 +15,13 @@ const Login = require('./Login/Login.jsx');
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false };
+    this.state = { loggedIn: false, profile: null };
+    this.updateUser = (profile) => {
+      this.setState({ profile, loggedIn: true });
+    };
   }
   render() {
-    const LoginPage = this.state.loggedIn ? null : <Login />;
+    const LoginPage = this.state.loggedIn ? null : <Login update={this.updateUser} />;
     return (
       <div style={{ height: 'inner-height' }}>
         <Router>

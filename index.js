@@ -14,7 +14,7 @@ require('./server/passport')(passport);
 
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser.json());
 app.use(session({ secret: 'mrButton' }));
 app.use(passport.initialize());
 app.use(passport.session());
