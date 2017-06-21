@@ -3,7 +3,6 @@ const User = require('../db/models/users.js');
 
 
 exports.getProfile = (req, res) => {
-  console.log('id is ', req.params)
   User.findById(req.params.id)
     .then((profile) => {
       if (!profile) {
@@ -14,3 +13,36 @@ exports.getProfile = (req, res) => {
       return 'getProfile promise resolved';
     });
 };
+
+exports.getUserItems = (req, res) => {
+  Item.findAll({
+    where: {
+      owner_id: req.params.userId,
+    },
+  })
+    .then((items) => {
+      if (!items) {
+        res.status(400).send('Could not find User Items');
+      } else {
+        res.status(200).send(items);
+      }
+      return 'getUserItems promise resolved';
+    });
+};
+
+exports.getBorrowedItems = (req, res) => {
+  Item.findAll({
+    where: {
+      borrower_id: req.params.userId,
+    },
+  })
+    .then((items) => {
+      if (!items) {
+        res.status(400).send('Could not find Borrowed Items');
+      } else {
+        res.status(200).send(items);
+      }
+      return 'getBorrowedItems promise resolved';
+    });
+};
+

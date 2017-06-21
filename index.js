@@ -23,7 +23,8 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/public')));
 app.use('/login', express.static(path.join(__dirname, '/public')));
 app.use('/signup', express.static(path.join(__dirname, '/public')));
-app.post('/items', (req, res) => {
+app.post('/api/items', (req, res) => {
+  console.log('request is', req);
   res.send(req.body);
 });
 require('./server/routes.js')(app, passport);

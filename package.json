@@ -49,6 +49,7 @@
     "react-dom": "^15.6.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-tabs": "^1.1.0",
     "sequelize": "^4.1.0",
     "webpack": "^2.6.1"
   },
