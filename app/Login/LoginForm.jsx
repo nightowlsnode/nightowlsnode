@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
           if (!resp.success) {
             this.setState({ message: resp.message });
           } else {
-            this.props.methods.updateUser(resp.profile);
+            this.props.methods.updateUser(resp.profile, true);
           }
         });
       this.clearField();
