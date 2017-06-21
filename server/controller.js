@@ -13,7 +13,6 @@ exports.getProfile = (req, res) => {
       return 'getProfile promise resolved';
     });
 };
-
 exports.getUserItems = (req, res) => {
   Item.findAll({
     where: {
@@ -29,7 +28,6 @@ exports.getUserItems = (req, res) => {
       return 'getUserItems promise resolved';
     });
 };
-
 exports.getBorrowedItems = (req, res) => {
   Item.findAll({
     where: {
@@ -45,8 +43,11 @@ exports.getBorrowedItems = (req, res) => {
       return 'getBorrowedItems promise resolved';
     });
 };
-
-
+exports.borrow = (req, res) => {
+  console.log('req.body is ', req.body.itemID);
+  const itemID = req.body.itemID;
+  res.status(201).send(JSON.stringify(itemID));
+};
 exports.search = (req, res) => {
   const query = req.query.item;
   Item.findAll({ where: { title: { $iLike: `%${query}%` } },
@@ -57,8 +58,6 @@ exports.search = (req, res) => {
     })
     .catch(err => res.status(500).send('Error seaching our database', err));
 };
-
-=======
 exports.handleLogin = (req, res, next) => {
   passport.authenticate('local-login', (err, user) => {
     if (err) {
@@ -66,7 +65,6 @@ exports.handleLogin = (req, res, next) => {
     }
     // Generate a JSON response reflecting authentication status
     if (!user) {
-      console.log('log controller !user');
       return res.status(400).send({ success: false, message: 'authentication failed' });
     }
     return req.login(user, (loginErr) => {
@@ -84,7 +82,6 @@ exports.handleSignup = (req, res, next) => {
     }
     // Generate a JSON response reflecting authentication status
     if (!user) {
-      console.log('sign controller !user');
       return res.send({ success: false, message: 'authentication failed' });
     }
     return req.login(user, (loginErr) => {
@@ -95,4 +92,3 @@ exports.handleSignup = (req, res, next) => {
     });
   })(req, res, next);
 };
->>>>>>> local login works, adds profile info to app.jsx state
