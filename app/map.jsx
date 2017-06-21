@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Map, TileLayer, Popup } from 'react-leaflet';
-import itemMarker from './itemMarker.jsx';
+import ItemMarker from './itemMarker.jsx';
 
 class MapView extends React.Component {
   constructor(props) {

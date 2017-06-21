@@ -40,6 +40,9 @@ const User = db.define('User', {
   zip: {
     type: Sequelize.INTEGER,
   },
+  location: {
+    type: 
+  },
   bio: {
     type: Sequelize.TEXT,
   },

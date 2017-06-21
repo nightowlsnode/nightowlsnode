@@ -2,7 +2,7 @@
 const React = require('react');
 const Results = require('./Results.jsx');
 const SearchBar = require('./SearchBar.jsx');
-const Map = require('./map.jsx')
+const Map = require('./map.jsx');
 
 class Search extends React.Component {
   constructor(props) {
