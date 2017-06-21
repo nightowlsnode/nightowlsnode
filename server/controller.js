@@ -67,17 +67,6 @@ exports.borrow = (req, res) => {
     headers: header,
     form: { To: private.myNumber, From: private.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
   };
-
-<<<<<<< HEAD
-      request(options, (error, response, body) => {
-        if (!error){ //statuscode is not definded 
-          console.log(options);
-        }
-      });
-      res.status(201).send('ok!');
-   };
-
-=======
   request(options, (error, response, body) => {
     if (!error){ //statuscode is not definded 
       console.log(options);
@@ -85,11 +74,10 @@ exports.borrow = (req, res) => {
   });
   res.status(201).send('ok!');
 };
->>>>>>> dev
 exports.search = (req, res) => {
   const query = req.query.item;
   Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'zip'] }] })
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] })
     .then((items) => {
       const itemPayload = { items };
       res.json(itemPayload);
