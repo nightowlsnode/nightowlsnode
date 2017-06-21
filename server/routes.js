@@ -1,3 +1,6 @@
+const request = require('request');
+const private = require('../private/apiKeys.js');
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -20,20 +23,43 @@ module.exports = (app, passport) => {
 
   app.post('/borrow',
     (req, res) => {
-      console.log('req.body is ', req.body.itemID);
-      const itemID = req.body.itemID;
-      res.status(201).send(JSON.stringify(itemID));
+      const itemName = req.body.itemName;
+      const userID = req.body.userID;
+      const userNumber = req.body.userNumber;
+      const header = {
+        Authorization: private.authorizationCode,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+
+      const options = {
+        url: `https://www.@api.twilio.com/2010-04-01/Accounts/${private.sid}/Messages`,
+        method: 'POST',
+        headers: header,
+        form: { To: private.myNumber, From: private.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
+      };
+
+      request(options, (error, response, body) => {
+        if (!error){ //statuscode is not definded 
+          console.log(options);
+        }
+      });
+      res.status(201).send('ok!');
     });
+
 
   app.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile.ejs', {
       user: req.user, // get the user out of session and pass to template
     });
   });
+
+
   app.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
   });
+
+
   // app.post('/login', do all our passport stuff here);
   app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.redirect('/profile'));
 
@@ -69,42 +95,10 @@ module.exports = (app, passport) => {
 };
 
 
-const app = require('../index.js');
-// const http = require('http');
-const Mailgun = require('mailgun-js');
-// eventually move this to private
-// let api_key =  'pubkey-5076220e7b981c32e14338a01a97dda9'  //'MAILGUN-API-KEY';
-const apiKey = 'key-ec6e393db6a801f3905c7c9ff8318c39';
-const domain = 'sandbox3e58bab15a48474c8df12896c4b8a88d.mailgun.org'; // 'YOUR-DOMAIN.com';
-const fromWho = 'Ochmaowicz@gmail.com';// 'your@email.com';
-
-app.post('/borrow',
-  (req, res) => {
-    const itemID = JSON.stringify(req.body.itemID);
-    const borrower = JSON.stringify(req.body.borrowerID);
-
-
-    res.status(201).send(`${itemID} , ${borrower}`);
-  });
-
-app.get('/submit', (req, res) => {
-  // //We pass the api_key and domain to the wrapper, or it won't be able to identify + send emails
-  const mailgun = new Mailgun({ apiKey, domain });
-
-  const data = {
-    from: fromWho,
-    to: fromWho, // req.params.mail,
-    subject: 'Hello from Mailgun',
-    text: 'gsdgdssdljsd',
-  };
-
-  mailgun.messages().send(data, (err, body) => {
-    if (err) {
-      console.log('got an error: ', err);
-    } else {
-      console.log('body is ', body);
-    }
-  });
-  res.send('bye');
-});
-
+// const app = require('../index.js');
+// // const http = require('http');
+// const Mailgun = require('mailgun-js');
+// // eventually move this to private
+// const apiKey = 'MAILGUN-API-KEY';
+// const domain = YOUR-DOMAIN.com';
+// const fromWho = your@email.com';

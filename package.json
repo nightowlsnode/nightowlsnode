@@ -48,7 +48,9 @@
     "react-dom": "^15.6.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "request": "^2.81.0",
     "sequelize": "^4.1.0",
+    "twilio": "^3.4.0",
     "webpack": "^2.6.1"
   },
   "devDependencies": {
