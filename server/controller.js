@@ -1,6 +1,8 @@
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
+const request = require('request');
+const private = require('../private/apiKeys.js');
 
 exports.publicRoutes = [
   '/',
@@ -51,9 +53,28 @@ exports.getBorrowedItems = (req, res) => {
     });
 };
 exports.borrow = (req, res) => {
-  console.log('req.body is ', req.body.itemID);
-  const itemID = req.body.itemID;
-  res.status(201).send(JSON.stringify(itemID));
+      const itemName = req.body.itemName;
+      const userID = req.body.userID;
+      const userNumber = req.body.userNumber;
+      const header = {
+        Authorization: private.authorizationCode,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+
+      const options = {
+        url: `https://www.@api.twilio.com/2010-04-01/Accounts/${private.sid}/Messages`,
+        method: 'POST',
+        headers: header,
+        form: { To: private.myNumber, From: private.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
+      };
+
+      request(options, (error, response, body) => {
+        if (!error){ //statuscode is not definded 
+          console.log(options);
+        }
+      });
+      res.status(201).send('ok!');
+    });
 };
 exports.search = (req, res) => {
   const query = req.query.item;
