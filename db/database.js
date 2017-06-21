@@ -1,4 +1,4 @@
-const config = require('../private/dbconfig');
+const config = require('../private/dbconfig.js');
 
 const sequelizeConfig = { url: config.databaseUrl, dialect: 'postgres' };
 
