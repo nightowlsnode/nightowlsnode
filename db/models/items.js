@@ -13,6 +13,4 @@ const Item = db.define('Item', {
   },
 });
 
-
-
 module.exports = Item;

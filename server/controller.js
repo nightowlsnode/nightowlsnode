@@ -74,8 +74,8 @@ exports.borrow = (req, res) => {
         }
       });
       res.status(201).send('ok!');
-    });
-};
+   };
+
 exports.search = (req, res) => {
   const query = req.query.item;
   Item.findAll({ where: { title: { $iLike: `%${query}%` } },

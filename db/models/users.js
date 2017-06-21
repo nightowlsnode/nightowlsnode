@@ -40,6 +40,9 @@ const User = db.define('User', {
   zip: {
     type: Sequelize.INTEGER,
   },
+  location: {
+    type: Sequelize.ARRAY(Sequelize.FLOAT),
+  },
   bio: {
     type: Sequelize.TEXT,
   },
