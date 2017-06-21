@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const db = require('./db/models/db');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -21,6 +20,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/public')));
+<<<<<<< HEAD
 app.use('/login', express.static(path.join(__dirname, '/public')));
 app.use('/signup', express.static(path.join(__dirname, '/public')));
 app.post('/api/items', (req, res) => {
