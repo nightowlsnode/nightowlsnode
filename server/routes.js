@@ -10,7 +10,7 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-module.exports = (app, passport) => {
+module.exports = (app) => {
 // make a git route that tries to send emails
 
 // set up an express handler/router to localhost:3000/item
@@ -36,41 +36,8 @@ module.exports = (app, passport) => {
     req.logout();
     res.redirect('/');
   });
-  // app.post('/login', do all our passport stuff here);
-  // app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.status(201).send(req.body.userId));
   app.post('/login', controller.handleLogin);
   app.post('/signup', controller.handleSignup);
-
   app.get('/api/userItems/:userId', controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);
-
-// var uri = req.body.url;
-
-// if (!util.isValidUrl(uri)) {
-//   console.log('Not a valid url: ', uri);
-//   return res.sendStatus(404);
-// }
-
-//   new Link({ url: uri }).fetch().then(function(found) {
-//     if (found) {
-//       res.status(200).send(found.attributes);
-//     } else {
-//       util.getUrlTitle(uri, function(err, title) {
-//         if (err) {
-//           console.log('Error reading URL heading: ', err);
-//           return res.sendStatus(404);
-//         }
-
-//         Links.create({
-//           url: uri,
-//           title: title,
-//           baseUrl: req.headers.origin
-//         })
-//         .then(function(newLink) {
-//           res.status(200).send(newLink);
-//         });
-//       });
-//     }
-//   });
-// });
 };
