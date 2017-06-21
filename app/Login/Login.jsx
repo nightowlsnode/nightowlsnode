@@ -1,4 +1,5 @@
 // login component
+/* eslint react/prop-types: 0 */
 
 const React = require('react');
 const LoginForm = require('./LoginForm.jsx');
@@ -17,9 +18,9 @@ class Login extends React.Component {
     let Form = null;
     if (this.state.form) {
       if (this.state.form === 'Login') {
-        Form = <LoginForm />;
+        Form = <LoginForm methods={this.props.methods} />;
       } else {
-        Form = <SignupForm />;
+        Form = <SignupForm methods={this.props.methods} />;
       }
     }
     return (

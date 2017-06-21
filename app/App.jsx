@@ -5,7 +5,9 @@ import {
   Switch,
   Link,
 } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 
+const history = createHistory();
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Search = require('./Search.jsx');
@@ -15,26 +17,41 @@ const Login = require('./Login/Login.jsx');
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false };
+    this.state = { loggedIn: false, profile: null };
+    this.methods = {
+      updateUser: (profile) => {
+        this.setState({ profile, loggedIn: true });
+      },
+      goTo: (path) => {
+        history.push(path);
+      },
+    };
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.loggedIn === true && this.state.loggedIn === false) {
+      this.methods.goTo(`/profile/${nextState.profile.id}`);
+    }
   }
   render() {
-    const LoginPage = this.state.loggedIn ? null : <Login />;
+    const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
+    const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
     return (
       <div style={{ height: 'inner-height' }}>
         <Router>
           <div>
             <div>
               <div className="main-container row">
-                <nav className="navbar mega-menu">
-                  <Link to="/" className="col-sm-1 col-sm-offset-1">
+                <nav className="navbar mega-menu col-sm-offset-1">
+                  <Link to="/" className="btn btn-default btn-sm">
                     HOME
                   </Link>
-                  <Link to="/" className="col-sm-1 col-sm-offset-1">
+                  <Link to="/" className="btn btn-default btn-sm">
                     RESULTS
                   </Link>
-                  <Link to="/profile" className="col-sm-offset-6 col-sm-1">
+                  <Link to={profileLink} className="col-sm-offset-7 btn btn-default btn-sm">
                     PROFILE
                   </Link>
+                  <button href="/logout" className="btn btn-default btn-sm">Logout</button>
                 </nav>
               </div>
               {LoginPage}
@@ -50,7 +67,6 @@ class App extends React.Component {
     );
   }
 }
-
 ReactDOM.render(
   <App />,
   document.getElementById('App'),

@@ -60,15 +60,9 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
-
 // User.hasMany(Item, { foreignKey: 'borrower_id' });
 // User.hasMany(Item, { foreignKey: 'owner_id' });
-// Item.belongsTo(User, { as: 'borrowedItems', foreignKey: 'borrower_id' });
-// Item.belongsTo(User, { as: 'ownedItems', foreignKey: 'owner_id' });
-User.hasMany(Item, { foreignKey: 'borrower_id' });
-User.hasMany(Item, { foreignKey: 'owner_id' });
-Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
-Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
-
+// Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
+// Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
 
 module.exports = User;
