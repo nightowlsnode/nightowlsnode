@@ -40,8 +40,9 @@ class App extends React.Component {
               {LoginPage}
             </div>
             <Switch>
-              <Route path="/" component={Search} />
+              <Route path="/profile/:id" component={Profile} />
               <Route path="/profile" component={Profile} />
+              <Route path="/" component={Search} />
             </Switch>
           </div>
         </Router>

@@ -33,6 +33,7 @@
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.4",
     "express": "^4.15.3",
+    "express-react-views": "^0.10.2",
     "express-session": "^1.15.3",
     "express-sessions": "^1.0.6",
     "morgan": "^1.8.2",
