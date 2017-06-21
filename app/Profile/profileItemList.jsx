@@ -65,6 +65,7 @@ class ProfileItemList extends React.Component {
               owner={item.owner.fullName}
               ownerId={item.owner_id}
               populateProfile={this.props.populateProfile}
+
             />),
           )}
         </TabPanel>
