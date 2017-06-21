@@ -9,7 +9,7 @@ import {
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Search = require('./Search.jsx');
-const Profile = require('./Profile.jsx');
+const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 
 class App extends React.Component {

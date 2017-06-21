@@ -39,6 +39,9 @@ module.exports = (app, passport) => {
   // app.post('/login', do all our passport stuff here);
   app.post('/signup', passport.authenticate('local-signup'), (req, res) => res.send(req.body.name));
 
+  app.get('/api/userItems/:userId', controller.getUserItems);
+  app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);
+
 // var uri = req.body.url;
 
 // if (!util.isValidUrl(uri)) {
