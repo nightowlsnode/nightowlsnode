@@ -20,7 +20,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, '/public')));
-<<<<<<< HEAD
+
 app.use('/login', express.static(path.join(__dirname, '/public')));
 app.use('/signup', express.static(path.join(__dirname, '/public')));
 app.post('/api/items', (req, res) => {
