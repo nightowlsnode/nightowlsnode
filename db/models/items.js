@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const User = require('./users');
 const db = require('./db');
 
 const Item = db.define('Item', {
@@ -13,5 +12,7 @@ const Item = db.define('Item', {
     type: Sequelize.TEXT,
   },
 });
+
+
 
 module.exports = Item;
