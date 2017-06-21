@@ -21,7 +21,7 @@ module.exports = (app, passport) => {
 // ----define how data should be received
 // --send email to owner with borrower info and item info
 // -- update db to reflect borrow status
-
+  app.get('/search', controller.search);
   app.post('/borrow',
     (req, res) => {
       console.log('req.body is ', req.body.itemID);

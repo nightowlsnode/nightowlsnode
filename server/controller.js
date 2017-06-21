@@ -14,6 +14,7 @@ exports.getProfile = (req, res) => {
     });
 };
 
+
 exports.getUserItems = (req, res) => {
   Item.findAll({
     where: {
@@ -44,5 +45,17 @@ exports.getBorrowedItems = (req, res) => {
       }
       return 'getBorrowedItems promise resolved';
     });
+};
+
+
+exports.search = (req, res) => {
+  const query = req.query.item;
+  Item.findAll({ where: { title: { $iLike: `%${query}%` } },
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating'] }] })
+    .then((items) => {
+      const itemPayload = { items };
+      res.json(itemPayload);
+    })
+    .catch(err => res.status(500).send('Error seaching our database', err));
 };
 
