@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const controller = require('./controller.js');
 
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -33,9 +34,17 @@ module.exports = (app) => {
   app.get('/api/profile/:id', controller.getProfile);
   app.get('/api/userItems/:userId', controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);
-
   app.post('/api/items', (req, res) => {
     console.log('request is', req);
     res.send(req.body);
   });
 };
+
+
+// const app = require('../index.js');
+// // const http = require('http');
+// const Mailgun = require('mailgun-js');
+// // eventually move this to private
+// const apiKey = 'MAILGUN-API-KEY';
+// const domain = YOUR-DOMAIN.com';
+// const fromWho = your@email.com';
