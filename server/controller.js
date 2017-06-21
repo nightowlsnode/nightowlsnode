@@ -2,6 +2,13 @@ const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
 
+exports.publicRoutes = [
+  '/',
+  '/profile/',
+  '/profile/:id',
+  '/login',
+  '/signup',
+];
 exports.getProfile = (req, res) => {
   User.findById(req.params.id)
     .then((profile) => {

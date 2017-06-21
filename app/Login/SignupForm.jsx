@@ -33,7 +33,6 @@ class SignupForm extends React.Component {
         .then(resp => resp.json())
         .then((resp) => {
           this.props.methods.updateUser(resp.profile);
-          this.props.methods.goTo(`/profile/${resp.id}`);
         });
       this.clearField();
     };

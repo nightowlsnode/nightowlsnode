@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const controller = require('./server/controller.js');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -19,14 +20,7 @@ app.use(session({ secret: 'mrButton' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, '/public')));
-
-app.use('/login', express.static(path.join(__dirname, '/public')));
-app.use('/signup', express.static(path.join(__dirname, '/public')));
-app.post('/api/items', (req, res) => {
-  console.log('request is', req);
-  res.send(req.body);
-});
+app.use(controller.publicRoutes, express.static(path.join(__dirname, '/public')));
 require('./server/routes.js')(app, passport);
 
 app.listen(port);

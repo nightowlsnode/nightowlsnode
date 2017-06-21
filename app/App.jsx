@@ -27,6 +27,11 @@ class App extends React.Component {
       },
     };
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.loggedIn === true && this.state.loggedIn === false) {
+      this.methods.goTo(`/profile/${nextState.profile.id}`);
+    }
+  }
   render() {
     const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';

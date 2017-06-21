@@ -32,7 +32,6 @@ class LoginForm extends React.Component {
             this.setState({ message: resp.message });
           } else {
             this.props.methods.updateUser(resp.profile);
-            this.props.methods.goTo(`/profile/${resp.profile.id}`);
           }
         });
       this.clearField();
