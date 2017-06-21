@@ -5,11 +5,11 @@ const SearchBar = ({ handleSearchBarChange, handleSearchItems }) => (
   <div className="row">
     <div className="input-group col-md-5">
       <input
-          type="text"
-          className="form-control"
-          placeholder="Search for item..."
-          onChange={handleSearchBarChange}
-        />
+        type="text"
+        className="form-control"
+        placeholder="Search for item..."
+        onChange={handleSearchBarChange}
+      />
     </div>
     <div className="input-group col-md-2">
       <input
@@ -19,7 +19,12 @@ const SearchBar = ({ handleSearchBarChange, handleSearchItems }) => (
       />
     </div>
     <span className="input-group-btn">
-      <button className="btn btn-danger" type="button" onClick={handleSearchItems}>Mr.Button</button>
+      <button
+        className="btn btn-danger"
+        type="button"
+        onClick={handleSearchItems}
+      >Mr.Button
+      </button>
     </span>
   </div>
 

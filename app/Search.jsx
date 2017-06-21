@@ -1,6 +1,6 @@
 // Search Bar Component for Searching for items from the database
 const React = require('react');
-const Results = require('./results.jsx');
+const Results = require('./Results.jsx');
 
 class Search extends React.Component {
   constructor(props) {

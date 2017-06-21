@@ -3,7 +3,6 @@ const User = require('../db/models/users.js');
 
 
 exports.getProfile = (req, res) => {
-  console.log('id is ', req.params)
   User.findById(req.params.id)
     .then((profile) => {
       if (!profile) {
@@ -13,4 +12,15 @@ exports.getProfile = (req, res) => {
       }
       return 'getProfile promise resolved';
     });
+};
+
+exports.search = (req, res) => {
+  const query = req.query.item;
+  Item.findAll({ where: { title: { $iLike: `%${query}%` } },
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating'] }] })
+    .then((items) => {
+      const itemPayload = { items };
+      res.json(itemPayload);
+    })
+    .catch(err => res.status(500).send('Error seaching our database', err));
 };
