@@ -32,7 +32,7 @@ class SignupForm extends React.Component {
       })
         .then(resp => resp.json())
         .then((resp) => {
-          this.props.methods.updateUser(resp.profile);
+          this.props.methods.updateUser(resp.profile, true);
         });
       this.clearField();
     };
