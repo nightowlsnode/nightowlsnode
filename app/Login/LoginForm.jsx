@@ -19,7 +19,6 @@ class LoginForm extends React.Component {
         email: this.email.value,
         password: this.password.value,
       };
-      console.log('this.fieldSubmit is running');
       fetch('/login', {
         method: 'POST',
         headers: {
@@ -27,15 +26,13 @@ class LoginForm extends React.Component {
         },
         body: JSON.stringify(info),
       })
-        .then((res) => {
-          console.log('first thing', res);
-          return res.json();
-        })
-        .then((json) => {
-          if (!json.success) {
-            this.setState({ message: json.message });
+        .then(resp => resp.json())
+        .then((resp) => {
+          if (!resp.success) {
+            this.setState({ message: resp.message });
           } else {
-            this.props.update(json.profile);
+            this.props.methods.updateUser(resp.profile);
+            this.props.methods.goTo(`/profile/${resp.profile.id}`);
           }
         });
       this.clearField();

@@ -18,9 +18,9 @@ class Login extends React.Component {
     let Form = null;
     if (this.state.form) {
       if (this.state.form === 'Login') {
-        Form = <LoginForm update={this.props.update} />;
+        Form = <LoginForm methods={this.props.methods} />;
       } else {
-        Form = <SignupForm update={this.props.update} />;
+        Form = <SignupForm methods={this.props.methods} />;
       }
     }
     return (
