@@ -76,6 +76,14 @@ body {
 .container {
   background: #efe9e1;
 }
+.sub-component {
+  border: 2px solid rgba(1, 1, 1, 0.5);
+  border-radius: 1em;
+  background-color: #eee;
+  padding: 0.5em;
+  min-height: 15em;
+  margin: 5px 0px;
+}
 
 /* scroll to top */
 .scrollup{
@@ -477,8 +485,9 @@ section.inner {
 /* === section spacer === */
 
 section.spacer {
-	padding:20px 0 70px;
-	color:#fcfcfc;
+	background: #787878;
+  min-height: 2px;
+  margin: 5px 0px;
 }
 
 .spacer.green,.section.green {
@@ -486,7 +495,7 @@ section.spacer {
 }
 
 .spacer.green,.section.green h4 {
-	color:#b6e59e;
+	background: :#b6e59e;
 }
 
 .spacer.yellow,.section.yellow  {

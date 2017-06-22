@@ -43,12 +43,13 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="col-lg-2 col-lg-offset-1">
+        <div className="col-lg-3 sub-component">
           <img
             className="img-responsive"
             src={this.state.image}
             alt=""
           />
+          <section className="spacer" />
           <ProfileBio
             fullName={this.state.fullName}
             email={this.state.email}
@@ -59,7 +60,7 @@ class Profile extends React.Component {
             zip={this.state.zip}
           />
         </div>
-        <div className="col-lg-3">
+        <div className="col-lg-4">
           <AddStuff userId={this.state.id} />
           <Bank userId={this.state.id} />
         </div>

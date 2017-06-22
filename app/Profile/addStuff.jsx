@@ -20,7 +20,7 @@ class AddStuff extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="sub-component">
         <h2>Add Stuff</h2>
         <form action="/api/items" method="post" >
           <label htmlFor="title">Image Url</label>
@@ -44,7 +44,7 @@ class AddStuff extends React.Component {
             name="description"
             ref={(input) => { this.description = input; }}
           />
-          <button type="submit" className="btn btn-warning btn-md">Add Item</button>
+          <button type="submit" className="btn">Add Item</button>
         </form>
       </div>
     );
