@@ -2,6 +2,7 @@ const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
 const request = require('request');
+const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const private = require('../private/apiKeys.js');
 
 exports.publicRoutes = [
@@ -76,15 +77,26 @@ exports.borrow = (req, res) => {
   res.status(201).send('ok!');
 };
 exports.search = (req, res) => {
+  const promiseQueue = [];
   const query = req.query.item;
-  Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] })
-    .then((items) => {
-      const itemPayload = { items };
-      res.json(itemPayload);
-    })
-    .catch(err => res.status(500).send('Error seaching our database', err));
+  const itemSearchPromise = Item.findAll({ where: { title: { $iLike: `%${query}%` } },
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] });
+  promiseQueue.push(itemSearchPromise);
+  const zip = req.query.zip;
+  if (zip && zip.length === 5) {
+    promiseQueue.push(googleMapsPromise (zip));
+  }
+  Promise.all(promiseQueue)
+    .then(([ itemList, coords ]) => {
+      if (coords) {
+        itemList = itemList.map(item => addDistance(item, coords));
+      }  
+      const itemPayload = { items:itemList, location: (coords || null) };
+      res.json(itemPayload)
+    .catch(err => console.log(err));
+  });
 };
+
 exports.handleLogin = (req, res, next) => {
   passport.authenticate('local-login', (err, user) => {
     if (err) {
