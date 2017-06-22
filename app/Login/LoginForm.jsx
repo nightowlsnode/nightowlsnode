@@ -66,7 +66,7 @@ class LoginForm extends React.Component {
                 ref={(input) => { this.password = input; }}
               />
             </div>
-            <button type="submit" className="btn btn-warning btn-lg">Login</button>
+            <button type="submit" className="btn">Login</button>
           </form>
           <hr />
           <p>Need an account? <a href="/login">Login</a></p>
