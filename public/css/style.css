@@ -73,6 +73,17 @@ body {
 ::selection {
 	color:#333;
 }
+.container {
+  background: #efe9e1;
+}
+.sub-component {
+  border: 2px solid rgba(1, 1, 1, 0.5);
+  border-radius: 1em;
+  background-color: #eee;
+  padding: 0.5em;
+  min-height: 15em;
+  margin: 5px 0px;
+}
 
 /* scroll to top */
 .scrollup{
@@ -278,6 +289,9 @@ h2.pagetitle {
 /* Uncomment to make nav expand full width */
  	/*width: auto; */
 }
+.navbar-color {
+  background: #1bac91;
+}
 .navbar .brand {
 	margin-left:0;
 	padding: 0;
@@ -301,7 +315,7 @@ h2.pagetitle {
 	outline: none;
 }
 .navbar-inner {
-	min-height: 4.75em;
+	min-height: 3.5em;
 }
 .navbar-inverse .navbar-inner {
 	background-repeat: repeat;
@@ -471,8 +485,9 @@ section.inner {
 /* === section spacer === */
 
 section.spacer {
-	padding:90px 0 70px;
-	color:#fcfcfc;
+	background: #787878;
+  min-height: 2px;
+  margin: 5px 0px;
 }
 
 .spacer.green,.section.green {
@@ -480,14 +495,14 @@ section.spacer {
 }
 
 .spacer.green,.section.green h4 {
-	color:#fff;
+	background: :#b6e59e;
 }
 
 .spacer.yellow,.section.yellow  {
-	background:#ffe873;
+	background:#f2d164;
 }
 .spacer.orange,.section.orange {
-	background:#f36f36;
+	background:#ffa35c;
 }
 
 section.spacer.bg2 {
@@ -1605,8 +1620,8 @@ i.icon-white {
 		padding:0;
 	}
 	.navbar-inner {
-	 padding-right: 20px;
-	 padding-left: 20px;	
+  	padding-right: 20px;
+  	padding-left: 20px;	
 	}
 	
 	.navbar-inner h1.brand {

@@ -35,18 +35,19 @@ class Search extends React.Component {
     const { searchResults } = this.state;
     return (
       <div className="container">
+        <SearchBar
+          handleSearchInputChange={this.handleSearchInputChange}
+          handleSearch={this.handleSearch}
+        />
+        <section className="spacer" />
         <div className="col-md-8">
-          <div className="row">
-            <SearchBar
-              handleSearchInputChange={this.handleSearchInputChange}
-              handleSearch={this.handleSearch}
-            />
-          </div>
+          <div className="row" />
           <div className="row">
             <Results searchResults={searchResults} />
           </div>
         </div>
         <div className="col-md-4">
+          <div className="row" />
           <Map searchResults={searchResults} />
         </div>
       </div>

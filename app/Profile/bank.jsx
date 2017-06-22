@@ -15,7 +15,7 @@ class Bank extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="sub-component">
         <h2>Bank Stuff</h2>
       </div>
     );

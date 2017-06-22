@@ -2,7 +2,7 @@ const React = require('react');
 
 const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
 
-  <div className="row">
+  <div>
     <div className="input-group col-md-8">
       <input
         type="text"

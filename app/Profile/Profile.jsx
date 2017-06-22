@@ -47,12 +47,13 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="col-lg-3">
+        <div className="col-lg-3 sub-component">
           <img
             className="img-responsive"
             src={this.state.image}
             alt=""
           />
+          <section className="spacer" />
           <ProfileBio
             fullName={this.state.fullName}
             email={this.state.email}

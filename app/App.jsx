@@ -24,7 +24,8 @@ class App extends React.Component {
       goTo: path => history.push(path),
       logout: (e) => {
         e.preventDefault();
-        fetch('/logout').then(this.methods.updateUser(null, false));
+        fetch('/logout').then(this.methods.updateUser(null, false))
+          .then(this.methods.goTo('/'));
       },
     };
   }
@@ -42,7 +43,7 @@ class App extends React.Component {
         <Router history={history}>
           <div>
             <div>
-              <div className="navbar-fixed-top">
+              <div className="navbar-fixed-top navbar-color">
                 <nav className="navbar-inner pull-right">
                   <Link to="/" className="btn">
                     HOME
@@ -59,8 +60,8 @@ class App extends React.Component {
                   >Logout</button>
                 </nav>
               </div>
-              {LoginPage}
             </div>
+            {LoginPage}
             <Switch>
               <Route path="/profile/:id" component={Profile} />
               <Route path="/profile" component={Profile} />
