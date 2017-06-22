@@ -12,7 +12,7 @@ class MapView extends React.Component {
       zoom: 12,
     };
   }
-  
+
   render() {
     const { searchResults } = this.props;
     const { lat, long, zoom } = this.state;
