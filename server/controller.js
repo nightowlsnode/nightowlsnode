@@ -42,6 +42,7 @@ exports.getBorrowedItems = (req, res) => {
     where: {
       borrower_id: req.params.userId,
     },
+    include: [{ model: User, as: 'owner', attributes: ['fullName'] }],
   })
     .then((items) => {
       if (!items) {
