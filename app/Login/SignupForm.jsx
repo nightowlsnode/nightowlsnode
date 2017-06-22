@@ -2,13 +2,12 @@
 /* eslint react/prop-types: 0 */
 // Popup form for signing up with email
 const React = require('react');
+const statesList = require('../lib/states.js');
 
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchBar: '',
-    };
+    this.state = { statesList };
     this.clearField = () => {
       this.firstName.value = '';
       this.lastName.value = '';
@@ -22,6 +21,10 @@ class SignupForm extends React.Component {
         lastName: this.lastName.value,
         email: this.email.value,
         password: this.password.value,
+        city: this.city.value,
+        street: this.address.value,
+        zip: this.zip.value,
+        state: this.addState.value,
       };
       fetch('/signup', {
         method: 'POST',
@@ -43,8 +46,8 @@ class SignupForm extends React.Component {
         <div className="col-sm-6 col-sm-offset-3">
           <h1><span className="fa fa-sign-in" /> Signup</h1>
           <form onSubmit={e => this.fieldSubmit(e)} >
-            <div className="row">
-              <div className="form-group col-sm-6">
+            <div className="row nomargin">
+              <div className="col-sm-6">
                 <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
@@ -53,13 +56,54 @@ class SignupForm extends React.Component {
                   ref={(input) => { this.firstName = input; }}
                 />
               </div>
-              <div className="form-group col-sm-6">
+              <div className="col-sm-6">
                 <label htmlFor="lastName">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
                   className="form-control"
                   ref={(input) => { this.lastName = input; }}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="address">Address</label>
+              <input
+                type="text"
+                name="address"
+                className="form-control"
+                ref={(input) => { this.address = input; }}
+              />
+            </div>
+            <div className="row nomargin">
+              <div className="col-sm-6">
+                <label htmlFor="city">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  className="form-control"
+                  ref={(input) => { this.city = input; }}
+                />
+              </div>
+              <div className="col-sm-2">
+                <label htmlFor="addState">State</label>
+                <select
+                  name="addState"
+                  className="form-control"
+                  ref={(input) => { this.addState = input; }}
+                >
+                  {this.state.statesList.map(state => (
+                    <option key={state.abbrev}>{state.abbrev}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-sm-2">
+                <label htmlFor="zip">Zipcode</label>
+                <input
+                  type="text"
+                  name="zip"
+                  className="form-control"
+                  ref={(input) => { this.zip = input; }}
                 />
               </div>
             </div>
@@ -81,7 +125,7 @@ class SignupForm extends React.Component {
                 ref={(input) => { this.password = input; }}
               />
             </div>
-            <button type="submit" className="btn btn-warning btn-lg">Signup</button>
+            <button type="submit" className="btn">Signup</button>
           </form>
           <hr />
           <p>Already have an account? <a href="/login">Login</a></p>

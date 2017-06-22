@@ -10,7 +10,7 @@ import createHistory from 'history/createBrowserHistory';
 const history = createHistory();
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Search = require('./Search.jsx');
+const Search = require('./Search/Search.jsx');
 const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 
@@ -37,24 +37,24 @@ class App extends React.Component {
     const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
     return (
-      <div style={{ height: 'inner-height' }}>
+      <div>
         <Router history={history}>
           <div>
             <div>
-              <div className="main-container row">
-                <nav className="navbar mega-menu col-sm-offset-1">
-                  <Link to="/" className="btn btn-default btn-sm">
+              <div className="navbar-fixed-top">
+                <nav className="navbar-inner pull-right">
+                  <Link to="/" className="btn">
                     HOME
                   </Link>
-                  <Link to="/" className="btn btn-default btn-sm">
+                  <Link to="/" className="btn">
                     RESULTS
                   </Link>
-                  <Link to={profileLink} className="col-sm-offset-7 btn btn-default btn-sm">
+                  <Link to={profileLink} className="btn">
                     PROFILE
                   </Link>
                   <button
                     onClick={this.methods.logout}
-                    className="btn btn-default btn-sm"
+                    className="btn"
                   >Logout</button>
                 </nav>
               </div>
@@ -71,6 +71,8 @@ class App extends React.Component {
     );
   }
 }
+
+
 ReactDOM.render(
   <App />,
   document.getElementById('App'),

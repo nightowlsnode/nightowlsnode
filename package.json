@@ -31,7 +31,6 @@
     "bootstrap": "^3.3.7",
     "concurrently": "^3.4.0",
     "cookie-parser": "^1.4.3",
-    "css-loader": "^0.28.4",
     "express": "^4.15.3",
     "express-react-views": "^0.10.2",
     "express-session": "^1.15.3",
@@ -59,11 +58,14 @@
     "webpack": "^2.6.1"
   },
   "devDependencies": {
+    "css-loader": "^0.28.4",
     "eslint": "^4.0.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
-    "nodemon": "^1.11.0"
+    "extract-text-webpack-plugin": "^2.1.2",
+    "nodemon": "^1.11.0",
+    "style-loader": "^0.18.2"
   }
 }

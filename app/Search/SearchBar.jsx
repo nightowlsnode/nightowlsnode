@@ -3,7 +3,7 @@ const React = require('react');
 const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
 
   <div className="row">
-    <div className="input-group col-md-5">
+    <div className="input-group col-md-8">
       <input
         type="text"
         className="form-control"
@@ -20,7 +20,7 @@ const SearchBar = ({ handleSearchInputChange, handleSearch }) => (
     </div>
     <span className="input-group-btn">
       <button
-        className="btn btn-danger"
+        className="btn btn-success"
         type="button"
         onClick={handleSearch}
       >Mr.Button

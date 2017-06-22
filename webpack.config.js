@@ -1,10 +1,13 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const ExtractNormalCSS = new ExtractTextPlugin("style.css");
 
 module.exports = {
   entry: './app/App.jsx',
   output: {
     path: path.resolve('public'),
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
   },
   module: {
     loaders: [
@@ -17,14 +20,12 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, 
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        test: /\.css/i,
+        loader: ExtractNormalCSS.extract('style', 'css?modules&importLoaders=1&localIdentName=[hash:base64]')
       },
-      {
-      test: /\.css$/,
-      use: [ {loader: 'style-loader'},
-        {loader:'css-loader'}]
-      }
     ]
-  }
+  },
+  plugins: [
+    ExtractNormalCSS,
+  ],
 };

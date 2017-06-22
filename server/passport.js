@@ -33,6 +33,10 @@ module.exports = (passport) => {
             return done(null, false, { message: 'User exsits' });
           }
           User.create({
+            city: req.body.city,
+            street: req.body.street,
+            state: req.body.state,
+            zip: req.body.zip,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             fullName: `${req.body.firstName} ${req.body.lastName}`,

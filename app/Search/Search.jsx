@@ -34,7 +34,7 @@ class Search extends React.Component {
   render() {
     const { searchResults } = this.state;
     return (
-      <container>
+      <div className="container">
         <div className="col-md-8">
           <div className="row">
             <SearchBar
@@ -49,7 +49,7 @@ class Search extends React.Component {
         <div className="col-md-4">
           <Map searchResults={searchResults} />
         </div>
-      </container>
+      </div>
     );
   }
 }
