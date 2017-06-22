@@ -1,7 +1,7 @@
 const React = require('react');
 
 const ItemEntry = ({ item }) => (
-  <div className="card col-md-4 col-md-offset-2" style={{ float: 'none'}}>
+  <div className="card col-sm-4 col-md-offset-2" style={{ float: 'none'}}>
     <img className="card-img-top img-thumbnail" src={item.image} alt={item.title}/>
     <div className="card-block">
       <h4 className="card-title">{item.title}</h4>

@@ -11,7 +11,10 @@ class MapView extends React.Component {
       long: -74.0059,
       zoom: 12,
     };
+    this.handlePopupClick = this.handlePopupClick.bind(this);
   }
+
+
   render() {
     const { searchResults } = this.props;
     const { lat, long, zoom } = this.state;
@@ -27,7 +30,7 @@ class MapView extends React.Component {
             url="https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiamx1c3RoYXVzIiwiYSI6ImNqNDYybDh4YTBiMzczMmx0dXhyczBlN3YifQ.v4kXx9my0zpHNu2Xzgo0Tg"
             attribution="<attribution>"
           />
-          {searchResults.map(item => <ItemMarker item={item} key={item.id} />)}
+          {searchResults.map(item => <ItemMarker item={item} key={item.id} handleClick={this.handlePopupClick} />)}
         </Map>
       </div>
     );

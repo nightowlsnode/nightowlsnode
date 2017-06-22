@@ -9,7 +9,8 @@ class Search extends React.Component {
     super(props);
 
     this.state = {
-      searchBar: '',
+      search: '',
+      zip: '',
       searchResults: [],
     };
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -18,13 +19,14 @@ class Search extends React.Component {
 
   handleSearchInputChange(event) {
     this.setState({
-      searchBar: event.target.value,
+      [event.target.name]: event.target.value,
     });
   }
 
   handleSearch() {
-    const searchString = this.state.searchBar;
-    const queryStringUrl = `/search?item=${searchString}`;
+    const searchString = this.state.search;
+    const zipString = this.state.zip;
+    const queryStringUrl = `/search?item=${searchString}&zip=${zipString}`;
     fetch(queryStringUrl)
       .then(res => res.json())
       .then(({ items }) => {

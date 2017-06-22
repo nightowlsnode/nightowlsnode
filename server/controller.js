@@ -2,6 +2,7 @@ const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
 const request = require('request');
+const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const private = require('../private/apiKeys.js');
 
 exports.publicRoutes = [
@@ -75,15 +76,19 @@ exports.borrow = (req, res) => {
   res.status(201).send('ok!');
 };
 exports.search = (req, res) => {
+  const zip = req.query.zip;
   const query = req.query.item;
-  Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] })
-    .then((items) => {
-      const itemPayload = { items };
+  const itemSearchPromise = Item.findAll({ where: { title: { $iLike: `%${'crock'}%` } },
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] });
+  const zipCodeLookupPromise = googleMapsPromise (zip);
+  Promise.all([itemSearchPromise, zipCodeLookupPromise])
+    .then(([ itemList, coords ]) => {
+      itemList = itemList.map(item => addDistance(item, coords));
+      const itemPayload = { items:itemList, location: coords };
       res.json(itemPayload);
-    })
-    .catch(err => res.status(500).send('Error seaching our database', err));
+  });
 };
+
 exports.handleLogin = (req, res, next) => {
   passport.authenticate('local-login', (err, user) => {
     if (err) {
