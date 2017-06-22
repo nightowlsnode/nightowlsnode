@@ -11,7 +11,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 const React = require('react');
 const UserItemEntry = require('./userItemEntry.jsx');
-const BorrowedItemEntry = require('./borrowedItemEntry.jsx');
+const BorrowedItems = require('./borrowedItemEntry.jsx');
 
 class ProfileItemList extends React.Component {
   constructor(props) {
@@ -58,12 +58,13 @@ class ProfileItemList extends React.Component {
         </TabPanel>
         <TabPanel>
           {this.state.borrowedItems && this.state.borrowedItems.map(item =>
-            (<BorrowedItemEntry
+            (<BorrowedItems.BorrowedItemEntryWithRouter
               image={item.image}
               title={item.title}
               description={item.itemDescription}
               owner={item.owner.fullName}
               ownerId={item.owner_id}
+              populateProfile={this.props.populateProfile}
             />),
           )}
         </TabPanel>
