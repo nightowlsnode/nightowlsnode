@@ -1,7 +1,4 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const ExtractNormalCSS = new ExtractTextPlugin("style.css");
 
 module.exports = {
   entry: './app/App.jsx',
@@ -21,7 +18,4 @@ module.exports = {
       },
     ]
   },
-  plugins: [
-    ExtractNormalCSS,
-  ],
 };
