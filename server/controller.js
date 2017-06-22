@@ -27,7 +27,8 @@ exports.getUserItems = (req, res) => {
     where: {
       owner_id: req.params.userId,
     },
-  })
+    include: [ {model: User, as: 'borrower', attributes: ['fullName']}],
+  }) 
     .then((items) => {
       if (!items) {
         res.status(400).send('Could not find User Items');

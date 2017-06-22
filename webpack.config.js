@@ -19,13 +19,6 @@ module.exports = {
           presets: ['react', 'es2015']
         }
       },
-      {
-        test: /\.css/i,
-        loader: ExtractNormalCSS.extract('style', 'css?modules&importLoaders=1&localIdentName=[hash:base64]')
-      },
     ]
   },
-  plugins: [
-    ExtractNormalCSS,
-  ],
 };
