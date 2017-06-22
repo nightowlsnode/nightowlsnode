@@ -1,8 +1,6 @@
 /*  global fetch:false  */
 /* eslint react/prop-types: 0 */
 // User Profile Page
-// TODO: Need to refactor this.state to props
-//  fields to be able to add stuff
 
 const React = require('react');
 const ProfileBio = require('./profileBio.jsx');
@@ -32,14 +30,20 @@ class Profile extends React.Component {
       createdAt: null,
       updatedAt: null,
     };
-    this.chooseLogin = () => {
-    };
   }
-  componentDidMount() {
-    fetch(`http://localhost:3000/api/profile/${this.props.match.params.id}`)
+  componentWillMount() {
+    this.populateProfile(this.props.match.params.id);
+  }
+  // Populate profile populates the profile page by querying the User table by Id.
+  // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
+  populateProfile(profileRoute) {
+    console.log('populateProfile Called');
+    console.log('this.props.match.params.id is ', this.props.match.params.id);
+    fetch(`http://localhost:3000/api/profile/${profileRoute}`)
       .then(profile => profile.json())
       .then(json => this.setState(json));
   }
+
   render() {
     return (
       <div className="container">
@@ -65,13 +69,17 @@ class Profile extends React.Component {
           <Bank userId={this.state.id} />
         </div>
         <div className="col-lg-5">
-          {this.state.id && <ProfileItemList userId={this.state.id} />}
+          {this.state.id &&
+            <ProfileItemList
+              populateProfile={this.populateProfile.bind(this)}
+              userId={this.state.id}
+            />
+          }
         </div>
       </div>
 
     );
   }
 }
-
 
 module.exports = Profile;

@@ -65,5 +65,4 @@ User.hasMany(Item, { foreignKey: 'owner_id' });
 Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
 Item.belongsTo(User, { as: 'owner', foreignKey: 'owner_id' });
 
-
 module.exports = User;

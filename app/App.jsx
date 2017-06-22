@@ -14,6 +14,7 @@ const Search = require('./Search/Search.jsx');
 const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -78,3 +79,5 @@ ReactDOM.render(
   <App />,
   document.getElementById('App'),
 );
+
+exports.history = history;
