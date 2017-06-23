@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('./db');
 const Item = require('./items');
 const bcrypt = require('bcrypt-nodejs');
+const { googleMapsPromise } = require('../../server/geoUtilities.js');
 
 const User = db.define('User', {
   fbId: {
@@ -60,6 +61,13 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
+User.beforeCreate((user) => {
+  const address = `${user.street} ${user.city} ${user.state} ${user.zip}`;
+  return googleMapsPromise(address).then(({ lat, lng }) => {
+    user.location = [lat, lng];
+  });
+});
+
 User.hasMany(Item, { foreignKey: 'borrower_id' });
 User.hasMany(Item, { foreignKey: 'owner_id' });
 Item.belongsTo(User, { as: 'borrower', foreignKey: 'borrower_id' });
