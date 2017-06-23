@@ -1,15 +1,18 @@
 const React = require('react');
 const ItemEntry = require('./itementry.jsx');
 
-const Results = ({ handleButtonClick, searchResults }) =>
-  (
+const Results = ({ handleButtonClick, searchResults }) => (
   <div className="sub-component">
     <div className="row">
       <div className="col-md-offset-3">
         <div className="btn-group">
-          <button type="button" onClick={handleButtonClick} 
-            className="btn btn-success" name="all"> 
-            Show All
+          <button
+            type="button"
+            onClick={handleButtonClick}
+            className="btn btn-success"
+            name="all"
+          >
+              Show All
           </button>
           <button
             type="button"
@@ -32,7 +35,7 @@ const Results = ({ handleButtonClick, searchResults }) =>
       </div>
     </div>
   </div>
-  );
+);
 
 
 module.exports = Results;

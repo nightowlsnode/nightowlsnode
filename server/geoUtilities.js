@@ -20,16 +20,14 @@ exports.googleMapsPromise = address =>
 
 // Calculation using Spherical Law of Cosines (see http://www.movable-type.co.uk/scripts/latlong.html)
 exports.addDistance = (item, { lat, lng }) => {
-  console.log(lat, lng);
   const [itemLat, itemLong] = item.owner.location;
   const φ1 = (lat * Math.PI) / 180;
   const φ2 = (itemLat * Math.PI) / 180;
-  const Δλ = (lng - itemLong) * Math.PI / 180;
+  const Δλ = ((lng - itemLong) * Math.PI) / 180;
   const R = 6371e3; // Earth's radius in meters
   const distance = Math.acos((Math.sin(φ1) * Math.sin(φ2))
     + (Math.cos(φ1) * Math.cos(φ2) * Math.cos(Δλ))) * R;
-  console.log('distance', distance);
-  const updatedItem = Object.assign(item.dataValues, {distance});
+  const updatedItem = Object.assign(item.dataValues, { distance });
   return updatedItem;
 };
 
