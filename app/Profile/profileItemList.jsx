@@ -20,6 +20,7 @@ class ProfileItemList extends React.Component {
       userItems: null,
       borrowedItems: null,
     };
+    this.fetchUserItems = this.fetchUserItems.bind(this);
   }
 
   componentWillMount() {
@@ -58,12 +59,14 @@ class ProfileItemList extends React.Component {
           {this.state.userItems && this.state.userItems.map(item =>
             (<UserItems.userItemEntryWithRouter
               image={item.image}
+              ownerId={item.owner_id}
+              itemId={item.id}
               title={item.title}
               description={item.itemDescription}
               borrower={item.borrower ? item.borrower.fullName : null}
               borrowerId={item.borrower_id ? item.borrower_id : null}
               populateProfile={this.props.populateProfile}
-              fetchUserItems={this.fetchUserItems.bind(this)}
+              fetchUserItems={this.fetchUserItems}
               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
             />),
           )}

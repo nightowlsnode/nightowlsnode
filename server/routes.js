@@ -35,6 +35,7 @@ module.exports = (app) => {
   app.get('/api/userItems/:userId', controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);
   app.post('/api/items', controller.addItems);
+  app.put('/api/items/:id', controller.returnItem);
 };
 
 

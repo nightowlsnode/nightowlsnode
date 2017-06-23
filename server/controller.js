@@ -39,6 +39,19 @@ exports.getUserItems = (req, res) => {
       return 'getUserItems promise resolved';
     });
 };
+exports.returnItem = (req, res) => {
+  const itemId = req.params.id;
+  Item.findById(itemId)
+    .then(item =>  {
+      if (item.borrower_id) {
+        item.update({borrower_id:null});
+      } else {
+        throw new Error('Not currently borrowed');
+      }
+    })
+    .then(() => res.status(202).send())
+    .catch(() => res.status(304).send('error'));
+};
 exports.getBorrowedItems = (req, res) => {
   Item.findAll({
     where: {

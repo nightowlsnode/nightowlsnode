@@ -14,7 +14,14 @@ class userItemEntry extends React.Component {
       this.props.fetchUserItems();
       this.props.fetchBorrowedItems();
     };
+    this.returnItem = this.returnItem.bind(this);
   }
+  returnItem() {
+    fetch(`/api/items/${this.props.itemId}`, { method: 'PUT' })
+      .then(() => this.props.fetchUserItems(this.props.ownerId))
+      .catch(() => alert('Sorry, there was a problem fulfillng your request. Please try again'));
+  }
+
   render() {
     return (
       <tr>
@@ -38,11 +45,14 @@ class userItemEntry extends React.Component {
         <td>
           <div>
             { this.props.borrower &&
-              <div>    
-              <p>Borrower: </p>
-              <button onClick={this.changeRoute} className="btn-link">
-                 {this.props.borrower}
-              </button>
+              <div>
+                <p>Borrower: </p>
+                <button onClick={this.changeRoute} className="btn-link">
+                  {this.props.borrower}
+                </button>
+                <button className="btn btn-primary" onClick={this.returnItem}>
+                  Item Returned?
+                </button>
               </div>
             }
           </div>
