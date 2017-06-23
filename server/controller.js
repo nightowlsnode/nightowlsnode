@@ -18,6 +18,7 @@ exports.getProfile = (req, res) => {
       if (!profile) {
         res.status(400).send('Could not find user profile');
       } else {
+        console.log(profile);
         res.status(200).send(profile);
       }
       return 'getProfile promise resolved';
