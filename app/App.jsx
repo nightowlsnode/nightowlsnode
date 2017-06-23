@@ -4,6 +4,7 @@ import {
   Route,
   Switch,
   Link,
+  Redirect,
 } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
@@ -13,31 +14,56 @@ const ReactDOM = require('react-dom');
 const Search = require('./Search/Search.jsx');
 const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
-
+const PrivateRoute = require('./PrivateRoute.jsx');
+const Auth = require('./lib/helpers').Auth;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false, profile: null };
+    this.state = { loginPage: false, profile: null, loggedIn: false };
     this.methods = {
-      updateUser: (profile, loggedIn) => this.setState({ profile, loggedIn }),
+      updateUser: profile => this.setState({ profile }),
       goTo: path => history.push(path),
+      openLoginPage: () => this.setState({ loginPage: true }),
+      loggedIn: () => this.setState({ loginPage: false, loggedIn: true }),
       logout: (e) => {
         e.preventDefault();
-        fetch('/logout').then(this.methods.updateUser(null, false))
-          .then(this.methods.goTo('/'));
+        fetch('/logout').then(Auth.logout())
+          .then(this.methods.goTo('/'))
+          .then(this.setState({ loggedIn: false }))
+          .then(console.log('loggedOut'));
+      },
+      LoginRender: (moarProps) => {
+        this.methods.openLoginPage();
+        return (<Redirect to={{
+          pathname: '/',
+          state: { from: props.location },
+        }}
+        />);
       },
     };
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.loggedIn === true && this.state.loggedIn === false) {
-      this.methods.goTo(`/profile/${nextState.profile.id}`);
+    if (nextProps.location) {
+      this.setState({ loginPage: true });
     }
     return true;
   }
   render() {
-    const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
+    // dynamically change button based on loggedIn status
+    const logButton = this.state.loggedIn
+      ? (<button
+        onClick={this.methods.logout}
+        className="btn"
+      >Logout</button>)
+      : (<button
+        onClick={this.methods.openLoginPage}
+        className="btn"
+      >Login</button>);
+    // conditionally render loginBox
+    const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
+
     return (
       <div>
         <Router history={history}>
@@ -54,17 +80,15 @@ class App extends React.Component {
                   <Link to={profileLink} className="btn">
                     PROFILE
                   </Link>
-                  <button
-                    onClick={this.methods.logout}
-                    className="btn"
-                  >Logout</button>
+                  {logButton}
                 </nav>
               </div>
             </div>
             {LoginPage}
-            <Switch>
-              <Route path="/profile/:id" component={Profile} />
-              <Route path="/profile" component={Profile} />
+            <Switch style={{ marginTop: '10px' }}>
+              <PrivateRoute path="/profile/:id" component={Profile} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <Route path="/login" render={this.methods.LoginRender} />
               <Route path="/" component={Search} />
             </Switch>
           </div>
@@ -73,7 +97,6 @@ class App extends React.Component {
     );
   }
 }
-
 
 ReactDOM.render(
   <App />,

@@ -59,6 +59,7 @@
     "webpack": "^2.6.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "css-loader": "^0.28.4",
     "eslint": "^4.0.0",
     "eslint-config-airbnb": "^15.0.1",
