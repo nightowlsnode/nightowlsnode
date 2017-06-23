@@ -16,6 +16,7 @@ const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
+const ProfileChecker = require('./profileChecker.jsx');
 
 class App extends React.Component {
   constructor(props) {
@@ -62,6 +63,10 @@ class App extends React.Component {
       >Login</button>);
     // conditionally render loginBox
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
+    const ProfileCheckerRender = (props) => {
+      const userId = this.state.profile ? this.state.profile.id : 0;
+      return (<ProfileChecker id={userId} params={props} />); 
+    }
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
 
     return (
@@ -86,7 +91,7 @@ class App extends React.Component {
             </div>
             {LoginPage}
             <Switch style={{ marginTop: '10px' }}>
-              <PrivateRoute path="/profile/:id" component={Profile} />
+              <PrivateRoute path="/profile/:id" render={ProfileCheckerRender} />
               <PrivateRoute path="/profile" component={Profile} />
               <Route path="/login" render={this.methods.LoginRender} />
               <Route path="/" component={Search} />

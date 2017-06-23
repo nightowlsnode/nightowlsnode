@@ -3,13 +3,11 @@
 // User Profile Page
 
 const React = require('react');
-const ProfileBio = require('./profileBio.jsx');
-const AddStuff = require('./addStuff.jsx');
-const Bank = require('./bank.jsx');
-const ProfileItemList = require('./profileItemList.jsx');
+const PublicProfileBio = require('./publicProfileBio.jsx');
+const PublicProfileItemList = require('./publicProfileItemList.jsx');
 
 
-class Profile extends React.Component {
+class PublicProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,14 +43,14 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="col-lg-3 sub-component">
+        <div className="col-lg-5 sub-component">
           <img
             className="img-responsive"
             src={this.state.image}
             alt=""
           />
           <section className="spacer" />
-          <ProfileBio
+          <PublicProfileBio
             fullName={this.state.fullName}
             email={this.state.email}
             bio={this.state.bio}
@@ -62,13 +60,9 @@ class Profile extends React.Component {
             zip={this.state.zip}
           />
         </div>
-        <div className="col-lg-4">
-          <AddStuff userId={this.state.id} />
-          <Bank userId={this.state.id} />
-        </div>
-        <div className="col-lg-5">
+        <div className="col-lg-7">
           {this.state.id &&
-            <ProfileItemList
+            <PublicProfileItemList
               populateProfile={this.populateProfile.bind(this)}
               userId={this.state.id}
             />
@@ -80,4 +74,4 @@ class Profile extends React.Component {
   }
 }
 
-module.exports = Profile;
+module.exports = PublicProfile;
