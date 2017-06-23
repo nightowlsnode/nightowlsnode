@@ -56,13 +56,17 @@ exports.getBorrowedItems = (req, res) => {
     });
 };
 exports.addItems = (req, res) => {
-  console.log(req.body)
   Item.create({
     title: req.body.title,
     image: req.body.image,
     itemDescription: req.body.itemDescription,
     owner_id: req.body.user_id
   })
+    .then(() => res.status(200).send())
+    .catch((err) => {
+      res.status(500).send('error adding new item')
+      console.log(err);
+    });
 }
 
 exports.borrow = (req, res) => {
@@ -87,6 +91,7 @@ exports.borrow = (req, res) => {
   });
   res.status(201).send('ok!');
 };
+
 exports.search = (req, res) => {
   const promiseQueue = [];
   const query = req.query.item;
@@ -105,7 +110,10 @@ exports.search = (req, res) => {
       const itemPayload = { items:itemList, location: (coords || null) };
       res.json(itemPayload)
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      res.status(500).send();
+    });
 };
 
 exports.handleLogin = (req, res, next) => {
