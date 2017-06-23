@@ -93,8 +93,8 @@ exports.search = (req, res) => {
       }  
       const itemPayload = { items:itemList, location: (coords || null) };
       res.json(itemPayload)
+    })
     .catch(err => console.log(err));
-  });
 };
 
 exports.handleLogin = (req, res, next) => {
