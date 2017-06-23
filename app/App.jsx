@@ -13,6 +13,7 @@ const ReactDOM = require('react-dom');
 const Search = require('./Search/Search.jsx');
 const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
+const ProfileChecker = require('./profileChecker.jsx');
 
 
 class App extends React.Component {
@@ -36,6 +37,10 @@ class App extends React.Component {
     return true;
   }
   render() {
+    const ProfileCheckerRender = (props) => {
+      const userId = this.state.profile ? this.state.profile.id : 0;
+      return (<ProfileChecker id={userId} params={props} />); 
+    }
     const LoginPage = this.state.loggedIn ? null : <Login methods={this.methods} />;
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile';
     return (
@@ -63,7 +68,7 @@ class App extends React.Component {
             </div>
             {LoginPage}
             <Switch>
-              <Route path="/profile/:id" component={Profile} />
+              <Route path="/profile/:id" render={ProfileCheckerRender} />
               <Route path="/profile" component={Profile} />
               <Route path="/" component={Search} />
             </Switch>
