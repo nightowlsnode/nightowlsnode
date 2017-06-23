@@ -35,15 +35,16 @@ class SignupForm extends React.Component {
       })
         .then(resp => resp.json())
         .then((resp) => {
-          this.props.methods.updateUser(resp.profile, true);
+          this.props.appMethods.updateUser(resp.profile);
+          this.props.loginMethods.login(resp.profile.id);
+          this.clearField();
         });
-      this.clearField();
     };
   }
   render() {
     return (
-      <div className="container">
-        <div className="col-sm-6 col-sm-offset-3">
+      <div className="">
+        <div className="">
           <h1><span className="fa fa-sign-in" /> Signup</h1>
           <form onSubmit={e => this.fieldSubmit(e)} >
             <div className="row nomargin">
@@ -125,10 +126,15 @@ class SignupForm extends React.Component {
                 ref={(input) => { this.password = input; }}
               />
             </div>
-            <button type="submit" className="btn">Signup</button>
+            <button type="submit" className="btn btn-small">Signup</button>
           </form>
           <hr />
-          <p>Already have an account? <a href="/login">Login</a></p>
+          <p>Already have an account?
+            <button
+              onClick={this.props.chooseLogin}
+              className="btn btn-small"
+            >Login</button>
+          </p>
         </div>
       </div>
     );

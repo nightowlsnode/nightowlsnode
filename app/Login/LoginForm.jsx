@@ -31,10 +31,11 @@ class LoginForm extends React.Component {
           if (!resp.success) {
             this.setState({ message: resp.message });
           } else {
-            this.props.methods.updateUser(resp.profile, true);
+            this.props.appMethods.updateUser(resp.profile);
+            this.props.loginMethods.login(resp.profile.id);
+            this.clearField();
           }
         });
-      this.clearField();
     };
   }
   render() {
@@ -43,8 +44,8 @@ class LoginForm extends React.Component {
       message = <div className="alert alert-danger">{this.state.message}</div>;
     }
     return (
-      <div className="container">
-        <div className="col-sm-6 col-sm-offset-3">
+      <div className="">
+        <div className="">
           <h1><span className="fa fa-sign-in" /> Login</h1>
           {message}
           <form onSubmit={e => this.fieldSubmit(e)} >
@@ -66,10 +67,15 @@ class LoginForm extends React.Component {
                 ref={(input) => { this.password = input; }}
               />
             </div>
-            <button type="submit" className="btn">Login</button>
+            <button type="submit" className="btn btn-small">Login</button>
           </form>
           <hr />
-          <p>Need an account? <a href="/login">Login</a></p>
+          <p>Already have an account?
+            <button
+              onClick={this.props.chooseSignup}
+              className="btn btn-small"
+            >Signup</button>
+          </p>
         </div>
       </div>
     );
