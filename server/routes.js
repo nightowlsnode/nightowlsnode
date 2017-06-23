@@ -36,6 +36,7 @@ module.exports = (app) => {
   app.get('/api/borrowedItems/:userId', controller.getBorrowedItems);
   app.post('/api/items', controller.addItems);
   app.put('/api/items/:id', controller.returnItem);
+  app.post('/api/updateUser', controller.updateUser);
 };
 
 
