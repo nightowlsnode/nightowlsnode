@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
           <hr />
           <p>Already have an account?
             <button
-              onClick={this.props.chooseSignup}
+              onClick={this.props.loginMethods.chooseSignup}
               className="btn btn-small"
             >Signup</button>
           </p>
