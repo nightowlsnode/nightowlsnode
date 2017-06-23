@@ -53,6 +53,8 @@ class Profile extends React.Component {
           />
           <section className="spacer" />
           <ProfileBio
+            firstName={this.state.firstName}
+            lastName={this.state.lastName}
             fullName={this.state.fullName}
             email={this.state.email}
             bio={this.state.bio}
@@ -60,6 +62,7 @@ class Profile extends React.Component {
             city={this.state.city}
             state={this.state.state}
             zip={this.state.zip}
+            userId={this.props.id}
           />
         </div>
         <div className="col-lg-4">
