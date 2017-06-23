@@ -12,9 +12,13 @@ class Search extends React.Component {
       search: '',
       zip: '',
       searchResults: [],
+      searchResultsFiltered: [],
+      location: null,
     };
+
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
   }
 
   handleSearchInputChange(event) {
@@ -23,18 +27,26 @@ class Search extends React.Component {
     });
   }
 
+  handleButtonClick(evt) {
+    // Will sort the results list & map depending on button click
+  }
+
   handleSearch() {
     const searchString = this.state.search;
     const zipString = this.state.zip;
     const queryStringUrl = `/search?item=${searchString}&zip=${zipString}`;
     fetch(queryStringUrl)
       .then(res => res.json())
-      .then(({ items }) => {
-        this.setState({ searchResults: items });
+      .then(({ location, items }) => {
+        if (location) {
+          items.sort((item1, item2) => item1.distance - item2.distance);
+          this.setState({ location });
+        }
+        this.setState({ searchResults: items, searchResultsFiltered: items });
       });
   }
   render() {
-    const { searchResults } = this.state;
+    const { searchResultsFiltered, location } = this.state;
     return (
       <div className="container">
         <SearchBar
@@ -45,12 +57,15 @@ class Search extends React.Component {
         <div className="col-md-8">
           <div className="row" />
           <div className="row">
-            <Results searchResults={searchResults} />
+            <Results
+              searchResults={searchResultsFiltered}
+              handleButtonClick={this.handleButtonClick}
+            />
           </div>
         </div>
         <div className="col-md-4">
           <div className="row" />
-          <Map searchResults={searchResults} />
+          <Map searchResults={searchResultsFiltered} location={location} />
         </div>
       </div>
     );
