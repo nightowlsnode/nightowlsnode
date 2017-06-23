@@ -7,7 +7,11 @@ const statesList = require('../lib/states.js');
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { statesList };
+    this.state = { statesList,
+      phoneMessage: null,
+      passwordMessage: null,
+      fillMessage: null,
+    };
     this.clearField = () => {
       this.firstName.value = '';
       this.lastName.value = '';
@@ -16,16 +20,47 @@ class SignupForm extends React.Component {
     };
     this.fieldSubmit = (e) => {
       e.preventDefault();
+      // Error checking
+      let stop = false;
+      let phoneMessage = null;
+      let passwordMessage = null;
+      let fillMessage = null;
+      const phone = this.phone.value.replace(/[^0-9]/gi, '');
+      if (phone.length !== 10) {
+        stop = true;
+        phoneMessage = 'Please use a 10-digit phone number';
+      }
+      if (this.password.value !== this.passMatch.value) {
+        stop = true;
+        passwordMessage = 'These passwords do not match';
+      }
       const info = {
+        phone,
         firstName: this.firstName.value,
         lastName: this.lastName.value,
         email: this.email.value,
         password: this.password.value,
+        passMatch: this.passMatch.value,
         city: this.city.value,
         street: this.address.value,
         zip: this.zip.value,
         state: this.addState.value,
       };
+      Object.entries(info).forEach((tuple) => {
+        const value = tuple[1];
+        if (!value) {
+          fillMessage = 'Please fill all fields';
+          stop = true;
+        }
+      });
+      if (stop) {
+        return this.setState({
+          phoneMessage,
+          passwordMessage,
+          fillMessage,
+        });
+      }
+      // api call
       fetch('/signup', {
         method: 'POST',
         headers: {
@@ -42,6 +77,24 @@ class SignupForm extends React.Component {
     };
   }
   render() {
+    let phoneMessage = null;
+    let passwordMessage = null;
+    let fillMessage = null;
+    if (this.state.phoneMessage) {
+      phoneMessage = (<div className="alert alert-danger col-md-6">
+        {this.state.phoneMessage}
+      </div>);
+    }
+    if (this.state.passwordMessage) {
+      passwordMessage = (<div className="alert alert-danger col-md-12">
+        {this.state.passwordMessage}
+      </div>);
+    }
+    if (this.state.fillMessage) {
+      fillMessage = (<div className="alert alert-danger col-md-12">
+        {this.state.fillMessage}
+      </div>);
+    }
     return (
       <div className="">
         <div className="">
@@ -108,6 +161,18 @@ class SignupForm extends React.Component {
                 />
               </div>
             </div>
+            <div className="row nomargin">
+              <div className="col-sm-6">
+                <label htmlFor="phone">Mobile Phone:</label>
+                <input
+                  type="text"
+                  name="phone"
+                  className="form-control"
+                  ref={(input) => { this.phone = input; }}
+                />
+              </div>
+              {phoneMessage}
+            </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -117,21 +182,34 @@ class SignupForm extends React.Component {
                 ref={(input) => { this.email = input; }}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="text"
-                name="password"
-                className="form-control"
-                ref={(input) => { this.password = input; }}
-              />
+            {passwordMessage}
+            <div className="row nomargin">
+              <div className="col-sm-6">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="text"
+                  name="password"
+                  className="form-control"
+                  ref={(input) => { this.password = input; }}
+                />
+              </div>
+              <div className="col-sm-6">
+                <label htmlFor="passMatch">Confirm Password</label>
+                <input
+                  type="text"
+                  name="passMatch"
+                  className="form-control"
+                  ref={(input) => { this.passMatch = input; }}
+                />
+              </div>
             </div>
+            {fillMessage}
             <button type="submit" className="btn btn-small">Signup</button>
           </form>
           <hr />
           <p>Already have an account?
             <button
-              onClick={this.props.chooseLogin}
+              onClick={this.props.loginMethods.chooseLogin}
               className="btn btn-small"
             >Login</button>
           </p>
