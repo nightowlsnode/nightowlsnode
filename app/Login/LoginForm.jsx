@@ -31,10 +31,11 @@ class LoginForm extends React.Component {
           if (!resp.success) {
             this.setState({ message: resp.message });
           } else {
-            this.props.methods.updateUser(resp.profile, true);
+            this.props.appMethods.updateUser(resp.profile);
+            this.props.loginMethods.login(resp.profile.id);
+            this.clearField();
           }
         });
-      this.clearField();
     };
   }
   render() {
