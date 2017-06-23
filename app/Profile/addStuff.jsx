@@ -44,7 +44,7 @@ class AddStuff extends React.Component {
             name="description"
             ref={(input) => { this.description = input; }}
           />
-          <input type="hidden" className="form-control" value={this.props.userId} name="user_id" />
+          {this.props.userId && <input type="hidden" className="form-control" value={this.props.userId} name="user_id" />}
           <button type="submit" className="btn btn-warning btn-md">Add Item</button>
         </form>
       </div>

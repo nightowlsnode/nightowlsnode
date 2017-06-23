@@ -1,21 +1,15 @@
 /* eslint react/prop-types: 0 */
 
-import { withRouter } from 'react-router';
 
 const React = require('react');
 
-class userItemEntry extends React.Component {
+class PublicUserItemEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.changeRoute = () => {
-      this.props.history.push(`/profile/${this.props.borrowerId}/`);
-      this.props.populateProfile(this.props.borrowerId);
-      this.props.fetchUserItems();
-      this.props.fetchBorrowedItems();
-    };
   }
   render() {
+    console.log('borrower is ', this.props.borrowed);
     return (
       <tr>
         <td>
@@ -37,20 +31,12 @@ class userItemEntry extends React.Component {
         </td>
         <td>
           <div>
-            { this.props.borrower &&
-              <div>    
-              <p>Borrower: </p>
-              <button onClick={this.changeRoute} className="btn-link">
-                 {this.props.borrower}
-              </button>
-              </div>
-            }
+            {this.props.borrowed ? <div>Borrowed</div> : <div>Available</div>}
           </div>
         </td>
       </tr>
     );
   }
 }
-const userItemEntryWithRouter = withRouter(userItemEntry);
-exports.userItemEntry = userItemEntry;
-exports.userItemEntryWithRouter = userItemEntryWithRouter;
+
+module.exports = PublicUserItemEntry;
