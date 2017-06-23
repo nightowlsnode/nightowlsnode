@@ -22,7 +22,7 @@ class AddStuff extends React.Component {
     return (
       <div className="sub-component">
         <h2>Add Stuff</h2>
-        <form action="/api/items" method="post" >
+        <form action="/api/items" method="POST" >
           <label htmlFor="title">Image Url</label>
           <input
             type="text"
@@ -44,7 +44,8 @@ class AddStuff extends React.Component {
             name="description"
             ref={(input) => { this.description = input; }}
           />
-          <button type="submit" className="btn">Add Item</button>
+          <input type="hidden" className="form-control" value={this.props.userId} name="user_id" />
+          <button type="submit" className="btn btn-warning btn-md">Add Item</button>
         </form>
       </div>
     );

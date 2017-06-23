@@ -10,7 +10,7 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 const React = require('react');
-const UserItemEntry = require('./userItemEntry.jsx');
+const UserItems = require('./userItemEntry.jsx');
 const BorrowedItems = require('./borrowedItemEntry.jsx');
 
 class ProfileItemList extends React.Component {
@@ -23,18 +23,25 @@ class ProfileItemList extends React.Component {
   }
 
   componentWillMount() {
-    this.fetchUserItems();
-    this.fetchBorrowedItems();
+    this.fetchUserItems(this.props.userId);
+    this.fetchBorrowedItems(this.props.userId);
   }
-  fetchUserItems() {
-    fetch(`http://localhost:3000/api/userItems/${this.props.userId}`)
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.userId !== nextProps.userId) {
+      this.fetchUserItems(nextProps.userId);
+      this.fetchBorrowedItems(nextProps.userId);
+    }
+    return true;
+  }
+  fetchUserItems(route) {
+    fetch(`http://localhost:3000/api/userItems/${route}`)
       .then(items => items.json())
       .then(json => this.setState({
         userItems: json,
       }));
   }
-  fetchBorrowedItems() {
-    fetch(`http://localhost:3000/api/borrowedItems/${this.props.userId}`)
+  fetchBorrowedItems(route) {
+    fetch(`http://localhost:3000/api/borrowedItems/${route}`)
       .then(items => items.json())
       .then(json => this.setState({
         borrowedItems: json,
@@ -49,10 +56,15 @@ class ProfileItemList extends React.Component {
         </TabList>
         <TabPanel>
           {this.state.userItems && this.state.userItems.map(item =>
-            (<UserItemEntry
+            (<UserItems.userItemEntryWithRouter
               image={item.image}
               title={item.title}
               description={item.itemDescription}
+              borrower={item.borrower ? item.borrower.fullName : null}
+              borrowerId={item.borrower_id ? item.borrower_id : null}
+              populateProfile={this.props.populateProfile}
+              fetchUserItems={this.fetchUserItems.bind(this)}
+              fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
             />),
           )}
         </TabPanel>
@@ -65,7 +77,6 @@ class ProfileItemList extends React.Component {
               owner={item.owner.fullName}
               ownerId={item.owner_id}
               populateProfile={this.props.populateProfile}
-
             />),
           )}
         </TabPanel>

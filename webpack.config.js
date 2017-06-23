@@ -21,7 +21,4 @@ module.exports = {
       },
     ]
   },
-  plugins: [
-    ExtractNormalCSS,
-  ],
 };
