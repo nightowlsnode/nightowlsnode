@@ -7,7 +7,7 @@ const React = require('react');
 const Auth = require('./lib/helpers').Auth;
 
 
-module.exports = ({ component: Component, ...rest }) => (
+module.exports = ({ render: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => (
