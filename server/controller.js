@@ -28,7 +28,8 @@ exports.getUserItems = (req, res) => {
     where: {
       owner_id: req.params.userId,
     },
-  })
+    include: [ {model: User, as: 'borrower', attributes: ['fullName']}],
+  }) 
     .then((items) => {
       if (!items) {
         res.status(400).send('Could not find User Items');
@@ -54,6 +55,16 @@ exports.getBorrowedItems = (req, res) => {
       return 'getBorrowedItems promise resolved';
     });
 };
+exports.addItems = (req, res) => {
+  console.log(req.body)
+  Item.create({
+    title: req.body.title,
+    image: req.body.image,
+    itemDescription: req.body.itemDescription,
+    owner_id: req.body.user_id
+  })
+}
+
 exports.borrow = (req, res) => {
   const itemName = req.body.itemName;
   const userID = req.body.userID;

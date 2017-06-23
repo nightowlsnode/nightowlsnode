@@ -4,14 +4,6 @@ import { withRouter } from 'react-router';
 
 const React = require('react');
 
-// const history = require('../App.jsx');
-
-// const goTo = (path) => {
-//   console.log('clicked')
-//   history.history.push(path);
-//   console.log(history.history);
-// };
-
 class BorrowedItemEntry extends React.Component {
   constructor(props) {
     super(props);
@@ -55,4 +47,3 @@ class BorrowedItemEntry extends React.Component {
 const BorrowedItemEntryWithRouter = withRouter(BorrowedItemEntry);
 exports.BorrowedItemEntry = BorrowedItemEntry;
 exports.BorrowedItemEntryWithRouter = BorrowedItemEntryWithRouter;
-
