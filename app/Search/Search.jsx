@@ -28,7 +28,13 @@ class Search extends React.Component {
   }
 
   handleButtonClick(evt) {
-    // Will sort the results list & map depending on button click
+    if (evt.target.name === 'all') {
+      this.setState({ searchResultsFiltered: this.state.searchResults });
+    }
+    if (evt.target.name === 'available') {
+      const filteredResults = this.state.searchResults.filter(item => item.borrower_id === null);
+      this.setState({ searchResultsFiltered: filteredResults });
+    }
   }
 
   handleSearch() {

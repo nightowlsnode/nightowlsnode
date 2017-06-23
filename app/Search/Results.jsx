@@ -17,7 +17,7 @@ const Results = ({ handleButtonClick, searchResults }) => (
           <button
             type="button"
             className="btn btn-default"
-            data-target="available"
+            name="available"
             onClick={handleButtonClick}
           >Show Available
           </button>
