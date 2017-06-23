@@ -35,7 +35,7 @@ const BioForm = ({ firstName, lastName, email, bio, city, state, zip, userId }) 
       <input
         type="text"
         className="form-control"
-        name="Bio"
+        name="bio"
         defaultValue={bio}
         ref={(input) => { this.bio = input; }}
       />

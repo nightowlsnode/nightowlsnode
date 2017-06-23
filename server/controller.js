@@ -18,7 +18,6 @@ exports.getProfile = (req, res) => {
       if (!profile) {
         res.status(400).send('Could not find user profile');
       } else {
-        console.log(profile);
         res.status(200).send(profile);
       }
       return 'getProfile promise resolved';
@@ -166,6 +165,7 @@ exports.handleSignup = (req, res, next) => {
 };
 
 exports.updateUser = (req, res) => {
+  console.log(req.body);
   User.update({
     city: req.body.city,
     state: req.body.state,
@@ -174,6 +174,7 @@ exports.updateUser = (req, res) => {
     lastName: req.body.lastName,
     fullName: `${req.body.firstName} ${req.body.lastName}`,
     email: req.body.email,
+    bio: req.body.bio,
   }, {where : {id: req.body.user_id} })
   .then(res.send('Updated User!'))
 }
