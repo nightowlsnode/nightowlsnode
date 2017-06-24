@@ -35,7 +35,7 @@ class PublicProfile extends React.Component {
   // Populate profile populates the profile page by querying the User table by Id.
   // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
   populateProfile(profileRoute) {
-    fetch(`http://localhost:3000/api/profile/${profileRoute}`)
+    fetch(`/api/profile/${profileRoute}`)
       .then(profile => profile.json())
       .then(json => this.setState(json));
   }

@@ -1,4 +1,5 @@
 const React = require('react');
+const Rating = require('react-rating');
 
 const ItemEntry = ({ item }) => (
   <div className="row">
@@ -10,7 +11,16 @@ const ItemEntry = ({ item }) => (
         <em>About {(item.distance * 0.0006214).toFixed(1)} miles from your location</em></p>}
       {(!item.borrower_id) ? <button className="btn btn-primary">Borrow</button>
         : <button className="btn btn-primary disabled">Unavailable</button>}
+      <div className="row col-md-3">
+        <Rating
+          initialRate={item.owner.rating}
+          readonly
+          empty={<img src="assets/star-grey.png" className="icon" />}
+           full={<img src="assets/star-yellow.png" className="icon" />}
+        />
+      </div>
     </div>
+
   </div>
 );
 

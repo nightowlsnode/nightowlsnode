@@ -196,3 +196,17 @@ exports.checkAuth = (req, res, next) => {
     res.redirect('/');
   }
 };
+exports.updateUser = (req, res) => {
+  console.log(req.body);
+  User.update({
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    fullName: `${req.body.firstName} ${req.body.lastName}`,
+    email: req.body.email,
+    bio: req.body.bio,
+  }, {where : {id: req.body.user_id} })
+  .then(res.send('Updated User!'))
+};

@@ -30,7 +30,7 @@ class PublicProfileItemList extends React.Component {
     return true;
   }
   fetchUserItems(route) {
-    fetch(`http://localhost:3000/api/userItems/${route}`)
+    fetch(`/api/userItems/${route}`)
       .then(items => items.json())
       .then(json => this.setState({
         userItems: json,
