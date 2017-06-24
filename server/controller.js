@@ -4,6 +4,8 @@ const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const secret = require('../private/apiKeys.js');
+const Session = require('../db/models/session');
+const private = require('../private/apiKeys.js');
 
 //helper funcion for borrow
 const sendMessage = function (item) {
@@ -26,6 +28,21 @@ const sendMessage = function (item) {
       throw error;
     }
   });
+};
+const setUserId = (req, res, next) => {
+  console.log(req.sessionID);
+  if (!req.session && !req.session.userID && req.sessionID) {
+    Session.findOne({ where: { sid: req.sessionID } })
+      .then((sessionSave) => {
+        if (sessionSave.userID) {
+          req.session.userID = sessionSave.userId;
+        }
+        next();
+      });
+  } else {
+    next();
+  }
+  console.log(req.session.user);
 };
 
 exports.publicRoutes = [
@@ -167,6 +184,7 @@ exports.handleLogin = (req, res, next) => {
       if (loginErr) {
         return next(loginErr);
       }
+      req.session.userId = user.id;
       return res.send({ success: true, message: 'authentication succeeded', profile: user });
     });
   })(req, res, next);
@@ -184,11 +202,25 @@ exports.handleSignup = (req, res, next) => {
       if (loginErr) {
         return next(loginErr);
       }
-      return res.send({ success: true, message: 'authentication succeeded', profile: user });
+      req.session.userId = user.id;
+      return res.send({
+        success: true,
+        message: 'authentication succeeded',
+        profile: user
+      });
     });
   })(req, res, next);
 };
-
+exports.checkAuth = (req, res, next) => {
+  console.log('authCheck');
+  if (req.session.userId) {
+    console.log('isAuthed');
+    next();
+  } else {
+    console.log('notAuthed');
+    res.redirect('/');
+  }
+};
 exports.updateUser = (req, res) => {
   console.log(req.body);
   User.update({
@@ -202,4 +234,4 @@ exports.updateUser = (req, res) => {
     bio: req.body.bio,
   }, {where : {id: req.body.user_id} })
   .then(res.send('Updated User!'))
-}
+};

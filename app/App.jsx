@@ -44,6 +44,9 @@ class App extends React.Component {
       },
     };
   }
+  componentWillMount() {
+    fetch('/checkauth', { credentials: 'include' });
+  }
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.location) {
       this.setState({ loginPage: true });
