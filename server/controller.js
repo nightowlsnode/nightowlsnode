@@ -188,7 +188,8 @@ exports.handleSignup = (req, res, next) => {
 };
 exports.checkAuth = (req, res, next) => {
   console.log('authCheck');
-  if (req.session.userId) {
+  if (req.session) {
+    console.log(req.session);
     console.log('isAuthed');
     next();
   } else {
