@@ -29,6 +29,7 @@ class Profile extends React.Component {
       ratingCount: null,
       createdAt: null,
       updatedAt: null,
+      listFlag: false,
     };
   }
   componentWillMount() {
@@ -39,7 +40,10 @@ class Profile extends React.Component {
   populateProfile(profileRoute) {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
       .then(profile => profile.json())
-      .then(json => this.setState(json));
+      .then(json => this.setState(json))
+      .then(this.setState({
+        listFlag: !(this.state.listFlag),
+      }));
   }
 
   render() {
@@ -67,7 +71,7 @@ class Profile extends React.Component {
           />
         </div>
         <div className="col-lg-4">
-          <AddStuff userId={this.state.id} />
+          <AddStuff userId={this.state.id} populateProfile={this.populateProfile.bind(this)} />
           <Bank userId={this.state.id} />
         </div>
         <div className="col-lg-5">
@@ -75,6 +79,7 @@ class Profile extends React.Component {
             <ProfileItemList
               populateProfile={this.populateProfile.bind(this)}
               userId={this.state.id}
+              flag={this.state.listFlag}
             />
           }
         </div>

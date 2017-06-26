@@ -14,6 +14,32 @@ class AddStuff extends React.Component {
       title: null,
       description: null,
     };
+    this.clearField = () => {
+      this.image.value = '';
+      this.title.value = '';
+      this.description.value ='';
+    };
+    this.addItem = (e) => {
+      e.preventDefault();
+      const info = {
+        image: this.image.value,
+        title: this.title.value,
+        description: this.description.value,
+        user_id: this.props.userId,
+      };
+      fetch('/api/items', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(info),
+      })
+        .then(resp => resp.json())
+        .then(json => console.log(json))
+        .then(this.props.populateProfile(this.props.userId))
+        .then(this.clearField());
+    }
   }
   componentWillMount() {
   }
@@ -22,7 +48,7 @@ class AddStuff extends React.Component {
     return (
       <div className="sub-component">
         <h2>Add Stuff</h2>
-        <form action="/api/items" method="POST" >
+        <form onSubmit={e => this.addItem(e)}>
           <label htmlFor="title">Image Url</label>
           <input
             type="text"
