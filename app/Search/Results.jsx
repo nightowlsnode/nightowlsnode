@@ -1,7 +1,7 @@
 const React = require('react');
 const ItemEntry = require('./itementry.jsx');
 
-const Results = ({ handleButtonClick, searchResults }) => (
+const Results = ({ handleButtonClick, searchResults, handleBorrow }) => (
   <div className="sub-component">
     <div className="row">
       <div className="col-md-offset-3">
@@ -29,6 +29,7 @@ const Results = ({ handleButtonClick, searchResults }) => (
         {(searchResults.length > 0) && searchResults.map(item => (<div key={item.id} style={{ padding: '0px 10px' }}>
           <section className="spacer" />
           <ItemEntry
+            handleBorrow={handleBorrow}
             item={item}
           />
         </div>))}

@@ -19,6 +19,7 @@ class Search extends React.Component {
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleBorrow = this.handleBorrow.bind(this);
   }
 
   handleSearchInputChange(event) {
@@ -51,6 +52,22 @@ class Search extends React.Component {
         this.setState({ searchResults: items, searchResultsFiltered: items });
       });
   }
+
+  handleBorrow(itemId) {
+    const borrowerId = this.props.id;
+    console.log(borrowerId);
+    const data ={userID:borrowerId, id:itemId};
+    fetch('/api/borrow', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify(data),
+    })
+    .then(() => this.handleSearch());
+  }
+
   render() {
     const { searchResultsFiltered, location } = this.state;
     return (
@@ -66,6 +83,7 @@ class Search extends React.Component {
             <Results
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
+              handleBorrow={this.handleBorrow}
             />
           </div>
         </div>
