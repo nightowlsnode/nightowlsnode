@@ -18,7 +18,6 @@ module.exports = (app) => {
 
   // RESULTS ROUTES
   app.get('/search', controller.search);
-  app.post('/borrow', controller.borrow);
 
   // AUTH ROUTES
   app.use('/login', express.static(path.join(__dirname, '/public')));
@@ -37,6 +36,7 @@ module.exports = (app) => {
   app.post('/api/items', controller.addItems);
   app.put('/api/items/:id', controller.returnItem);
   app.post('/api/updateUser', controller.updateUser);
+  app.post('/api/borrow', controller.borrow);
 };
 
 

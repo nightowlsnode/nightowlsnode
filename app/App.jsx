@@ -68,6 +68,10 @@ class App extends React.Component {
       return (<ProfileChecker id={userId} params={props} />); 
     }
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
+    const searchRender  = (props) => {
+      const userId = this.state.profile ? this.state.profile.id : -1;
+      return (<Search id={userId}/>);
+    }
 
     return (
       <div>
@@ -93,7 +97,7 @@ class App extends React.Component {
             <Switch style={{ marginTop: '10px' }}>
               <PrivateRoute path="/profile/:id" render={ProfileCheckerRender} />
               <Route path="/login" render={this.methods.LoginRender} />
-              <Route path="/" component={Search} />
+              <Route path="/" render={searchRender} />
             </Switch>
           </div>
         </Router>
