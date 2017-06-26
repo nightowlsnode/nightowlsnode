@@ -15,13 +15,19 @@ class ProfileBio extends React.Component {
       editing: false,
     };
   }
-  componentWillMount() {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.editing === true && nextState.editing === false) {
+      this.props.populateProfile(this.props.userId)
+      return true;
+    }
+    return true;
   }
   toggleEditing() {
     this.setState({
-      editing: true,
+      editing: !(this.state.editing),
     });
   }
+
   render() {
     // const Editing = this.state.editing ? null : <Editing />;
     const Info = this.state.editing ?
@@ -30,11 +36,11 @@ class ProfileBio extends React.Component {
         lastName={this.props.lastName}
         email={this.props.email}
         bio={this.props.bio}
-        rating={this.props.rating}
         city={this.props.city}
         state={this.props.state}
         zip={this.props.zip}
         userId={this.props.userId}
+        toggleEditing={this.toggleEditing.bind(this)}
       />) :
       (<BioText
         fullName={this.props.fullName}

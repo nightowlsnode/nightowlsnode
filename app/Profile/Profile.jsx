@@ -63,6 +63,7 @@ class Profile extends React.Component {
             state={this.state.state}
             zip={this.state.zip}
             userId={this.props.id}
+            populateProfile={this.populateProfile.bind(this)}
           />
         </div>
         <div className="col-lg-4">

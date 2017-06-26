@@ -201,5 +201,5 @@ exports.updateUser = (req, res) => {
     email: req.body.email,
     bio: req.body.bio,
   }, {where : {id: req.body.user_id} })
-  .then(res.send('Updated User!'))
+  .then((User) => res.send(User))
 }
