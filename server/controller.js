@@ -245,7 +245,6 @@ exports.checkAuth = (req, res, next) => {
   }
 };
 exports.updateUser = (req, res) => {
-  console.log(req.body);
   User.update({
     city: req.body.city,
     state: req.body.state,
@@ -258,4 +257,15 @@ exports.updateUser = (req, res) => {
   }, {where : {id: req.body.user_id} })
   .then((User) => res.send(User))
 };
+exports.updateRating = (req, res) => {
+  const {id, rating } = (req.body);
+  User.findById(id)
+  .then ((user) => {
+    user.ratingCount += 1;
+    user.rating = (user.rating * (user.ratingCount -1 ) + rating) / user.ratingCount;
+    return user.save();
+  })
+  .then (() => res.status(201).send())
+  .catch(() => res.status(500).send());
+}
 
