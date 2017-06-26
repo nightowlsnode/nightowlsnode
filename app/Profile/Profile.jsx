@@ -1,6 +1,8 @@
 /*  global fetch:false  */
 /* eslint react/prop-types: 0 */
 // User Profile Page
+// immediate children components include
+// -- ProfileBio, AddStuff, ProfileItemList
 
 const React = require('react');
 const ProfileBio = require('./profileBio.jsx');

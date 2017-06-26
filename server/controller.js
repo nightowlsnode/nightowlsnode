@@ -1,11 +1,11 @@
+// put 2 and 2 together
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
-const secret = require('../private/apiKeys.js');
+const secret = require('../private/apiKeys.js'); // create file matching this route to hold relevant api keys
 const Session = require('../db/models/session');
-const private = require('../private/apiKeys.js');
 
 exports.publicRoutes = [
   '/',
@@ -15,11 +15,10 @@ exports.publicRoutes = [
   '/signup',
 ];
 exports.checkSession = (req, res, next) => {
-  console.log(req.sessionID);
   if (req.sessionID) {
-    Session.findOne({ 
+    Session.findOne({
       where: { sid: req.sessionID },
-      include: [ { model: User, as: 'User' } ]
+      include: [{ model: User, as: 'User' }],
     })
       .then((sessionSave) => {
         if (sessionSave) {
@@ -28,26 +27,13 @@ exports.checkSession = (req, res, next) => {
           }
           return res.send({ success: false, message: 'session exists but userId is not assigned', profile: null });
         }
-        return res.send({ success: false, message: 'no session found', profile: null })
+        return res.send({ success: false, message: 'no session found', profile: null });
       });
   } else {
     next();
   }
 };
-const setUserId = (req, res, next) => {
-  if (!req.session && !req.session.userID && req.sessionID) {
-    Session.findOne({ where: { sid: req.sessionID } })
-      .then((sessionSave) => {
-        if (sessionSave.userID) {
-          req.session.userID = sessionSave.userId;
-        }
-        next();
-      });
-  } else {
-    next();
-  }
-};
-const sendMessage = function (item) {
+const sendMessage = (item) => {
   const itemName = item.title;
   const userID = item.borrower.fullName;
   const userNumber = item.borrower.phone;
@@ -62,8 +48,8 @@ const sendMessage = function (item) {
     headers: header,
     form: { To: secret.myNumber, From: secret.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
   };
-  request(options, (error, response, body) => {
-    if (error){ 
+  request(options, (error) => {
+    if (error) {
       throw error;
     }
   });
@@ -84,8 +70,8 @@ exports.getUserItems = (req, res) => {
     where: {
       owner_id: req.params.userId,
     },
-    include: [ {model: User, as: 'borrower', attributes: ['fullName']}],
-  }) 
+    include: [{model: User, as: 'borrower', attributes: ['fullName']}],
+  })
     .then((items) => {
       if (!items) {
         res.status(400).send('Could not find User Items');
@@ -129,15 +115,13 @@ exports.addItems = (req, res) => {
     title: req.body.title,
     image: req.body.image,
     itemDescription: req.body.description,
-    owner_id: req.body.user_id
+    owner_id: req.body.user_id,
   })
     .then(() => res.status(200).send())
     .catch((err) => {
       res.status(500).send('error adding new item')
-      console.log(err);
     });
-}
-
+};
 exports.borrow = (req, res) => {
   Item.update({
     borrower_id: req.body.userID,
@@ -163,7 +147,6 @@ exports.borrow = (req, res) => {
     .then(() => res.status(201).send())
     .catch(() => res.status(500).send('error borrowing item'));
 };
-
 exports.search = (req, res) => {
   const promiseQueue = [];
   const query = req.query.item;
@@ -183,11 +166,9 @@ exports.search = (req, res) => {
       res.json(itemPayload)
     })
     .catch(err => {
-      console.log(err);
       res.status(500).send();
     });
 };
-
 exports.handleLogin = (req, res, next) => {
   passport.authenticate('local-login', (err, user) => {
     if (err) {
@@ -229,18 +210,13 @@ exports.handleSignup = (req, res, next) => {
   })(req, res, next);
 };
 exports.handleLogout = (req, res) => {
-  Session.destroy({ where: { sid: req.sessionID}});
-  // console.log('destroy', req.session.destroy());
-  console.log('post destory', req.session);
+  Session.destroy({ where: { sid: req.sessionID } });
   res.redirect('/');
 };
 exports.checkAuth = (req, res, next) => {
-  console.log('authCheck');
   if (req.session && req.session.userId) {
-    console.log('isAuthed');
     next();
   } else {
-    console.log('notAuthed');
     res.redirect('/');
   }
 };
@@ -260,12 +236,12 @@ exports.updateUser = (req, res) => {
 exports.updateRating = (req, res) => {
   const {id, rating } = (req.body);
   User.findById(id)
-  .then ((user) => {
-    user.ratingCount += 1;
-    user.rating = (user.rating * (user.ratingCount -1 ) + rating) / user.ratingCount;
-    return user.save();
-  })
-  .then (() => res.status(201).send())
-  .catch(() => res.status(500).send());
+    .then((user) => {
+      user.ratingCount += 1;
+      user.rating = (user.rating * (user.ratingCount -1 ) + rating) / user.ratingCount;
+      return user.save();
+    })
+    .then(() => res.status(201).send())
+    .catch(() => res.status(500).send());
 }
 

@@ -1,6 +1,7 @@
 /*  global fetch:false  */
 /* eslint react/prop-types: 0 */
 // Popup form for signing up with email
+// called by Login.jsx
 const React = require('react');
 
 

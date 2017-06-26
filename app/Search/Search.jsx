@@ -1,4 +1,9 @@
+/*  global fetch:false  */
+
 // Search Bar Component for Searching for items from the database
+// Calls SearchBar.jsx, Results.jsx, Map.jsx
+// Also acts as the home page when there are no results in this.state.searchresults.
+
 const React = require('react');
 const Results = require('./Results.jsx');
 const SearchBar = require('./SearchBar.jsx');
@@ -56,12 +61,12 @@ class Search extends React.Component {
 
   handleBorrow(itemId) {
     if (!Auth.isAuthenticated) {
-      this.props.appMethods.goTo('/login')
+      this.props.appMethods.goTo('/login');
       return;
     }
 
     const borrowerId = this.props.id;
-    const data ={userID:borrowerId, id:itemId};
+    const data = { userID: borrowerId, id: itemId };
     fetch('/api/borrow', {
       method: 'POST',
       headers: {
@@ -76,6 +81,7 @@ class Search extends React.Component {
   render() {
     const { searchResultsFiltered, location } = this.state;
     if (!this.state.searchResults.length) {
+      // HOMEPAGE
       return (
         <div id="homepage">
           <div id="homeContainer" className="container">
@@ -91,6 +97,7 @@ class Search extends React.Component {
         </div>
       );
     }
+    // SEARCH RESULTS PAGE
     return (
       <div className="container">
         <SearchBar

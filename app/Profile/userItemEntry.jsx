@@ -2,7 +2,9 @@
 /*  global fetch:false  */
 
 // Private User ItemEntry Page
-// Displays User Items and
+// Displays User Items and borrower info related to each item
+// Also holds button for marking items as returned.
+// As well as popup prompting the item owner to rate the item borrower when item is returned.
 
 import { withRouter } from 'react-router';
 import ReviewSplash from './reviewSplash.jsx';
@@ -58,7 +60,7 @@ class UserItemEntry extends React.Component {
           showReviewSplash={showReviewSplash}
           handleRatingClick={this.handleRatingClick}
         />
-        <a href="#" className="pull-left col-md-2">
+        <a className="pull-left col-md-2">
           <img
             src={this.props.image}
             alt={this.props.title}

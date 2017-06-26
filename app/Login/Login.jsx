@@ -1,5 +1,9 @@
 // login component
 /* eslint react/prop-types: 0 */
+
+// login popup - holds an options template in the constructor
+// and calls signup or input form based on the response to that template
+
 import { Redirect } from 'react-router-dom';
 
 const React = require('react');
@@ -12,17 +16,18 @@ class Login extends React.Component {
     super(props);
     this.state = {
       form: null,
-      from: null,
-      redirectToReferrer: false,
+      from: null, // was used for front-end redirecting (currently broken)
+      redirectToReferrer: false, // same as above
       userId: null,
     };
     this.methods = {
       chooseSignup: () => this.setState({ form: 'Signup' }),
       chooseLogin: () => this.setState({ form: 'Login' }),
-      login: userId => Auth.authenticate(() => {
+      login: (userId) => {
+        Auth.isAuthenticated = true;
         this.setState({ userId, redirectToReferrer: true });
         this.props.appMethods.loggedIn();
-      }),
+      },
       // login/signup HTML template
       loginOptions: () => (<div>
         <h1>

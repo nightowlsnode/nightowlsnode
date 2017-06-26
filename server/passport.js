@@ -1,6 +1,5 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../db/models/users');
-const Session = require('../db/models/session');
 const bcrypt = require('bcrypt-nodejs');
 
 // expose this function to our app using module.exports
@@ -21,6 +20,7 @@ module.exports = (passport) => {
   // we are using named strategies since we have one for login and one for signup
   // by default, if there was no name, it would just be called 'local'
 
+  // SIGNUP logic
   passport.use('local-signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -46,7 +46,6 @@ module.exports = (passport) => {
             password: User.generateHash(password),
           })
             .then((newUser) => {
-              console.log('id', newUser.id, 'sessID', req.sessionID);
               done(null, newUser);
             })
             .catch(err => done(err, false));
@@ -54,6 +53,8 @@ module.exports = (passport) => {
         });
     });
   }));
+
+  // LOGIN logic
   passport.use('local-login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
@@ -63,14 +64,11 @@ module.exports = (passport) => {
     User.findOne({ where: { email } })
       .then((user) => {
         if (!user) {
-          console.log('!user');
           return done(null, false);
         }
         if (!bcrypt.compareSync(password, user.password)) {
-          console.log('!pass');
           return done(null, false);
         }
-        console.log('FOUND USER - login');
         return done(null, user);
       })
       .catch(err => done(err, false));

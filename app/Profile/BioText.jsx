@@ -1,5 +1,5 @@
 /* eslint react/prop-types: 0 */
-// Component just for rendering user's profile info
+// Component just for rendering user's profile info (static)
 
 const React = require('react');
 const Rating = require('react-rating');

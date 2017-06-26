@@ -1,3 +1,4 @@
+// Container that calls itemEntry.jsx for each search result
 const React = require('react');
 const ItemEntry = require('./itementry.jsx');
 

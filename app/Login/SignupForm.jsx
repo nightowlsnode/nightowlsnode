@@ -1,6 +1,8 @@
 /*  global fetch:false  */
 /* eslint react/prop-types: 0 */
 // Popup form for signing up with email
+// Called by Login.jsx
+
 const React = require('react');
 const statesList = require('../lib/states.js');
 
@@ -20,6 +22,7 @@ class SignupForm extends React.Component {
     };
     this.fieldSubmit = (e) => {
       e.preventDefault();
+
       // Error checking
       let stop = false;
       let phoneMessage = null;
@@ -60,6 +63,7 @@ class SignupForm extends React.Component {
           fillMessage,
         });
       }
+      
       // api call
       fetch('/signup', {
         credentials: 'same-origin',

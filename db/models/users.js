@@ -63,11 +63,9 @@ User.generateHash = password => bcrypt.hashSync(
 User.validPassword = password => bcrypt.compareSync(
   password,
   this.password);
-User.beforeCreate((user) => {
+User.beforeCreate((user) => { // hook that converts address to long/lat
   const address = `${user.street} ${user.city} ${user.state} ${user.zip}`;
-  return googleMapsPromise(address).then(({ lat, lng }) => {
-    user.location = [lat, lng];
-  });
+  return googleMapsPromise(address).then(({ lat, lng }) => user.location = [lat, lng]);
 });
 
 module.exports = User;
