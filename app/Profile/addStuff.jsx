@@ -1,6 +1,6 @@
 // Component where users can add items available for borrowing
-// Click Handler for adding an item is created, but route for adding that item to
-// the db still needs to be created
+// Adding an item updates DB and triggers populate profile,
+// which triggers an update of the useritems
 
 /* eslint react/prop-types: 0 */
 

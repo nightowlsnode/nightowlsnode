@@ -1,10 +1,14 @@
 /* eslint react/prop-types: 0 */
+/*  global fetch:false  */
+
+// Private User ItemEntry Page
+// Displays User Items and
 
 import { withRouter } from 'react-router';
 
 const React = require('react');
 
-class userItemEntry extends React.Component {
+class UserItemEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -64,6 +68,6 @@ class userItemEntry extends React.Component {
     );
   }
 }
-const userItemEntryWithRouter = withRouter(userItemEntry);
-exports.userItemEntry = userItemEntry;
-exports.userItemEntryWithRouter = userItemEntryWithRouter;
+const UserItemEntryWithRouter = withRouter(UserItemEntry);
+
+module.exports = UserItemEntryWithRouter;

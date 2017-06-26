@@ -1,5 +1,8 @@
 /* eslint react/prop-types: 0 */
 
+// Displays items the user is currently borrowing and from
+// whom the user is borrowing. 
+
 import { withRouter } from 'react-router';
 
 const React = require('react');
@@ -45,5 +48,5 @@ class BorrowedItemEntry extends React.Component {
   }
 }
 const BorrowedItemEntryWithRouter = withRouter(BorrowedItemEntry);
-exports.BorrowedItemEntry = BorrowedItemEntry;
-exports.BorrowedItemEntryWithRouter = BorrowedItemEntryWithRouter;
+
+module.exports = BorrowedItemEntryWithRouter;

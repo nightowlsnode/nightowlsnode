@@ -1,10 +1,16 @@
 /* eslint react/prop-types: 0 */
+// Component just for rendering user's profile info
 
 const React = require('react');
 const Rating = require('react-rating');
 
-const BioText = ({ fullName, email, bio, rating, city, state, zip }) => (
+const BioText = ({ image, fullName, email, bio, rating, city, state, zip }) => (
   <div>
+    <img
+      className="img-responsive"
+      src={image}
+      alt=""
+    />
     <p>Name: {fullName}</p>
     <p>Email: {email}</p>
     <p>Bio: {bio}</p>
