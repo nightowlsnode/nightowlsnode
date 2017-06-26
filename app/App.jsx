@@ -12,11 +12,11 @@ const history = createHistory();
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Search = require('./Search/Search.jsx');
-const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
 const ProfileChecker = require('./profileChecker.jsx');
+
 
 class App extends React.Component {
   constructor(props) {

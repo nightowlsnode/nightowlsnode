@@ -12,18 +12,15 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const extendDefaultFields = (defaults, session) => ({
   userId: session.userId,
 });
-const setUserId = (req, res, next) => {
-  req.session ? console.log(req.session) : console.log('noSess');
-  console.log(req.sessionID);
-  next();
-};
-
 const port = process.env.PORT || 1337;
 const app = express();
 module.exports = app;
 
 require('./server/passport')(passport);
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   secret: 'keyboard cat',
   store: new SequelizeStore({
@@ -37,12 +34,7 @@ app.use(session({
   secure: true,
 }));
 app.use(passport.initialize());
-app.use(passport.session(), setUserId);
-app.use((req, res, next) => {
-  console.log(req.session.userId);
-  next();
-});
-
+app.use(passport.session());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

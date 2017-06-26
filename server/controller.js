@@ -3,9 +3,17 @@ const User = require('../db/models/users.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
+const secret = require('../private/apiKeys.js');
 const Session = require('../db/models/session');
 const private = require('../private/apiKeys.js');
 
+exports.publicRoutes = [
+  '/',
+  '/profile/',
+  '/profile/:id',
+  '/login',
+  '/signup',
+];
 exports.checkSession = (req, res, next) => {
   console.log(req.sessionID);
   if (req.sessionID) {
@@ -25,16 +33,41 @@ exports.checkSession = (req, res, next) => {
   } else {
     next();
   }
-  console.log(req.session.user);
 };
+const setUserId = (req, res, next) => {
+  if (!req.session && !req.session.userID && req.sessionID) {
+    Session.findOne({ where: { sid: req.sessionID } })
+      .then((sessionSave) => {
+        if (sessionSave.userID) {
+          req.session.userID = sessionSave.userId;
+        }
+        next();
+      });
+  } else {
+    next();
+  }
+};
+const sendMessage = function (item) {
+  const itemName = item.title;
+  const userID = item.borrower.fullName;
+  const userNumber = item.borrower.phone;
+  const header = {
+    Authorization: secret.authorizationCode,
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
 
-exports.publicRoutes = [
-  '/',
-  '/profile/',
-  '/profile/:id',
-  '/login',
-  '/signup',
-];
+  const options = {
+    url: `https://www.@api.twilio.com/2010-04-01/Accounts/${secret.sid}/Messages`,
+    method: 'POST',
+    headers: header,
+    form: { To: secret.myNumber, From: secret.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
+  };
+  request(options, (error, response, body) => {
+    if (error){ 
+      throw error;
+    }
+  });
+};
 exports.getProfile = (req, res) => {
   User.findById(req.params.id)
     .then((profile) => {
@@ -106,26 +139,28 @@ exports.addItems = (req, res) => {
 }
 
 exports.borrow = (req, res) => {
-  const itemName = req.body.itemName;
-  const userID = req.body.userID;
-  const userNumber = req.body.userNumber;
-  const header = {
-    Authorization: private.authorizationCode,
-    'Content-Type': 'application/x-www-form-urlencoded',
-  };
-
-  const options = {
-    url: `https://www.@api.twilio.com/2010-04-01/Accounts/${private.sid}/Messages`,
-    method: 'POST',
-    headers: header,
-    form: { To: private.myNumber, From: private.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
-  };
-  request(options, (error, response, body) => {
-    if (!error){ //statuscode is not definded 
-      console.log(options);
-    }
-  });
-  res.status(201).send('ok!');
+  Item.update({
+    borrower_id: req.body.userID
+  }, {
+    where: {
+      id: req.body.id,
+      borrower_id: null,
+    },
+  })
+  .then((data) => {
+    if (data[0] === 0) {
+      throw new Error('already borrowed')
+    } else {
+       return Item.find({
+         where: {
+         id: req.body.id,
+        },
+       include: [ { model: User, as: 'borrower', attributes: ['fullName', 'phone']}, {model: User, as: 'owner', attributes: ['phone']}]
+       });
+    }})
+  .then((item) => {sendMessage(item);})
+  .then(() => res.status(201).send())
+  .catch(()=> res.status(500).send('error borrowing item'));
 };
 
 exports.search = (req, res) => {
@@ -166,11 +201,7 @@ exports.handleLogin = (req, res, next) => {
         return next(loginErr);
       }
       req.session.userId = user.id;
-      console.log('at res handle log', req.session, req.sessionID);
-      res.send({ success: true, message: 'authentication succeeded', profile: user });
-      // store.get(req.sessionID, (err, session) => {
-      //   session.userId = user.id;
-      // });
+      return res.send({ success: true, message: 'authentication succeeded', profile: user });
     });
   })(req, res, next);
 };
@@ -203,13 +234,12 @@ exports.handleLogout = (req, res) => {
   res.redirect('/');
 };
 exports.checkAuth = (req, res, next) => {
-  // console.log('authCheck');
-  if (req.session) {
-    // console.log(req.session);
-    // console.log('isAuthed');
+  console.log('authCheck');
+  if (req.session && req.session.userId) {
+    console.log('isAuthed');
     next();
   } else {
-    // console.log('notAuthed');
+    console.log('notAuthed');
     res.redirect('/');
   }
 };
