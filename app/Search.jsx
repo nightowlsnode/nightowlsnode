@@ -14,6 +14,7 @@ class Search extends React.Component {
     };
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleBorrow = this.handleBorrow.bind(this);
   }
 
   handleSearchInputChange(event) {
@@ -31,6 +32,13 @@ class Search extends React.Component {
         this.setState({ searchResults: items });
       });
   }
+
+  handleBorrow (itemId) {
+
+
+  }
+
+
   render() {
     const { searchResults } = this.state;
     return (
