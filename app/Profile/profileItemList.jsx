@@ -28,7 +28,7 @@ class ProfileItemList extends React.Component {
     this.fetchBorrowedItems(this.props.userId);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.userId !== nextProps.userId) {
+    if (this.props.userId !== nextProps.userId || (this.props.flag !== nextProps.flag)) {
       this.fetchUserItems(nextProps.userId);
       this.fetchBorrowedItems(nextProps.userId);
     }
