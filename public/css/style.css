@@ -74,7 +74,7 @@ body {
 	color:#333;
 }
 .container {
-  padding-top: 10px;
+  padding-top: 20px;
   background: #efe9e1;
 }
 .sub-component {
@@ -112,6 +112,21 @@ body {
     background: #787878;
 }
 
+#homepage {
+  background-image: url(../assets/homeBackground.png);
+  background-size: cover;
+  min-height: 600px;
+}
+#homeContainer {
+	background: rgba(1, 1, 1, 0);
+}
+#title {
+	  background: rgba(1, 1, 1, 0.1);
+    font-family: 'Monoton', cursive;
+    text-shadow: 277px 463px 4px #1bac91;
+    color: rgba(255	, 255, 255, 0.9);
+    font-size: 100px;
+}
 /* scroll to top */
 .scrollup{
     position:fixed;

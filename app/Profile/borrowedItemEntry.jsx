@@ -15,7 +15,7 @@ class BorrowedItemEntry extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="row">
         <a href="#" className="pull-left col-md-2">
           <img
             src={this.props.image}
