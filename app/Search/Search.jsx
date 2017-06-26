@@ -70,11 +70,27 @@ class Search extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-    .then(() => this.handleSearch());
+      .then(() => this.handleSearch());
   }
 
   render() {
     const { searchResultsFiltered, location } = this.state;
+    if (!this.state.searchResults.length) {
+      return (
+        <div id="homepage">
+          <div id="homeContainer" className="container">
+            <div className="text-center">
+              <h1 id="title">SHAREin</h1>
+            </div>
+            <div className="row" />
+            <SearchBar
+              handleSearchInputChange={this.handleSearchInputChange}
+              handleSearch={this.handleSearch}
+            />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="container">
         <SearchBar
