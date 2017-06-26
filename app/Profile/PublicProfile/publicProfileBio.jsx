@@ -4,6 +4,7 @@
 /* eslint react/prop-types: 0 */
 
 const React = require('react');
+const Rating = require('react-rating');
 
 class PublicProfileBio extends React.Component {
   constructor(props) {
@@ -23,7 +24,13 @@ class PublicProfileBio extends React.Component {
         <p>Email: {this.props.email}</p>
         <p>Bio: {this.props.bio}</p>
         <p>Address: {this.props.city}, {this.props.state}, {this.props.zip}</p>
-        <p>Rating: {this.props.rating}</p>
+        <div> Rating: {<Rating
+          initialRate={this.props.rating}
+          readonly
+          empty={<img src="assets/star-grey.png" className="icon" alt="" />}
+          full={<img src="assets/star-yellow.png" className="icon" alt="" />}
+        />}
+        </div>
       </div>
     );
   }
