@@ -140,27 +140,28 @@ exports.addItems = (req, res) => {
 
 exports.borrow = (req, res) => {
   Item.update({
-    borrower_id: req.body.userID
+    borrower_id: req.body.userID,
   }, {
     where: {
       id: req.body.id,
       borrower_id: null,
     },
   })
-  .then((data) => {
-    if (data[0] === 0) {
-      throw new Error('already borrowed')
-    } else {
-       return Item.find({
-         where: {
-         id: req.body.id,
-        },
-       include: [ { model: User, as: 'borrower', attributes: ['fullName', 'phone']}, {model: User, as: 'owner', attributes: ['phone']}]
-       });
-    }})
-  .then((item) => {sendMessage(item);})
-  .then(() => res.status(201).send())
-  .catch(()=> res.status(500).send('error borrowing item'));
+    .then((data) => {
+      if (data[0] === 0) {
+        throw new Error('already borrowed');
+      } else {
+        return Item.find({
+          where: {
+            id: req.body.id,
+          },
+          include: [{ model: User, as: 'borrower', attributes: ['fullName', 'phone'] }, { model: User, as: 'owner', attributes: ['phone'] }],
+        });
+      }
+    })
+    .then((item) => { sendMessage(item); })
+    .then(() => res.status(201).send())
+    .catch(() => res.status(500).send('error borrowing item'));
 };
 
 exports.search = (req, res) => {
