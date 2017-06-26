@@ -333,6 +333,8 @@ h2.pagetitle {
 }
 .navbar-color {
   background: #1bac91;
+  min-height: 73px;
+
 }
 .navbar .brand {
 	margin-left:0;
