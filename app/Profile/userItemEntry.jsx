@@ -49,46 +49,36 @@ class userItemEntry extends React.Component {
   render() {
     const { showReviewSplash } = this.state;
     return (
-      <tr>
-        <td>
-          <ReviewSplash
-            showReviewSplash={showReviewSplash}
-            handleRatingClick={this.handleRatingClick}
+      <div className="row">
+        <ReviewSplash
+          showReviewSplash={showReviewSplash}
+          handleRatingClick={this.handleRatingClick}
+        />
+        <a href="#" className="pull-left col-md-2">
+          <img
+            src={this.props.image}
+            alt={this.props.title}
+            className="media-photo img-responsive"
           />
-        </td>
-        <td>
-          <div className="media">
-            <a href="#" className="pull-left">
-              <img
-                src={this.props.image}
-                alt={this.props.title}
-                className="media-photo img-thumbnail"
-                height="50"
-                width="50"
-              />
-            </a>
-            <div className="media-body">
-              <h4 className="title">{this.props.title}</h4>
-              <p className="summary">{this.props.description}</p>
+        </a>
+        <div className="col-md-6">
+          <h4 className="title">{this.props.title}</h4>
+          <p className="summary">{this.props.description}</p>
+        </div>
+        <div className="col-md-4">
+          { this.props.borrower &&
+            <div>
+              <p>Borrower: </p>
+              <button onClick={this.changeRoute} className="btn-link">
+                {this.props.borrower}
+              </button>
+              <button className="btn btn-primary" onClick={this.toggleReviewSplash}>
+                Item Returned?
+              </button>
             </div>
-          </div>
-        </td>
-        <td>
-          <div>
-            { this.props.borrower &&
-              <div>
-                <p>Borrower: </p>
-                <button onClick={this.changeRoute} className="btn-link">
-                  {this.props.borrower}
-                </button>
-                <button className="btn btn-primary" onClick={this.toggleReviewSplash}>
-                  Item Returned?
-                </button>
-              </div>
-            }
-          </div>
-        </td>
-      </tr>
+          }
+        </div>
+      </div>
     );
   }
 }
