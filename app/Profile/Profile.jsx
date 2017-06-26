@@ -36,7 +36,6 @@ class Profile extends React.Component {
     this.populateProfile(this.props.id);
   }
   // Populate profile populates the profile page by querying the User table by Id.
-  // It is passed down to both borrowedItemEntry and UserItemEntry as a click handler.
   populateProfile(profileRoute) {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
       .then(profile => profile.json())
@@ -50,11 +49,6 @@ class Profile extends React.Component {
     return (
       <div className="container">
         <div className="col-lg-3 sub-component">
-          <img
-            className="img-responsive"
-            src={this.state.image}
-            alt=""
-          />
           <section className="spacer" />
           <ProfileBio
             firstName={this.state.firstName}
@@ -66,6 +60,7 @@ class Profile extends React.Component {
             city={this.state.city}
             state={this.state.state}
             zip={this.state.zip}
+            image={this.state.image}
             userId={this.props.id}
             populateProfile={this.populateProfile.bind(this)}
           />

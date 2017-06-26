@@ -1,6 +1,8 @@
 // Profile Bio Component
-// User can view  profile info and edit info by clicking cog button
-// Need to create and conditionally render editable state.
+// User can view profile info and edit info by clicking cog button.
+// Clicking cog button changes state.editing from false to true.
+// When state.editing is false, Bio text is rendered (with static profile info).
+// When state.editing is true, Bio form is rendered.
 
 /* eslint react/prop-types: 0 */
 
@@ -40,9 +42,11 @@ class ProfileBio extends React.Component {
         state={this.props.state}
         zip={this.props.zip}
         userId={this.props.userId}
+        image={this.props.image}
         toggleEditing={this.toggleEditing.bind(this)}
       />) :
       (<BioText
+        image={this.props.image}
         fullName={this.props.fullName}
         email={this.props.email}
         bio={this.props.bio}
