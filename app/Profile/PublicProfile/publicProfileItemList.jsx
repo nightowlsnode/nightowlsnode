@@ -38,21 +38,23 @@ class PublicProfileItemList extends React.Component {
   }
   render() {
     return (
-      <Tabs className="sub-component">
+      <Tabs className="row sub-component">
         <TabList>
           <Tab>Items</Tab>
         </TabList>
         <TabPanel>
-          {this.state.userItems && this.state.userItems.map(item =>
-            (<PublicUserItemEntry
-              image={item.image}
-              title={item.title}
-              description={item.itemDescription}
-              borrowed={item.borrower_id ? true : false}
-              populateProfile={this.props.populateProfile}
-              fetchUserItems={this.fetchUserItems.bind(this)}
-            />),
-          )}
+          <div>
+            {this.state.userItems && this.state.userItems.map(item =>
+              (<PublicUserItemEntry
+                image={item.image}
+                title={item.title}
+                description={item.itemDescription}
+                borrowed={item.borrower_id ? true : false}
+                populateProfile={this.props.populateProfile}
+                fetchUserItems={this.fetchUserItems.bind(this)}
+              />),
+            )}
+          </div>
         </TabPanel>
       </Tabs>
     );
