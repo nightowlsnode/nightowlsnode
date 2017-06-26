@@ -1,4 +1,10 @@
 /* eslint react/prop-types: 0 */
+/*  global fetch:false  */
+
+// Bio Form allows user to edit their profile info.
+// updateUser is the fetch that updates the user on the tb, and triggers
+// toggleEditing (passed down from ProfileBio) which changes the profileBio's
+// state.editing back to false, causing a rerender back to the BioText. 
 
 import { Redirect } from 'react-router-dom';
 
@@ -38,6 +44,14 @@ class BioForm extends React.Component {
       <div className="sub-component">
         <h2>Update Profile</h2>
         <form onSubmit={e => this.updateUser(e)}>
+          <label htmlFor="title">Image</label>
+          <input
+            type="text"
+            className="form-control"
+            name="image"
+            defaultValue={this.props.image}
+            ref={(input) => { this.image = input; }}
+           /> 
           <label htmlFor="title">First Name</label>
           <input
             type="text"

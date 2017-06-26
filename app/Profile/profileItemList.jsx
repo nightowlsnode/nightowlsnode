@@ -2,7 +2,7 @@
 // Has Tabs for UserItems and Borrowed Items.
 // Before it mounts it fetches Items table and adds user and
 // borrowed items to state.
-// TODO: create components for itemListEntries
+
 
 /*  global fetch:false  */
 /* eslint react/prop-types: 0 */
@@ -10,8 +10,8 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 const React = require('react');
-const UserItems = require('./userItemEntry.jsx');
-const BorrowedItems = require('./borrowedItemEntry.jsx');
+const UserItemEntryWithRouter = require('./userItemEntry.jsx');
+const BorrowedItemEntryWithRouter = require('./borrowedItemEntry.jsx');
 
 class ProfileItemList extends React.Component {
   constructor(props) {
@@ -27,6 +27,9 @@ class ProfileItemList extends React.Component {
     this.fetchUserItems(this.props.userId);
     this.fetchBorrowedItems(this.props.userId);
   }
+
+  //Component should update if userId changes clicking on other user's profule
+  // or if you add an item (changes flag on state in profile)
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.userId !== nextProps.userId || (this.props.flag !== nextProps.flag)) {
       this.fetchUserItems(nextProps.userId);
@@ -57,7 +60,7 @@ class ProfileItemList extends React.Component {
         </TabList>
         <TabPanel>
           {this.state.userItems && this.state.userItems.map(item =>
-            (<UserItems.userItemEntryWithRouter
+            (<UserItemEntryWithRouter
               image={item.image}
               ownerId={item.owner_id}
               itemId={item.id}
@@ -73,7 +76,7 @@ class ProfileItemList extends React.Component {
         </TabPanel>
         <TabPanel>
           {this.state.borrowedItems && this.state.borrowedItems.map(item =>
-            (<BorrowedItems.BorrowedItemEntryWithRouter
+            (<BorrowedItemEntryWithRouter
               image={item.image}
               title={item.title}
               description={item.itemDescription}

@@ -9,17 +9,13 @@ const Rating = require('react-rating');
 class PublicProfileBio extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editing: false,
-    };
+    this.state = {};
   }
   componentWillMount() {
   }
   render() {
-    // const Editing = this.state.editing ? null : <Editing />;
     return (
       <div>
-        <span className="glyphicon glyphicon-cog" />
         <p>Name: {this.props.fullName}</p>
         <p>Email: {this.props.email}</p>
         <p>Bio: {this.props.bio}</p>
