@@ -16,7 +16,7 @@ const ItemEntry = ({ item, handleBorrow }) => (
           initialRate={item.owner.rating}
           readonly
           empty={<img src="assets/star-grey.png" className="icon" />}
-           full={<img src="assets/star-yellow.png" className="icon" />}
+          full={<img src="assets/star-yellow.png" className="icon" />}
         />
       </div>
     </div>

@@ -3,6 +3,7 @@ const React = require('react');
 const Results = require('./Results.jsx');
 const SearchBar = require('./SearchBar.jsx');
 const Map = require('./map.jsx');
+const Auth = require('../lib/helpers.js').Auth;
 
 class Search extends React.Component {
   constructor(props) {
@@ -54,8 +55,12 @@ class Search extends React.Component {
   }
 
   handleBorrow(itemId) {
+    if (!Auth.isAuthenticated) {
+      this.props.appMethods.goTo('/login')
+      return;
+    }
+
     const borrowerId = this.props.id;
-    console.log(borrowerId);
     const data ={userID:borrowerId, id:itemId};
     fetch('/api/borrow', {
       method: 'POST',
@@ -65,11 +70,27 @@ class Search extends React.Component {
       credentials: 'same-origin',
       body: JSON.stringify(data),
     })
-    .then(() => this.handleSearch());
+      .then(() => this.handleSearch());
   }
 
   render() {
     const { searchResultsFiltered, location } = this.state;
+    if (!this.state.searchResults.length) {
+      return (
+        <div id="homepage">
+          <div id="homeContainer" className="container">
+            <div className="text-center">
+              <h1 id="title">SHAREin</h1>
+            </div>
+            <div className="row" />
+            <SearchBar
+              handleSearchInputChange={this.handleSearchInputChange}
+              handleSearch={this.handleSearch}
+            />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="container">
         <SearchBar

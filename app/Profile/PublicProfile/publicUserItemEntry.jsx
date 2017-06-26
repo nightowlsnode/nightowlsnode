@@ -11,30 +11,22 @@ class PublicUserItemEntry extends React.Component {
   render() {
     console.log('borrower is ', this.props.borrowed);
     return (
-      <tr>
-        <td>
-          <div className="media">
-            <a href="#" className="pull-left">
-              <img
-                src={this.props.image}
-                alt={this.props.title}
-                className="media-photo img-thumbnail"
-                height="50"
-                width="50"
-              />
-            </a>
-            <div className="media-body">
-              <h4 className="title">{this.props.title}</h4>
-              <p className="summary">{this.props.description}</p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div>
-            {this.props.borrowed ? <div>Borrowed</div> : <div>Available</div>}
-          </div>
-        </td>
-      </tr>
+      <div className="row">
+        <a href="#" className="pull-left col-md-2">
+          <img
+            src={this.props.image}
+            alt={this.props.title}
+            className="img-responsive"
+          />
+        </a>
+        <div className="col-md-6">
+          <h4 className="title">{this.props.title}</h4>
+          <p className="summary">{this.props.description}</p>
+        </div>
+        <div className="col-md-4">
+          {this.props.borrowed ? <div>Borrowed</div> : <div>Available</div>}
+        </div>
+      </div>
     );
   }
 }
