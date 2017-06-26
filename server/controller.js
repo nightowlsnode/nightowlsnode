@@ -196,6 +196,12 @@ exports.handleSignup = (req, res, next) => {
     });
   })(req, res, next);
 };
+exports.handleLogout = (req, res) => {
+  Session.destroy({ where: { sid: req.sessionID}});
+  // console.log('destroy', req.session.destroy());
+  console.log('post destory', req.session);
+  res.redirect('/');
+};
 exports.checkAuth = (req, res, next) => {
   // console.log('authCheck');
   if (req.session) {

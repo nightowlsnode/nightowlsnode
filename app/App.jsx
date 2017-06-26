@@ -29,10 +29,11 @@ class App extends React.Component {
       loggedIn: () => this.setState({ loginPage: false, loggedIn: true }),
       logout: (e) => {
         e.preventDefault();
-        fetch('/logout', { credentials: 'same-origin' }).then(Auth.logout())
+        fetch('/logout', { credentials: 'same-origin' })
+          .then(Auth.isAuthenticated = false)
           .then(this.methods.goTo('/'))
-          .then(this.setState({ loggedIn: false }))
-          .then(console.log('loggedOut'));
+          .then(this.setState({ profile: null, loggedIn: false }))
+          .then(console.log(document.cokkie));
       },
       LoginRender: (moarProps) => {
         this.methods.openLoginPage();
@@ -49,6 +50,8 @@ class App extends React.Component {
       .then(resp => resp.json())
       .then((json) => {
         if (json.success) {
+          Auth.isAuthenticated = true;
+          this.methods.loggedIn();
           this.setState({ profile: json.profile });
         }
       });

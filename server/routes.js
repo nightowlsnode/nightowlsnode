@@ -14,10 +14,7 @@ module.exports = (app) => {
   // AUTH ROUTES
   app.use('/login', express.static(path.join(__dirname, '/public')));
   app.use('/signup', express.static(path.join(__dirname, '/public')));
-  app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-  });
+  app.get('/logout', controller.handleLogout);
   app.post('/login', controller.handleLogin);
   app.post('/signup', controller.handleSignup);
   app.get('/checkSession', controller.checkSession, (req, res) => {
