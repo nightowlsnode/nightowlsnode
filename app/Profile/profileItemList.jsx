@@ -50,7 +50,7 @@ class ProfileItemList extends React.Component {
   }
   render() {
     return (
-      <Tabs className="sub-component">
+      <Tabs className="row sub-component">
         <TabList>
           <Tab>My Stuff</Tab>
           <Tab>Borrowed</Tab>
