@@ -3,6 +3,7 @@
 // Popup form for signing up with email
 const React = require('react');
 
+
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -20,17 +21,22 @@ class LoginForm extends React.Component {
         password: this.password.value,
       };
       fetch('/login', {
+        credentials: 'same-origin',
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
         body: JSON.stringify(info),
       })
-        .then(resp => resp.json())
+        .then((resp) => {
+          console.log('pre-json', resp);
+          return resp.json();
+        })
         .then((resp) => {
           if (!resp.success) {
             this.setState({ message: resp.message });
           } else {
+            console.log('pos', resp);
             this.props.appMethods.updateUser(resp.profile);
             this.props.loginMethods.login(resp.profile.id);
             this.clearField();

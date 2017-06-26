@@ -12,11 +12,11 @@ const history = createHistory();
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Search = require('./Search/Search.jsx');
-const Profile = require('./Profile/Profile.jsx');
 const Login = require('./Login/Login.jsx');
 const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
 const ProfileChecker = require('./profileChecker.jsx');
+
 
 class App extends React.Component {
   constructor(props) {
@@ -29,10 +29,11 @@ class App extends React.Component {
       loggedIn: () => this.setState({ loginPage: false, loggedIn: true }),
       logout: (e) => {
         e.preventDefault();
-        fetch('/logout').then(Auth.logout())
+        fetch('/logout', { credentials: 'same-origin' })
+          .then(Auth.isAuthenticated = false)
           .then(this.methods.goTo('/'))
-          .then(this.setState({ loggedIn: false }))
-          .then(console.log('loggedOut'));
+          .then(this.setState({ profile: null, loggedIn: false }))
+          .then(console.log(document.cokkie));
       },
       LoginRender: (moarProps) => {
         this.methods.openLoginPage();
@@ -44,6 +45,17 @@ class App extends React.Component {
       },
     };
   }
+  componentWillMount() {
+    fetch('/checkSession', { credentials: 'same-origin' })
+      .then(resp => resp.json())
+      .then((json) => {
+        if (json.success) {
+          Auth.isAuthenticated = true;
+          this.methods.loggedIn();
+          this.setState({ profile: json.profile });
+        }
+      });
+  }
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.location) {
       this.setState({ loginPage: true });
@@ -52,6 +64,9 @@ class App extends React.Component {
   }
   render() {
     // dynamically change button based on loggedIn status
+    const welcome = this.state.profile
+      ? (<h2>Welcome, {this.state.profile.fullName}</h2>)
+      : null;
     const logButton = this.state.loggedIn
       ? (<button
         onClick={this.methods.logout}
@@ -65,8 +80,8 @@ class App extends React.Component {
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const ProfileCheckerRender = (props) => {
       const userId = this.state.profile ? this.state.profile.id : 0;
-      return (<ProfileChecker id={userId} params={props} />); 
-    }
+      return (<ProfileChecker id={userId} params={props} />);
+    };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
 
     return (
@@ -75,6 +90,9 @@ class App extends React.Component {
           <div>
             <div>
               <div className="navbar-fixed-top navbar-color">
+                <div className="navbar-inner pull-left">
+                  {welcome}
+                </div>
                 <nav className="navbar-inner pull-right">
                   <Link to="/" className="btn">
                     HOME
