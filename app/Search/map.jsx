@@ -12,7 +12,7 @@ class MapView extends React.Component {
       bounds: [[49.3457868, -124.7844079], [24.7433195, -66.9513812]],
     };
   }
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) { // update map bounds
     const { searchResults, location } = newProps;
     if (searchResults.length > 0) {
       const boundList = searchResults.map(item => item.owner.location);

@@ -2,11 +2,9 @@
 /*  global fetch:false  */
 
 // Bio Form allows user to edit their profile info.
-// updateUser is the fetch that updates the user on the tb, and triggers
+// updateUser is the fetch that updates the user on the db, and triggers
 // toggleEditing (passed down from ProfileBio) which changes the profileBio's
 // state.editing back to false, causing a rerender back to the BioText. 
-
-import { Redirect } from 'react-router-dom';
 
 const React = require('react');
 
@@ -34,9 +32,7 @@ class BioForm extends React.Component {
         credentials: 'same-origin',
         body: JSON.stringify(info),
       })
-        .then(resp => resp.json())
-        .then(json => console.log(json))
-        .then(this.props.toggleEditing)
+        .then(this.props.toggleEditing);
     };
   }
   render() {
@@ -51,7 +47,7 @@ class BioForm extends React.Component {
             name="image"
             defaultValue={this.props.image}
             ref={(input) => { this.image = input; }}
-           /> 
+          />
           <label htmlFor="title">First Name</label>
           <input
             type="text"
@@ -108,7 +104,14 @@ class BioForm extends React.Component {
             defaultValue={this.props.zip}
             ref={(input) => { this.zip = input; }}
           />
-          {this.props.userId && <input type="hidden" className="form-control" value={this.props.userId} name="user_id" />}
+          {
+            this.props.userId && <input
+              type="hidden"
+              className="form-control"
+              value={this.props.userId}
+              name="user_id"
+            />
+          }
           <button type="submit" className="btn btn-warning btn-md">Update Profile</button>
         </form>
       </div>

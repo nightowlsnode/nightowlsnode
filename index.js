@@ -9,10 +9,10 @@ const db = require('./db/models/db.js');
 const Session = require('./db/models/session.js');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const extendDefaultFields = (defaults, session) => ({
+const extendDefaultFields = (defaults, session) => ({ // config for holding session in db
   userId: session.userId,
 });
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 8080;
 const app = express();
 module.exports = app;
 
@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'MrButtonPHDnotMDmaybeDRnotSure',
   store: new SequelizeStore({
     db,
     extendDefaultFields,

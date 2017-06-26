@@ -1,3 +1,4 @@
+// C'mon son
 const React = require('react');
 
 const SearchBar = ({ handleSearchInputChange, handleSearch }) => (

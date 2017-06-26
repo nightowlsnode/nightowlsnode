@@ -1,8 +1,8 @@
 // Profile Bio Component
 // User can view profile info and edit info by clicking cog button.
 // Clicking cog button changes state.editing from false to true.
-// When state.editing is false, Bio text is rendered (with static profile info).
-// When state.editing is true, Bio form is rendered.
+// When state.editing is false, BioText.jsx is rendered (with static profile info).
+// When state.editing is true, BioForm.jsx is rendered.
 
 /* eslint react/prop-types: 0 */
 

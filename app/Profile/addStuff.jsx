@@ -3,6 +3,8 @@
 // which triggers an update of the useritems
 
 /* eslint react/prop-types: 0 */
+/*  global fetch:false  */
+
 
 const React = require('react');
 
@@ -17,7 +19,7 @@ class AddStuff extends React.Component {
     this.clearField = () => {
       this.image.value = '';
       this.title.value = '';
-      this.description.value ='';
+      this.description.value = '';
     };
     this.addItem = (e) => {
       e.preventDefault();
@@ -35,15 +37,10 @@ class AddStuff extends React.Component {
         credentials: 'same-origin',
         body: JSON.stringify(info),
       })
-        .then(resp => resp.json())
-        .then(json => console.log(json))
-        .then(this.props.populateProfile(this.props.userId))
-        .then(this.clearField());
-    }
+        .then(() => this.props.populateProfile(this.props.userId))
+        .then(() => this.clearField());
+    };
   }
-  componentWillMount() {
-  }
-
   render() {
     return (
       <div className="sub-component">
@@ -70,7 +67,14 @@ class AddStuff extends React.Component {
             name="description"
             ref={(input) => { this.description = input; }}
           />
-          {this.props.userId && <input type="hidden" className="form-control" value={this.props.userId} name="user_id" />}
+          {
+            this.props.userId && <input
+              type="hidden"
+              className="form-control"
+              value={this.props.userId}
+              name="user_id"
+            />
+          }
           <button type="submit" className="btn btn-warning btn-md">Add Item</button>
         </form>
       </div>
