@@ -128,7 +128,7 @@ exports.addItems = (req, res) => {
   Item.create({
     title: req.body.title,
     image: req.body.image,
-    itemDescription: req.body.itemDescription,
+    itemDescription: req.body.description,
     owner_id: req.body.user_id
   })
     .then(() => res.status(200).send())
