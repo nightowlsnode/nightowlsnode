@@ -1,14 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('./db');
 
-const Session = db.define('Session', {
+module.exports = db.define('Session', {
   sid: {
     type: Sequelize.STRING,
     primaryKey: true,
   },
-  userId: Sequelize.STRING,
   expires: Sequelize.DATE,
   data: Sequelize.STRING(50000),
 });
-
-module.exports = Session;

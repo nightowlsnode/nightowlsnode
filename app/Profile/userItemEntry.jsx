@@ -17,7 +17,10 @@ class userItemEntry extends React.Component {
     this.returnItem = this.returnItem.bind(this);
   }
   returnItem() {
-    fetch(`/api/items/${this.props.itemId}`, { method: 'PUT' })
+    fetch(`/api/items/${this.props.itemId}`, {
+      credentials: 'same-origin',
+      method: 'PUT',
+    })
       .then(() => this.props.fetchUserItems(this.props.ownerId))
       .catch(() => alert('Sorry, there was a problem fulfillng your request. Please try again'));
   }

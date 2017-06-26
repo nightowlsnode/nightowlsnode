@@ -29,7 +29,7 @@ class App extends React.Component {
       loggedIn: () => this.setState({ loginPage: false, loggedIn: true }),
       logout: (e) => {
         e.preventDefault();
-        fetch('/logout').then(Auth.logout())
+        fetch('/logout', { credentials: 'same-origin' }).then(Auth.logout())
           .then(this.methods.goTo('/'))
           .then(this.setState({ loggedIn: false }))
           .then(console.log('loggedOut'));
@@ -45,7 +45,13 @@ class App extends React.Component {
     };
   }
   componentWillMount() {
-    fetch('/checkauth', { credentials: 'include' });
+    fetch('/checkSession', { credentials: 'same-origin' })
+      .then(resp => resp.json())
+      .then((json) => {
+        if (json.success) {
+          this.setState({ profile: json.profile });
+        }
+      });
   }
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.location) {
@@ -55,6 +61,9 @@ class App extends React.Component {
   }
   render() {
     // dynamically change button based on loggedIn status
+    const welcome = this.state.profile
+      ? (<h2>Welcome, {this.state.profile.fullName}</h2>)
+      : null;
     const logButton = this.state.loggedIn
       ? (<button
         onClick={this.methods.logout}
@@ -68,8 +77,8 @@ class App extends React.Component {
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const ProfileCheckerRender = (props) => {
       const userId = this.state.profile ? this.state.profile.id : 0;
-      return (<ProfileChecker id={userId} params={props} />); 
-    }
+      return (<ProfileChecker id={userId} params={props} />);
+    };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
 
     return (
@@ -78,6 +87,9 @@ class App extends React.Component {
           <div>
             <div>
               <div className="navbar-fixed-top navbar-color">
+                <div className="navbar-inner pull-left">
+                  {welcome}
+                </div>
                 <nav className="navbar-inner pull-right">
                   <Link to="/" className="btn">
                     HOME

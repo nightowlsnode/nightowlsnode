@@ -62,6 +62,7 @@ class SignupForm extends React.Component {
       }
       // api call
       fetch('/signup', {
+        credentials: 'same-origin',
         method: 'POST',
         headers: {
           'Content-type': 'application/json',

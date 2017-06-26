@@ -20,7 +20,7 @@ module.exports = (app) => {
   });
   app.post('/login', controller.handleLogin);
   app.post('/signup', controller.handleSignup);
-  app.get('/checkauth', controller.checkAuth, (req, res) => {
+  app.get('/checkSession', controller.checkSession, (req, res) => {
     res.status(200).json({
       status: 'Login successful!',
     });

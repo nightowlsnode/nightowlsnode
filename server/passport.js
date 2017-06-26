@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../db/models/users');
+const Session = require('../db/models/session');
 const bcrypt = require('bcrypt-nodejs');
 
 // expose this function to our app using module.exports
@@ -44,7 +45,10 @@ module.exports = (passport) => {
             email: eMail,
             password: User.generateHash(password),
           })
-            .then(newUser => done(null, newUser))
+            .then((newUser) => {
+              console.log('id', newUser.id, 'sessID', req.sessionID);
+              done(null, newUser);
+            })
             .catch(err => done(err, false));
           return 'NextTick, findOne ran';
         });
@@ -55,8 +59,8 @@ module.exports = (passport) => {
     passwordField: 'password',
     passReqToCallback: true,
   },
-  (req, eMail, password, done) => {
-    User.findOne({ where: { email: eMail } })
+  (req, email, password, done) => {
+    User.findOne({ where: { email } })
       .then((user) => {
         if (!user) {
           console.log('!user');
@@ -66,7 +70,7 @@ module.exports = (passport) => {
           console.log('!pass');
           return done(null, false);
         }
-        console.log('ummm');
+        console.log('FOUND USER - login');
         return done(null, user);
       })
       .catch(err => done(err, false));

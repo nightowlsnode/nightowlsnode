@@ -41,7 +41,7 @@ class Search extends React.Component {
     const searchString = this.state.search;
     const zipString = this.state.zip;
     const queryStringUrl = `/search?item=${searchString}&zip=${zipString}`;
-    fetch(queryStringUrl)
+    fetch(queryStringUrl, { credentials: 'same-origin' })
       .then(res => res.json())
       .then(({ location, items }) => {
         if (location) {

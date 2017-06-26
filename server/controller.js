@@ -6,15 +6,21 @@ const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const Session = require('../db/models/session');
 const private = require('../private/apiKeys.js');
 
-const setUserId = (req, res, next) => {
+exports.checkSession = (req, res, next) => {
   console.log(req.sessionID);
-  if (!req.session && !req.session.userID && req.sessionID) {
-    Session.findOne({ where: { sid: req.sessionID } })
+  if (req.sessionID) {
+    Session.findOne({ 
+      where: { sid: req.sessionID },
+      include: [ { model: User, as: 'User' } ]
+    })
       .then((sessionSave) => {
-        if (sessionSave.userID) {
-          req.session.userID = sessionSave.userId;
+        if (sessionSave) {
+          if (sessionSave.userId) {
+            return res.send({ success: true, message: 'authentication succeeded', profile: sessionSave.User });
+          }
+          return res.send({ success: false, message: 'session exists but userId is not assigned', profile: null });
         }
-        next();
+        return res.send({ success: false, message: 'no session found', profile: null })
       });
   } else {
     next();
@@ -160,7 +166,11 @@ exports.handleLogin = (req, res, next) => {
         return next(loginErr);
       }
       req.session.userId = user.id;
-      return res.send({ success: true, message: 'authentication succeeded', profile: user });
+      console.log('at res handle log', req.session, req.sessionID);
+      res.send({ success: true, message: 'authentication succeeded', profile: user });
+      // store.get(req.sessionID, (err, session) => {
+      //   session.userId = user.id;
+      // });
     });
   })(req, res, next);
 };
@@ -187,13 +197,13 @@ exports.handleSignup = (req, res, next) => {
   })(req, res, next);
 };
 exports.checkAuth = (req, res, next) => {
-  console.log('authCheck');
+  // console.log('authCheck');
   if (req.session) {
-    console.log(req.session);
-    console.log('isAuthed');
+    // console.log(req.session);
+    // console.log('isAuthed');
     next();
   } else {
-    console.log('notAuthed');
+    // console.log('notAuthed');
     res.redirect('/');
   }
 };

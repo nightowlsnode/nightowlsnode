@@ -35,14 +35,14 @@ class ProfileItemList extends React.Component {
     return true;
   }
   fetchUserItems(route) {
-    fetch(`/api/userItems/${route}`)
+    fetch(`/api/userItems/${route}`, { credentials: 'same-origin' })
       .then(items => items.json())
       .then(json => this.setState({
         userItems: json,
       }));
   }
   fetchBorrowedItems(route) {
-    fetch(`/api/borrowedItems/${route}`)
+    fetch(`/api/borrowedItems/${route}`, { credentials: 'same-origin' })
       .then(items => items.json())
       .then(json => this.setState({
         borrowedItems: json,
