@@ -84,8 +84,9 @@ class App extends React.Component {
     };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
     const searchRender  = (props) => {
-      const userId = this.state.profile ? this.state.profile.id : -1;
-      return (<Search id={userId}/>);
+      const userId = this.state.profile ? this.state.profile.id : null;
+      const appMethods = this.methods;
+      return (<Search id={userId} appMethods={appMethods}/>);
     }
 
     return (
