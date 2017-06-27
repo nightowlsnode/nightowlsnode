@@ -1,49 +1,44 @@
-var app = require('../index.js')
-//make a git route that tries to send emails
+const express = require('express');
+const path = require('path');
+const controller = require('./controller.js');
 
-//set up an express handler/router to localhost:3000/item
-//on the item.html will be  a click handler that asks our server to update the db and 
-//send an email to the item owner
-// -- find an email and configure email api
-// -- create server route (POST /borrow) that performs logic (on item and borrower data received)
-// ----define how data should be received
-// --send email to owner with borrower info and item info
-// -- update db to reflect borrow status
+module.exports = (app) => {
+  // PROFILE ROUTES
+  app.use('/profile/:id', controller.checkAuth, express.static(path.join(__dirname, '../public')));
+  app.use('/profile/', controller.checkAuth, express.static(path.join(__dirname, '../public')));
 
-app.post('/borrow', 
-function(req, res) {
-	console.log('req.body is ', req.body.itemID)
-	var itemID = req.body.itemID
-	res.status(201).send(JSON.stringify(itemID))
-})
+  // RESULTS ROUTES
+  app.get('/search', controller.search);
 
 
-  // var uri = req.body.url;
+  // AUTH ROUTES
+  app.use('/login', express.static(path.join(__dirname, '/public')));
+  app.use('/signup', express.static(path.join(__dirname, '/public')));
+  app.get('/logout', controller.handleLogout);
+  app.post('/login', controller.handleLogin);
+  app.post('/signup', controller.handleSignup);
+  app.get('/checkSession', controller.checkSession, (req, res) => {
+    res.status(200).json({
+      status: 'Login successful!',
+    });
+  });
 
-  // if (!util.isValidUrl(uri)) {
-  //   console.log('Not a valid url: ', uri);
-  //   return res.sendStatus(404);
-  // }
+  // API ROUTES
+  app.get('/api/profile/:id', controller.checkAuth, controller.getProfile);
+  app.get('/api/userItems/:userId', controller.checkAuth, controller.getUserItems);
+  app.get('/api/borrowedItems/:userId', controller.checkAuth, controller.getBorrowedItems);
+  app.post('/api/items', controller.checkAuth, controller.addItems);
+  app.put('/api/items/:id', controller.checkAuth, controller.returnItem);
+  app.put('/api/ratings', controller.updateRating);
+  app.post('/api/updateUser', controller.updateUser);
+  app.post('/api/borrow', controller.borrow);
+};
 
-//   new Link({ url: uri }).fetch().then(function(found) {
-//     if (found) {
-//       res.status(200).send(found.attributes);
-//     } else {
-//       util.getUrlTitle(uri, function(err, title) {
-//         if (err) {
-//           console.log('Error reading URL heading: ', err);
-//           return res.sendStatus(404);
-//         }
 
-//         Links.create({
-//           url: uri,
-//           title: title,
-//           baseUrl: req.headers.origin
-//         })
-//         .then(function(newLink) {
-//           res.status(200).send(newLink);
-//         });
-//       });
-//     }
-//   });
-// });
+// const app = require('../index.js');
+// // const http = require('http');
+// const Mailgun = require('mailgun-js');
+// // eventually move this to private
+// const apiKey = 'MAILGUN-API-KEY';
+// const domain = YOUR-DOMAIN.com';
+// const fromWho = your@email.com';
