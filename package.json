@@ -59,6 +59,9 @@
     "request": "^2.81.0",
     "sequelize": "^4.1.0",
     "twilio": "^3.4.0",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2"
   }
 }
