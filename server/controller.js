@@ -7,6 +7,13 @@ const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
 const secret = require('../private/apiKeys.js'); // create file matching this route to hold relevant api keys
 const Session = require('../db/models/session');
 
+const sid = process.env.sid || secret.sid;
+const authorizationCode = process.env.authorizationCode || secret.authorizationCode;
+const twilioNumber = process.env.twilioNumber || secret.twilioNumber;
+const myNumber = process.env.myNumber || secret.myNumber;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || secret.GOOGLE_API_KEY;
+
+
 exports.publicRoutes = [
   '/',
   '/profile/',
@@ -38,15 +45,15 @@ const sendMessage = (item) => {
   const userID = item.borrower.fullName;
   const userNumber = item.borrower.phone;
   const header = {
-    Authorization: secret.authorizationCode,
+    Authorization: authorizationCode,
     'Content-Type': 'application/x-www-form-urlencoded',
   };
 
   const options = {
-    url: `https://www.@api.twilio.com/2010-04-01/Accounts/${secret.sid}/Messages`,
+    url: `https://www.@api.twilio.com/2010-04-01/Accounts/${sid}/Messages`,
     method: 'POST',
     headers: header,
-    form: { To: secret.myNumber, From: secret.twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
+    form: { To: myNumber, From: twilioNumber, Body: `${userID} would like to borrow your ${itemName}. You can contact them at ${userNumber}.` },
   };
   request(options, (error) => {
     if (error) {

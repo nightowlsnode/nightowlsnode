@@ -1,7 +1,10 @@
 const Sequelize = require('sequelize');
 const config = require('../../private/dbconfig');
 
-const db = new Sequelize(config.databaseUrl, config.databaseOptions);
+const url = process.env.databaseURL || config.databaseUrl;
+const options = process.env.databaseOptions || config.databaseOptions;
+
+const db = new Sequelize(url, options);
 
 db
   .authenticate()
