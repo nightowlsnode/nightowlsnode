@@ -1,6 +1,10 @@
 // Helper functions for geolocation features
 
-const { GOOGLE_API_KEY } = require('../private/apiKeys.js'); //create private folder to hold this content
+// create private folder to hold this content
+
+const localGoogleApiKey = require('../private/apiKeys.js').GOOGLE_API_KEY;
+
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || localGoogleApiKey;
 const googleMapsClient = require('@google/maps').createClient({
   key: GOOGLE_API_KEY,
 });
