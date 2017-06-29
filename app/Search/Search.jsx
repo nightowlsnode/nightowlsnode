@@ -21,9 +21,9 @@ class Search extends React.Component {
       searchResults: [],
       searchResultsFiltered: [],
       location: null,
-      message:'',
+      message: '',
       messages: [],
-    
+      ownerId: null
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
@@ -35,10 +35,15 @@ class Search extends React.Component {
   }
   componentDidMount() {
     socket.on(`server:event`, message => {
-      var messages = this.state.messages;
-      messages.push(this.state.message);
-      console.log(this.state.message);
-      this.setState({ messages: messages });
+      fetch('/api/message', {
+        method: 'POST',
+        headers: {
+        'Content-type': 'application/json',
+      }
+      }).then((messages) => {
+        console.log('messages from componentDidMount ', messages);
+        this.setState({ messages: messages });
+      })
     })
   }
 
@@ -94,13 +99,27 @@ class Search extends React.Component {
 
 
   handleMessageSubmit(e){
-    console.log(this.state.message);
-    socket.emit('client:sendMessage', this.state.message);
-    e.preventDefault();
+    const message = this.state.message;
+    const user = this.props.id;
+    const owner = this.state.ownerId;
+    const data = { text: message, user_id: user, owner_id: owner }
+    console.log(data);
+    fetch('/api/message', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(() => {
+      socket.emit('client:sendMessage', this.state.message);
+      e.preventDefault();
+    }  
+   ) 
   }
 
-  handleChange(message) {
-    this.setState({message: message.target.value});
+  handleChange(ownerId, e) {
+      this.setState({message:e.target.value});
+      this.setState({ownerId:ownerId})
   }
 
   render() {
