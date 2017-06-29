@@ -158,7 +158,7 @@ exports.search = (req, res) => {
   const promiseQueue = [];
   const query = req.query.item;
   const itemSearchPromise = Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location'] }] });
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location', 'firstName', 'image'] }] });
   promiseQueue.push(itemSearchPromise);
   const zip = req.query.zip;
   if (zip && zip.length === 5) {

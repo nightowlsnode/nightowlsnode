@@ -9,6 +9,7 @@ const db = require('./db/models/db.js');
 const Session = require('./db/models/session.js');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
+
 const extendDefaultFields = (defaults, session) => ({ // config for holding session in db
   userId: session.userId,
 });
@@ -39,8 +40,24 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(controller.publicRoutes, express.static(path.join(__dirname, '/public')));
+
 require('./server/routes.js')(app, passport);
 
-app.listen(port);
+var server = app.listen(port);
+
+var io = require('socket.io').listen(server);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+
+  socket.on('client:sendMessage', function(msg){
+    console.log('message: ' + msg);
+  })
+
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
 
 console.log(`Neighborly running on: ${port}`);

@@ -9,23 +9,37 @@ const Results = require('./Results.jsx');
 const SearchBar = require('./SearchBar.jsx');
 const Map = require('./map.jsx');
 const Auth = require('../lib/helpers.js').Auth;
+import io from 'socket.io-client';
+let socket =  io('http://localhost:8080');
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       search: '',
       zip: '',
       searchResults: [],
       searchResultsFiltered: [],
       location: null,
+      message:'',
+      messages: [],
+    
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleBorrow = this.handleBorrow.bind(this);
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  componentDidMount() {
+    socket.on(`server:event`, message => {
+      var messages = this.state.messages;
+      messages.push(this.state.message);
+      console.log(this.state.message);
+      this.setState({ messages: messages });
+    })
   }
 
   handleSearchInputChange(event) {
@@ -78,6 +92,17 @@ class Search extends React.Component {
       .then(() => this.handleSearch());
   }
 
+
+  handleMessageSubmit(e){
+    console.log(this.state.message);
+    socket.emit('client:sendMessage', this.state.message);
+    e.preventDefault();
+  }
+
+  handleChange(message) {
+    this.setState({message: message.target.value});
+  }
+
   render() {
     const { searchResultsFiltered, location } = this.state;
     if (!this.state.searchResults.length) {
@@ -109,6 +134,11 @@ class Search extends React.Component {
           <div className="row" />
           <div className="row">
             <Results
+              socket={this.state.socket}
+              handleMessageSubmit = {this.handleMessageSubmit}
+              handleChange = {this.handleChange}
+              message = {this.state.message}
+              messages = {this.state.messages}
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
               handleBorrow={this.handleBorrow}

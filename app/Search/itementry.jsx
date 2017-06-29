@@ -3,11 +3,15 @@
 // Item .distance is in meters. Converted to miles in line on this component;
 const React = require('react');
 const Rating = require('react-rating');
+const Chatbox = require('../Chat/chatbox.jsx')
 
-const ItemEntry = ({ item, handleBorrow }) => (
+const ItemEntry = ({ item, handleBorrow, socket, messages, message, handleMessageSubmit, handleChange }) => (
+ <div> 
   <div className="row">
-    <img className="img-responsive col-md-3" src={item.image} alt={item.title} />
-    <div className="card-block">
+    <div className="col-md-3">
+      <img className="img-responsive" src={item.image} alt={item.title} />
+    </div>
+    <div className="card-block col-md-6">
       <h4 className="card-title">{item.title}</h4>
       <p className="card-text">{item.itemDescription}</p>
       {(item.distance) && <p className="card-text">
@@ -15,8 +19,24 @@ const ItemEntry = ({ item, handleBorrow }) => (
       {(!item.borrower_id)
         ? <button className="btn btn-primary" onClick={() => handleBorrow(item.id)}>Borrow</button>
         : <button className="btn btn-primary disabled">Unavailable</button>
-      }
-      <div className="row col-md-3">
+      } 
+    </div>
+  </div>
+  <div className="row">
+      <div className="col-md-3">
+         <img
+            className="img-responsive"
+            src={item.owner.image}
+            alt=""
+          />
+      </div>
+        <Chatbox
+          owner={item.owner.firstName}
+          handleMessageSubmit= {handleMessageSubmit}
+          message= {message}
+          handleChange={handleChange}
+         />
+      <div>
         <Rating
           initialRate={item.owner.rating}
           readonly
@@ -24,7 +44,9 @@ const ItemEntry = ({ item, handleBorrow }) => (
           full={<img src="assets/star-yellow.png" className="icon" alt="C'mon Son" />}
         />
       </div>
-    </div>
+
+  </div>
+
 
   </div>
 );
