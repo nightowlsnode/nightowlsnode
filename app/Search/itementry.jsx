@@ -32,8 +32,10 @@ const ItemEntry = ({ item, handleBorrow, socket, messages, message, handleMessag
       </div>
         <Chatbox
           owner={item.owner.firstName}
+          ownerID={item.owner.id}
           handleMessageSubmit= {handleMessageSubmit}
           message= {message}
+          messages={messages}
           handleChange={handleChange}
          />
       <div>
