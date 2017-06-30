@@ -9,8 +9,7 @@ const Results = require('./Results.jsx');
 const SearchBar = require('./SearchBar.jsx');
 const Map = require('./map.jsx');
 const Auth = require('../lib/helpers.js').Auth;
-import io from 'socket.io-client';
-let socket =  io('http://localhost:8080');
+
 
 class Search extends React.Component {
   constructor(props) {
@@ -80,28 +79,7 @@ class Search extends React.Component {
   }
 
 
-  handleMessageSubmit(e){
-    e.preventDefault()
-    const message = this.state.message;
-    const user = this.props.id;
-    const owner = this.state.ownerId;
-    const data = { text: message, user_id: user, owner_id: owner }
-    fetch('/messages', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(() => {
-      socket.emit('client:sendMessage', this.state.message);
-      this.setState({message:""});
-    }  
-   ) 
-  }
 
-  handleChange(e) {
-      this.setState({message:e.target.value})
-  }
 
   render() {
     const { searchResultsFiltered, location } = this.state;
@@ -135,9 +113,9 @@ class Search extends React.Component {
           <div className="row">
             <Results
               userId={this.props.id}
-              socket={this.state.socket}
-              handleMessageSubmit = {this.handleMessageSubmit}
-              handleChange = {this.handleChange}
+              socket={this.props.socket}
+              handleMessageSubmit = {this.props.handleMessageSubmit}
+              handleChange = {this.props.handleChange}
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
               handleBorrow={this.handleBorrow}

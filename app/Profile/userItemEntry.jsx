@@ -55,7 +55,7 @@ class UserItemEntry extends React.Component {
   render() {
     const { showReviewSplash } = this.state;
     return (
-      <div className="row">
+      <div className="row" onClick={this.props.handleItemClick}>
         <ReviewSplash
           showReviewSplash={showReviewSplash}
           handleRatingClick={this.handleRatingClick}

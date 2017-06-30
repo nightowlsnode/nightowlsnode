@@ -11,6 +11,7 @@ module.exports = (app) => {
   app.get('/search', controller.search);
 
 //chat routes
+  app.get('/messages/all', controller.getAllMessages)
   app.get('/messages/:userId/:ownerId', controller.getMessages)
   app.post('/messages', controller.postMessage)
 

@@ -19,7 +19,7 @@ class BorrowedItemEntry extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
+        <div className="row" onClick={this.props.handleItemClick}>
           <a href="#" className="pull-left col-md-2">
             <img
               src={this.props.image}
@@ -36,14 +36,6 @@ class BorrowedItemEntry extends React.Component {
               <p className="owner">  Owner: {this.props.owner}</p>
             </button>
           </div>
-        </div>
-        <div className="row">
-         <Chatbox
-            owner={this.props.owner.firstName}
-            handleMessageSubmit= {handleMessageSubmit}
-            message= {message}
-            handleChange={handleChange}
-           />
         </div>
       </div>
     );

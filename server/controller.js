@@ -68,7 +68,7 @@ const sendMessage = (item) => {
 };
 
 exports.postMessage = (req,res) => { //for chat client
-  console.log("send message controller. Req.body is ", req.body);
+  console.log("Post message controller. Req.body is ", req.body);
  Message.create({
     text: req.body.text,
     borrower_id: req.body.user_id,
@@ -90,6 +90,14 @@ exports.getMessages = (req, res) =>{
       owner_id:ownerId
     }
   }).then((messages)=>{
+    res.status(200).send(messages);
+    return 'getMessage promise resolved';
+  })
+}
+
+exports.getAllMessages = (req, res) =>{
+ 
+  Message.findAll({}).then((messages)=>{
     res.status(200).send(messages);
     return 'getMessage promise resolved';
   })

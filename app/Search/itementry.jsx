@@ -11,14 +11,15 @@ class ItemEntry extends React.Component {
     this.state = {
       message: '',
       messages: [],
-      ownerId: this.props.item.owner.id
+      ownerId: this.props.item.owner.id,
+      userId: this.props.userId
     }
   this.handleMessageSubmit = this.props.handleMessageSubmit.bind(this);
   this.handleChange = this.props.handleChange.bind(this);
   }
 
   componentDidMount() {
-    return fetch(`/messages/${this.props.userId}/${this.state.ownerId}`)
+    return fetch(`/messages/${this.state.userId}/${this.state.ownerId}`)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log("responseJson ", responseJson);
@@ -28,17 +29,7 @@ class ItemEntry extends React.Component {
         console.error(error);
       });
 
-    socket.on(`server:event`, message => {
-      fetch('/messages')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    })
+      //add socket event listener
   }  
   
   render(){
@@ -54,7 +45,7 @@ class ItemEntry extends React.Component {
           {(this.props.item.distance) && <p className="card-text">
             <em>About {(this.props.item.distance * 0.0006214).toFixed(1)} miles from your location</em></p>}
           {(!this.props.item.borrower_id)
-            ? <button className="btn btn-primary" onClick={() => handleBorrow(this.props.item.id)}>Borrow</button>
+            ? <button className="btn btn-primary" onClick={() => this.props.handleBorrow(this.props.item.id)}>Borrow</button>
             : <button className="btn btn-primary disabled">Unavailable</button>
           } 
         </div>

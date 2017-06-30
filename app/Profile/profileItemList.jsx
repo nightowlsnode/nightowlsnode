@@ -71,6 +71,7 @@ class ProfileItemList extends React.Component {
               populateProfile={this.props.populateProfile}
               fetchUserItems={this.fetchUserItems}
               fetchBorrowedItems={this.fetchBorrowedItems.bind(this)}
+              handleItemClick={this.props.handleItemClick}
             />),
           )}
         </TabPanel>
@@ -83,6 +84,7 @@ class ProfileItemList extends React.Component {
               owner={item.owner.fullName}
               ownerId={item.owner_id}
               populateProfile={this.props.populateProfile}
+              handleItemClick={this.props.handleItemClick}
             />),
           )}
         </TabPanel>
