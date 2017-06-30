@@ -10,6 +10,9 @@ module.exports = (app) => {
   // RESULTS ROUTES
   app.get('/search', controller.search);
 
+//chat routes
+  app.get('/messages/:userId/:ownerId', controller.getMessages)
+  app.post('/messages', controller.postMessage)
 
   // AUTH ROUTES
   app.use('/login', express.static(path.join(__dirname, '/public')));

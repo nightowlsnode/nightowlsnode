@@ -21,30 +21,12 @@ class Search extends React.Component {
       searchResults: [],
       searchResultsFiltered: [],
       location: null,
-      message: '',
-      messages: [],
-      ownerId: null
     };
 
     this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleBorrow = this.handleBorrow.bind(this);
-    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  componentDidMount() {
-    socket.on(`server:event`, message => {
-      fetch('/api/message', {
-        method: 'POST',
-        headers: {
-        'Content-type': 'application/json',
-      }
-      }).then((messages) => {
-        console.log('messages from componentDidMount ', messages);
-        this.setState({ messages: messages });
-      })
-    })
   }
 
   handleSearchInputChange(event) {
@@ -99,12 +81,12 @@ class Search extends React.Component {
 
 
   handleMessageSubmit(e){
+    e.preventDefault()
     const message = this.state.message;
     const user = this.props.id;
     const owner = this.state.ownerId;
     const data = { text: message, user_id: user, owner_id: owner }
-    console.log(data);
-    fetch('/api/message', {
+    fetch('/messages', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -112,14 +94,13 @@ class Search extends React.Component {
       body: JSON.stringify(data)
     }).then(() => {
       socket.emit('client:sendMessage', this.state.message);
-      e.preventDefault();
+      this.setState({message:""});
     }  
    ) 
   }
 
-  handleChange(ownerId, e) {
-      this.setState({message:e.target.value});
-      this.setState({ownerId:ownerId})
+  handleChange(e) {
+      this.setState({message:e.target.value})
   }
 
   render() {
@@ -153,11 +134,10 @@ class Search extends React.Component {
           <div className="row" />
           <div className="row">
             <Results
+              userId={this.props.id}
               socket={this.state.socket}
               handleMessageSubmit = {this.handleMessageSubmit}
               handleChange = {this.handleChange}
-              message = {this.state.message}
-              messages = {this.state.messages}
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
               handleBorrow={this.handleBorrow}

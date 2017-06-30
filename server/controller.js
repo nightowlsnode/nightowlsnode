@@ -1,4 +1,5 @@
 // put 2 and 2 together
+const Message = require('../db/models/messages.js');
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
 const passport = require('passport');
@@ -21,6 +22,8 @@ exports.publicRoutes = [
   '/login',
   '/signup',
 ];
+
+
 exports.checkSession = (req, res, next) => {
   if (req.sessionID) {
     Session.findOne({
@@ -40,6 +43,8 @@ exports.checkSession = (req, res, next) => {
     next();
   }
 };
+
+
 const sendMessage = (item) => {
   const itemName = item.title;
   const userID = item.borrower.fullName;
@@ -61,6 +66,35 @@ const sendMessage = (item) => {
     }
   });
 };
+
+exports.postMessage = (req,res) => { //for chat client
+  console.log("send message controller. Req.body is ", req.body);
+ Message.create({
+    text: req.body.text,
+    borrower_id: req.body.user_id,
+    owner_id: req.body.owner_id
+  })
+    .then(() => res.status(200).send())
+    .catch((err) => {
+      res.status(500).send('error adding message')
+    });
+};
+
+exports.getMessages = (req, res) =>{
+  console.log('req.params ', req.params);
+  var userId = req.params['userId'];
+  var ownerId = req.params['ownerId'];
+  Message.findAll({
+    where: {
+      borrower_id:userId,
+      owner_id:ownerId
+    }
+  }).then((messages)=>{
+    res.status(200).send(messages);
+    return 'getMessage promise resolved';
+  })
+}
+
 exports.getProfile = (req, res) => {
   User.findById(req.params.id)
     .then((profile) => {
@@ -158,7 +192,7 @@ exports.search = (req, res) => {
   const promiseQueue = [];
   const query = req.query.item;
   const itemSearchPromise = Item.findAll({ where: { title: { $iLike: `%${query}%` } },
-    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location', 'firstName', 'image'] }] });
+    include: [{ model: User, as: 'owner', attributes: ['firstName', 'rating', 'location', 'firstName', 'image', 'id'] }] });
   promiseQueue.push(itemSearchPromise);
   const zip = req.query.zip;
   if (zip && zip.length === 5) {
