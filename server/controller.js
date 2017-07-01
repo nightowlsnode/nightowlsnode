@@ -5,14 +5,13 @@ const User = require('../db/models/users.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
-const secret = require('../private/apiKeys.js'); // create file matching this route to hold relevant api keys
 const Session = require('../db/models/session');
 
-const sid = process.env.sid || secret.sid;
-const authorizationCode = process.env.authorizationCode || secret.authorizationCode;
-const twilioNumber = process.env.twilioNumber || secret.twilioNumber;
-const myNumber = process.env.myNumber || secret.myNumber;
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || secret.GOOGLE_API_KEY;
+const sid = process.env.sid;
+const authorizationCode = process.env.authorizationCode;
+const twilioNumber = process.env.twilioNumber;
+const myNumber = process.env.myNumber;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 
 exports.publicRoutes = [
