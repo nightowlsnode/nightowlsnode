@@ -2,6 +2,7 @@
 const Message = require('../db/models/messages.js');
 const Item = require('../db/models/items.js');
 const User = require('../db/models/users.js');
+const Transaction = require('../db/models/transactions.js');
 const passport = require('passport');
 const request = require('request');
 const { googleMapsPromise, addDistance } = require('./geoUtilities.js');
@@ -137,6 +138,27 @@ exports.getUserItems = (req, res) => {
       return 'getUserItems promise resolved';
     });
 };
+exports.getTransactions = (req, res) => {
+  Transaction.findAll({
+    where: {
+      $or: [
+        {owner_id: req.params.userId},
+        {borrower_id: req.params.userId},
+      ]
+    },
+    include: [{model: User, as: 'owner', attributes: ['fullName']},
+    {model: Item, as: 'item', attributes: ['title','price']},
+    {model: User, as: 'borrower', attributes: ['fullName']}],
+  })
+    .then((items) => {
+      if (!items) {
+        res.status(400).send('Could not find User Transactions');
+      } else {
+        res.status(200).send(items);
+      }
+      return 'getUserTransactions promise resolved';
+    });
+};
 exports.returnItem = (req, res) => {
   const itemId = req.params.id;
   Item.findById(itemId)
@@ -171,6 +193,8 @@ exports.addItems = (req, res) => {
     title: req.body.title,
     image: req.body.image,
     itemDescription: req.body.description,
+    //Added Price
+    price: req.body.price,
     owner_id: req.body.user_id,
   })
     .then(() => res.status(200).send())
@@ -179,7 +203,14 @@ exports.addItems = (req, res) => {
     });
 };
 exports.borrow = (req, res) => {
-  Item.update({
+  const promiseQueue = [];
+  const createTransaction = Transaction.create({
+    owner_id: req.body.owner,
+    borrower_id: req.body.userID,
+    item_id: req.body.id,
+  })
+
+  const updateItem = Item.update({
     borrower_id: req.body.userID,
   }, {
     where: {
@@ -187,7 +218,11 @@ exports.borrow = (req, res) => {
       borrower_id: null,
     },
   })
-    .then((data) => {
+
+  promiseQueue.push(createTransaction, updateItem);
+
+  Promise.all(promiseQueue)
+    .then(([,data]) => {
       if (data[0] === 0) {
         throw new Error('already borrowed');
       } else {
@@ -278,6 +313,7 @@ exports.checkAuth = (req, res, next) => {
 };
 exports.updateUser = (req, res) => {
   User.update({
+    image: req.body.image,
     city: req.body.city,
     state: req.body.state,
     zip: req.body.zip,

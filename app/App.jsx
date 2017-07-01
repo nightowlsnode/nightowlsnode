@@ -16,8 +16,10 @@ const Login = require('./Login/Login.jsx');
 const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
 const ProfileChecker = require('./profileChecker.jsx');
+
 import io from 'socket.io-client';
 let socket =  io('https://sharein.herokuapp.com/');
+const Data = require('./Data.jsx');
 
 class App extends React.Component {
   constructor(props) {
@@ -84,6 +86,9 @@ class App extends React.Component {
       const userId = this.state.profile ? this.state.profile.id : 0;
       return (<ProfileChecker id={userId} params={props} socket={socket} />);
     };
+    const DataRender = (props) => {
+      return (<Data id={this.state.profile.id} params={props} />);
+    };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
     const searchRender  = (props) => {
       const userId = this.state.profile ? this.state.profile.id : null;
@@ -117,6 +122,7 @@ class App extends React.Component {
             {LoginPage}
             <Switch style={{ marginTop: '10px' }}>
               <PrivateRoute path="/profile/:id" render={ProfileCheckerRender} />
+              <PrivateRoute path="/data/:id" render={DataRender} />
               <Route path="/login" render={this.methods.LoginRender} />
               <Route path="/" render={searchRender} />
             </Switch>

@@ -4,6 +4,7 @@ const controller = require('./controller.js');
 
 module.exports = (app) => {
   // PROFILE ROUTES
+  app.use('/data/:id', controller.checkAuth, express.static(path.join(__dirname, '../public')));
   app.use('/profile/:id', controller.checkAuth, express.static(path.join(__dirname, '../public')));
   app.use('/profile/', controller.checkAuth, express.static(path.join(__dirname, '../public')));
 
@@ -31,6 +32,7 @@ module.exports = (app) => {
   app.get('/api/profile/:id', controller.checkAuth, controller.getProfile);
   app.get('/api/userItems/:userId', controller.checkAuth, controller.getUserItems);
   app.get('/api/borrowedItems/:userId', controller.checkAuth, controller.getBorrowedItems);
+  app.get('/api/userTransactions/:userId', controller.checkAuth, controller.getTransactions);
   app.post('/api/items', controller.checkAuth, controller.addItems);
   app.put('/api/items/:id', controller.checkAuth, controller.returnItem);
   app.put('/api/ratings', controller.updateRating);
