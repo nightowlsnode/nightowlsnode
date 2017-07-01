@@ -18,6 +18,7 @@ class Chatbox extends React.Component {
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({messages: responseJson});
+          this.messagesEnd.scrollIntoView()
         })
         .catch((error) => {
           console.error(error);
@@ -28,6 +29,7 @@ class Chatbox extends React.Component {
       .then((responseJson) => {
         console.log("responseJson ", responseJson);
         this.setState({messages: responseJson});
+        this.messagesEnd.scrollIntoView()
       })
       .catch((error) => {
         console.error(error);
@@ -56,7 +58,9 @@ class Chatbox extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
+        this.setState({messages: responseJson,
+                      message:""});
+        this.messagesEnd.scrollIntoView();
       })
       .catch((error) => {
         console.error(error);
@@ -82,6 +86,8 @@ class Chatbox extends React.Component {
           {newMessage.text}
           </li>
         ))}
+        <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }} />
       </ul>
       <form className="form-group" onSubmit={this.handleMessageSubmit}>
         <div className="input-group">
