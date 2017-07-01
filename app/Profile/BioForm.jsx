@@ -15,6 +15,8 @@ class BioForm extends React.Component {
     this.updateUser = (e) => {
       e.preventDefault();
       const info = {
+        //Added Image
+        image: this.image.value,
         firstName: this.firstName.value,
         lastName: this.lastName.value,
         email: this.email.value,

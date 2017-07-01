@@ -15,11 +15,15 @@ class AddStuff extends React.Component {
       image: null,
       title: null,
       description: null,
+      //Added Price
+      price: null,
     };
     this.clearField = () => {
       this.image.value = '';
       this.title.value = '';
       this.description.value = '';
+      //Added price
+      this.price.value = '';
     };
     this.addItem = (e) => {
       e.preventDefault();
@@ -27,6 +31,8 @@ class AddStuff extends React.Component {
         image: this.image.value,
         title: this.title.value,
         description: this.description.value,
+        //Added Price
+        price: this.price.value,
         user_id: this.props.userId,
       };
       fetch('/api/items', {
@@ -41,6 +47,7 @@ class AddStuff extends React.Component {
         .then(() => this.clearField());
     };
   }
+  //Added Price
   render() {
     return (
       <div className="sub-component">
@@ -66,6 +73,13 @@ class AddStuff extends React.Component {
             className="form-control"
             name="description"
             ref={(input) => { this.description = input; }}
+          />
+          <label htmlFor="title">Price</label>
+          <input
+            type="text"
+            className="form-control"
+            name="price"
+            ref={(input) => { this.price = input; }}
           />
           {
             this.props.userId && <input
