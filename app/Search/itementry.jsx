@@ -22,6 +22,7 @@ class ItemEntry extends React.Component {
         <div className="card-block col-md-6">
           <h4 className="card-title">{this.props.item.title}</h4>
           <p className="card-text">{this.props.item.itemDescription}</p>
+          <p className="card-text">Price: {this.props.item.price} $</p>
           {(this.props.item.distance) && <p className="card-text">
             <em>About {(this.props.item.distance * 0.0006214).toFixed(1)} miles from your location</em></p>}
           {(!this.props.item.borrower_id)

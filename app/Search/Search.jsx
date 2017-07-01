@@ -59,14 +59,14 @@ class Search extends React.Component {
       });
   }
 
-  handleBorrow(itemId) {
+  handleBorrow(itemId, ownerId) {
     if (!Auth.isAuthenticated) {
       this.props.appMethods.goTo('/login');
       return;
     }
 
     const borrowerId = this.props.id;
-    const data = { userID: borrowerId, id: itemId };
+    const data = { userID: borrowerId, id: itemId, owner: ownerId};
     fetch('/api/borrow', {
       method: 'POST',
       headers: {

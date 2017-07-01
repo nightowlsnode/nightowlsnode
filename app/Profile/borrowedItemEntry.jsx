@@ -3,7 +3,7 @@
 // Displays items the user is currently borrowing and from
 // whom the user is borrowing. 
 
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 
 const React = require('react');
 
@@ -41,6 +41,6 @@ class BorrowedItemEntry extends React.Component {
     );
   }
 }
-const BorrowedItemEntryWithRouter = withRouter(BorrowedItemEntry);
+// const BorrowedItemEntryWithRouter = withRouter(BorrowedItemEntry);
 
-module.exports = BorrowedItemEntryWithRouter;
+ module.exports = BorrowedItemEntry; //WithRouter

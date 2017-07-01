@@ -13,6 +13,10 @@ const Item = db.define('Item', {
   itemDescription: {
     type: Sequelize.TEXT,
   },
+  //Added Price
+  price: {
+    type : Sequelize.FLOAT,
+  },
 });
 Item.belongsTo(User, {
   as: 'borrower',
