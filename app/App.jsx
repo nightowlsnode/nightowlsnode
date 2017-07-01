@@ -64,38 +64,6 @@ class App extends React.Component {
     return true;
   }
 
-  handleMessageSubmit(e){
-    e.preventDefault()
-    const message = this.state.message;
-    const user = this.state.userId;
-    const owner = this.state.ownerId;
-    const data = { text: message, user_id: user, owner_id: owner }
-    fetch('/messages', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(() => {
-      socket.emit('client:sendMessage', this.state.message);
-      this.setState({message:""});
-    }).then(() => {
-      fetch(`/messages/${this.state.userId}/${this.state.ownerId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    }) 
-  }
-
-  handleChange(e) {
-      this.setState({message:e.target.value})
-  }
-
   render() {
     // dynamically change button based on loggedIn status
     const welcome = this.state.profile
@@ -114,15 +82,13 @@ class App extends React.Component {
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const ProfileCheckerRender = (props) => {
       const userId = this.state.profile ? this.state.profile.id : 0;
-      return (<ProfileChecker id={userId} params={props} socket={socket}  handleMessageSubmit = {this.handleMessageSubmit}
-              handleChange = {this.handleChange}/>);
+      return (<ProfileChecker id={userId} params={props} socket={socket} />);
     };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
     const searchRender  = (props) => {
       const userId = this.state.profile ? this.state.profile.id : null;
       const appMethods = this.methods;
-      return (<Search id={userId} appMethods={appMethods} socket={socket}  handleMessageSubmit = {this.handleMessageSubmit}
-              handleChange = {this.handleChange}/>);
+      return (<Search id={userId} appMethods={appMethods} socket={socket} />);
     }
 
     return (

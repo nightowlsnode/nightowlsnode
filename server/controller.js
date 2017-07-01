@@ -86,9 +86,17 @@ exports.getMessages = (req, res) =>{
   var ownerId = req.params['ownerId'];
   Message.findAll({
     where: {
-      borrower_id:userId,
-      owner_id:ownerId
-    }
+      $or: [
+        {
+          borrower_id:userId,
+          owner_id:ownerId
+        }, 
+        {
+          borrower_id:ownerId,
+          owner_id:userId
+        }
+      ]
+    },include: [{ model: User, as: 'owner', attributes: ['fullName'] },{model: User, as:'borrower', attributes: ['fullName']}],
   }).then((messages)=>{
     res.status(200).send(messages);
     return 'getMessage promise resolved';

@@ -114,8 +114,6 @@ class Search extends React.Component {
             <Results
               userId={this.props.id}
               socket={this.props.socket}
-              handleMessageSubmit = {this.props.handleMessageSubmit}
-              handleChange = {this.props.handleChange}
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
               handleBorrow={this.handleBorrow}

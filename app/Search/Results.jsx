@@ -2,7 +2,7 @@
 const React = require('react');
 const ItemEntry = require('./itementry.jsx');
 
-const Results = ({ userId, socket, handleMessageSubmit, handleChange, handleButtonClick, searchResults, handleBorrow }) => (
+const Results = ({ userId, socket, handleButtonClick, searchResults, handleBorrow }) => (
   <div className="sub-component">
     <div className="row">
       <div className="col-md-offset-3">
@@ -34,8 +34,6 @@ const Results = ({ userId, socket, handleMessageSubmit, handleChange, handleButt
             handleBorrow={handleBorrow}
             item={item}
             socket={socket}
-            handleMessageSubmit={handleMessageSubmit}
-            handleChange={handleChange}
           />
         </div>))}
       </div>

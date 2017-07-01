@@ -33,50 +33,33 @@ class Profile extends React.Component {
       createdAt: null,
       updatedAt: null,
       listFlag: false,
-      message: '',
-      messages: [],
-      ownerId: this.props.id,
-      userId: 1,
-      chatComponent:''
+      ownerId: this.props.userId,
+      userId: null,
+      chatComponent:'',
+      borrowerName:''
     };
-    this.handleMessageSubmit = this.props.handleMessageSubmit.bind(this);
-    this.handleChange = this.props.handleChange.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
   }
   componentWillMount() {
     this.populateProfile(this.props.id);
   }
 
-  componentDidMount() {
-    return fetch(`/messages/${this.state.userId}/${this.state.ownerId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-      //add socket event listener
-  }  
-
   handleItemClick(borrowerId, borrowerName) {
+    console.log("borrowerID is " + borrowerId + " borrowerName is " + borrowerName);
     this.setState({
       userId:borrowerId,
       borrowerName:borrowerName
-    }).then(() => {
-    fetch(`/messages/${this.state.userId}/${this.state.ownerId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    })
-   //add socket event listener 
+    }, function() {
+      this.setState({
+        chatComponent: <Chatbox
+          name={this.state.borrowerName}
+          ownerId={this.state.userId}
+          userId={this.state.ownerId}
+          socket={this.props.socket}
+        />
+    })}.bind(this))
   }
+  
   // Populate profile populates the profile page by querying the User table by Id.
   populateProfile(profileRoute) {
     fetch(`/api/profile/${profileRoute}`, { credentials: 'same-origin' })
@@ -124,15 +107,8 @@ class Profile extends React.Component {
           </div>
         </div>
       <div className="row">
-        <div className="col-lg-6">
-          <Chatbox
-          owner={this.state.firstName}
-          ownerId={this.state.id}
-          handleMessageSubmit= {this.handleMessageSubmit}
-          message= {this.state.message}
-          messages={this.state.messages}
-          handleChange={this.handleChange}
-        />
+        <div className="col-lg-9">
+        {this.state.chatComponent}
         </div>
       </div>
     </div>  

@@ -8,29 +8,9 @@ const Chatbox = require('../Chat/chatbox.jsx')
 class ItemEntry extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      message: '',
-      messages: [],
-      ownerId: this.props.item.owner.id,
-      userId: this.props.userId
-    }
-  this.handleMessageSubmit = this.props.handleMessageSubmit.bind(this);
-  this.handleChange = this.props.handleChange.bind(this);
+    this.state = {}
   }
 
-  componentDidMount() {
-    return fetch(`/messages/${this.state.userId}/${this.state.ownerId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-      //add socket event listener
-  }  
   
   render(){
    return ( 
@@ -52,21 +32,11 @@ class ItemEntry extends React.Component {
       </div>
       <div className="row">
         <div className="col-md-3">
-           <img
-              className="img-responsive"
-              src={this.props.item.owner.image}
-              alt=""
-            />
-        </div>
-        <Chatbox
-          owner={this.props.item.owner.firstName}
-          ownerId={this.props.item.owner.id}
-          handleMessageSubmit= {this.handleMessageSubmit}
-          message= {this.state.message}
-          messages={this.state.messages}
-          handleChange={this.handleChange}
-        />
-        <div>
+          <img
+            className="img-responsive"
+            src={this.props.item.owner.image}
+            alt=""
+          />
           <Rating
             initialRate={this.props.item.owner.rating}
             readonly
@@ -74,6 +44,12 @@ class ItemEntry extends React.Component {
             full={<img src="assets/star-yellow.png" className="icon" alt="C'mon Son" />}
           />
         </div>
+        <Chatbox
+          name={this.props.item.owner.firstName}
+          ownerId={this.props.item.owner.id}
+          userId={this.props.userId}
+          socket={this.props.socket}
+        />
       </div>
     </div>
    ) 

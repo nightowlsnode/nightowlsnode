@@ -53,6 +53,9 @@ io.on('connection', function(socket){
   socket.on('client:sendMessage', function(msg){
     console.log('message: ' + msg);
   })
+  socket.on('client:sendMessage', function(msg){
+    io.emit('chat message', msg);
+  });
 
   socket.on('disconnect', function(){
     console.log('user disconnected');

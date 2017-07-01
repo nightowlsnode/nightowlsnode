@@ -55,7 +55,7 @@ class UserItemEntry extends React.Component {
   render() {
     const { showReviewSplash } = this.state;
     return (
-      <div className="row" onClick={this.props.handleItemClick}>
+      <div className="row" onClick={() => this.props.handleItemClick(this.props.borrowerId, this.props.borrower)}>
         <ReviewSplash
           showReviewSplash={showReviewSplash}
           handleRatingClick={this.handleRatingClick}
@@ -74,7 +74,7 @@ class UserItemEntry extends React.Component {
         <div className="col-md-4">
           { this.props.borrower &&
             <div>
-              <p>Borrower: </p>
+              <p>Borrower: {this.props.borrowerId} </p>
               <button onClick={this.changeRoute} className="btn-link">
                 {this.props.borrower}
               </button>
