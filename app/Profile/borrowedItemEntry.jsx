@@ -19,7 +19,7 @@ class BorrowedItemEntry extends React.Component {
   render() {
     return (
       <div>
-        <div className="row" onClick={() => this.props.handleItemClick(this.props.ownerId, this.props.owner)}>
+        <div className="row" onClick={() => this.props.handleItemClick(this.props.borrowerId, this.props.borrower)}>
           <a href="#" className="pull-left col-md-2">
             <img
               src={this.props.image}
