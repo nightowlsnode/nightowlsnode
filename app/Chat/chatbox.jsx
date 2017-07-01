@@ -18,7 +18,6 @@ class Chatbox extends React.Component {
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({messages: responseJson});
-          this.messagesEnd.scrollIntoView()
         })
         .catch((error) => {
           console.error(error);
@@ -28,7 +27,8 @@ class Chatbox extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log("responseJson ", responseJson);
-        this.setState({messages: responseJson});
+        this.setState({messages: responseJson,
+                        message: ""});
         this.messagesEnd.scrollIntoView()
       })
       .catch((error) => {
