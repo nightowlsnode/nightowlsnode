@@ -26,7 +26,7 @@ class ItemEntry extends React.Component {
           {(this.props.item.distance) && <p className="card-text">
             <em>About {(this.props.item.distance * 0.0006214).toFixed(1)} miles from your location</em></p>}
           {(!this.props.item.borrower_id)
-            ? <button className="btn btn-primary" onClick={() => this.props.handleBorrow(this.props.item.id)}>Borrow</button>
+            ? <button className="btn btn-primary" onClick={() => this.props.handleBorrow(this.props.item.id, this.props.item.owner_id)}>Borrow</button>
             : <button className="btn btn-primary disabled">Unavailable</button>
           } 
         </div>
