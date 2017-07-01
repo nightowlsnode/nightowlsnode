@@ -5,7 +5,6 @@ const React = require('react');
 const Rating = require('react-rating');
 const Chatbox = require('../Chat/chatbox.jsx')
 
-<<<<<<< HEAD
 class ItemEntry extends React.Component {
   constructor(props){
     super(props)
