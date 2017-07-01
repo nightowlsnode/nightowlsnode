@@ -78,7 +78,9 @@ class Data extends React.Component {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 {this.state.transactions && 
-                  (<Mixed spendingData={this.state.transactions.reduce((acc, curr) => {
+                  (<Mixed spendingData={this.state.transactions.sort((a,b) => {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                  }).reduce((acc, curr) => {
                     if (curr.owner_id !== curr.borrower_id) {
                       let date = (new Date(curr.createdAt)).toLocaleString().split(',')[0];
                       if (acc.hasOwnProperty(date)) {
