@@ -17,7 +17,7 @@ const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
 const ProfileChecker = require('./profileChecker.jsx');
 import io from 'socket.io-client';
-let socket =  io('http://localhost:8080');
+let socket =  io('https://sharein.herokuapp.com/');
 
 class App extends React.Component {
   constructor(props) {
