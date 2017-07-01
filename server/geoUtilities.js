@@ -2,9 +2,8 @@
 
 // create private folder to hold this content
 
-const localGoogleApiKey = require('../private/apiKeys.js').GOOGLE_API_KEY;
 
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || localGoogleApiKey;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const googleMapsClient = require('@google/maps').createClient({
   key: GOOGLE_API_KEY,
 });
