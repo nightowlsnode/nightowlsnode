@@ -16,7 +16,8 @@ const Login = require('./Login/Login.jsx');
 const PrivateRoute = require('./PrivateRoute.jsx');
 const Auth = require('./lib/helpers').Auth;
 const ProfileChecker = require('./profileChecker.jsx');
-
+import io from 'socket.io-client';
+let socket =  io('http://localhost:8080');
 
 class App extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class App extends React.Component {
     }
     return true;
   }
+
   render() {
     // dynamically change button based on loggedIn status
     const welcome = this.state.profile
@@ -80,13 +82,13 @@ class App extends React.Component {
     const LoginPage = this.state.loginPage ? <Login appMethods={this.methods} /> : null;
     const ProfileCheckerRender = (props) => {
       const userId = this.state.profile ? this.state.profile.id : 0;
-      return (<ProfileChecker id={userId} params={props} />);
+      return (<ProfileChecker id={userId} params={props} socket={socket} />);
     };
     const profileLink = this.state.profile ? `/profile/${this.state.profile.id}` : '/profile/0';
     const searchRender  = (props) => {
       const userId = this.state.profile ? this.state.profile.id : null;
       const appMethods = this.methods;
-      return (<Search id={userId} appMethods={appMethods}/>);
+      return (<Search id={userId} appMethods={appMethods} socket={socket} />);
     }
 
     return (

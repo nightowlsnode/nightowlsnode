@@ -10,10 +10,10 @@ const SearchBar = require('./SearchBar.jsx');
 const Map = require('./map.jsx');
 const Auth = require('../lib/helpers.js').Auth;
 
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       search: '',
       zip: '',
@@ -78,6 +78,9 @@ class Search extends React.Component {
       .then(() => this.handleSearch());
   }
 
+
+
+
   render() {
     const { searchResultsFiltered, location } = this.state;
     if (!this.state.searchResults.length) {
@@ -109,6 +112,8 @@ class Search extends React.Component {
           <div className="row" />
           <div className="row">
             <Results
+              userId={this.props.id}
+              socket={this.props.socket}
               searchResults={searchResultsFiltered}
               handleButtonClick={this.handleButtonClick}
               handleBorrow={this.handleBorrow}

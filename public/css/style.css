@@ -44,6 +44,15 @@ CONTENTS:
 /* =========================================================
 01. General
 ============================================================ */
+/* Chat Styles */
+.messages-list{ 
+	overflow: scroll;
+   max-height: 20em;
+}
+#m{padding-bottom: 12px}
+
+ #messages li:nth-child(odd) { background: #eee; }
+/* End Chat Styles */
 
 div, article, section, header, footer, nav, li {
 	position:relative;
